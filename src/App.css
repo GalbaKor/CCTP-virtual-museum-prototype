@@ -1,38 +1,238 @@
-.App {
+/* html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+} */
+
+* {
+  box-sizing: border-box;
+}
+
+/* Scroll wheel customization */
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: black;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: none;
+}
+::-webkit-scrollbar-track-piece {
+  background: white;
+  opacity: 20%;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 0px;
+  border: 3px solid black;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #5476b4;
+  transition: 0.4s ease-in-out;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  /* overflow: hidden; */
+}
+
+.scrollArea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* overflow: auto; */
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 6rem;
+  text-align: center;
+  width: 100%;
+  margin: 40% 0 auto;
+  color: #fff;
+}
+
+.title-left {
+  font-size: 6rem;
+  text-align: left;
+  width: 90%;
+  margin: 0 auto;
+  color: #fff;
+}
+
+.title-right {
+  font-size: 6rem;
+  text-align: right;
+  width: 90%;
+  margin: 0 auto;
+  color: #fff;
+}
+
+/* #pic {
+  width: 100%;
+} */
+
+.exhibits-section {
+  color: white;
+  /* background-color: gray; */
+  background-image: url("https://apod.nasa.gov/apod/image/2112/C2021A1_211221.jpg");
+  background-size: contain;
+  text-align: left;
+}
+/* Exhibition introduction */
+.exhibits-section-introduction {
+  padding: 1em;
+  /* background-color: black; */
+  height: 100vh;
+  font-size: 2em;
+  text-align: center;
+}
+/* .exhibits-section-header {
+  position: absolute;
+  top: 20vh;
+  transform: translateY(-100%);
+  width: 100%;
+}
+.exhibits-section-paragraph {
+  position: absolute;
+  top: 80vh;
+  transform: translateY(-100%);
+  width: 100%;
+} */
+.exhibit-introduction-button {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  margin: -25px 0 0 -50px;
+  left: 50%;
+  top: 75%;
+  border-radius: 50px;
+  background-color: white;
+
+  font-size: 5.25rem;
+  color: black;
+}
+.exhibit-introduction-button:hover {
+  cursor: pointer;
+  opacity: 70%;
+}
+
+/* Exhibition gallery */
+.exhibition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+.exhibition-grid-item-container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.exhibition-grid-item {
+  position: relative;
+  width: 100%;
+}
+
+.exhibition-grid-item-image {
+  display: block;
+  max-inline-size: 100%;
+  height: 100%;
+}
+
+.exhibition-grid-item-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: black;
+}
+
+.exhibition-grid-item:hover .exhibition-grid-item-overlay {
+  opacity: 0.5;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.scrollArea {
+  z-index: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.fakeCanvas {
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: absolute;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.fakeCanvasActive {
+  display: none;
 }
 
-.App-link {
-  color: #61dafb;
+.exhibition-title-text {
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+  margin: 0 auto;
+  text-align: center;
+  width: 80%;
+  font-size: 1.25rem;
+  z-index: -1;
+}
+.exhibition-title-text p {
+  font-size: 1.5rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.canvas-h80 {
+  height: 80% !important;
 }
