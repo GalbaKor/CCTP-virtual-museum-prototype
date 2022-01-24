@@ -1,6 +1,7 @@
-/* html {
+html {
   scroll-behavior: smooth;
 }
+/*
 body {
   margin: 0;
 } */
@@ -41,7 +42,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #5476b4;
+  background: #c4c4c4;
   transition: 0.4s ease-in-out;
 }
 
@@ -221,13 +222,13 @@ body,
 
 .exhibition-title-text {
   position: absolute;
-  bottom: 10%;
-  left: 10%;
+  bottom: 0%;
+  left: 20%;
   margin: 0 auto;
   text-align: center;
-  width: 80%;
-  font-size: 1.25rem;
-  z-index: -1;
+  width: 60%;
+  font-size: 1rem;
+  z-index: 2;
 }
 .exhibition-title-text p {
   font-size: 1.5rem;
@@ -235,4 +236,79 @@ body,
 
 .canvas-h80 {
   height: 80% !important;
+  background-image: url("./space_exhibition_assets/space_background_2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.bottom20 {
+  background-image: url("./space_exhibition_assets/figma_bottom.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* position: absolute;
+  bottom: 0%;
+  width: 100%; */
+  height: 20%;
+}
+
+.buttonRight {
+  position: absolute;
+  right: 0%;
+  height: 50px;
+  border-radius: 25px;
+  margin-top: 50px;
+}
+
+.buttonLeft {
+  position: absolute;
+  left: 0%;
+  height: 50px;
+  border-radius: 25px;
+  margin-top: 50px;
+}
+
+.customOverlay {
+  background: rgba(36, 123, 160, 0.7);
+}
+.customModal {
+  background: #b2dbbf;
+  max-width: 500px;
+  width: 100%;
+  position: absolute;
+  top: 0%;
+}
+
+.tutorial-button {
+  font-size: 3rem;
+  padding: 5px 25px;
+  position: absolute;
+  right: 3%;
+  top: 5%;
+  border-radius: 50px;
+  background-color: white;
+  transition: transform 0.3s;
+}
+.tutorial-button-link {
+  text-decoration: none;
+  color: black;
+}
+.tutorial-button:hover,
+.tutorial-button-link:hover {
+  cursor: pointer;
+  color: black;
+  background-color: light-grey;
+  pointer: hover;
+  transform: scale(1.5);
+  transition-timing-function: ease-in-out;
+}
+
+.modal-title {
+  text-align: center;
+}
+.modal-image {
+  background-image: url("https://via.placeholder.com/450");
+  height: 450px;
+  width: 450px;
+  margin: 15px auto;
 }

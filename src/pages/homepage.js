@@ -10,7 +10,7 @@ export default function Homepage({ setApp }) {
         {/* Introduction heading and paragraph */}
         <div className="exhibits-section-introduction">
           <h1 className="exhibits-section-header">
-            Systeseum <br /> Virtual Exhibits
+            Virtual <br /> Museum Prototype
           </h1>
 
           <a

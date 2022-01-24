@@ -109,13 +109,13 @@ export const Exhibition1 = () => {
           dispose={null}
           // scale={[1, 1, 1]}
           // interaction hover test
-          onPointerOver={() => {
-            setHover(true);
-          }}
-          onPointerOut={() => {
-            setHover(false);
-          }}
-          scale={hover ? 1.5 : 1}
+          // onPointerOver={() => {
+          //   setHover(true);
+          // }}
+          // onPointerOut={() => {
+          //   setHover(false);
+          // }}
+          // scale={hover ? 1.5 : 1}
         >
           <mesh
             geometry={nodes.booster.geometry}
@@ -204,13 +204,14 @@ export const Exhibition1 = () => {
       <div className="exhibition-title-text">
         {/* <h1>{exhibitTitle}</h1> */}
         <h1>{exhibitions[artefactNumber].title}</h1>
-        <h3>{exhibitions[artefactNumber].subtitle}</h3>
+        {/* <h3>{exhibitions[artefactNumber].subtitle}</h3> */}
         <p>{exhibitions[artefactNumber].description}</p>
       </div>
       {/* <button onClick={() => setExhibitTitle(exhibitions[1].title)}>
         click here to change exhibit
       </button> */}
       <button
+        className="buttonRight"
         onClick={() => [
           setArtefactNumber(artefactNumber + 1),
           OrbitControls.controls.reset(),
@@ -218,7 +219,10 @@ export const Exhibition1 = () => {
       >
         click here to change exhibit +1
       </button>
-      <button onClick={() => setArtefactNumber(artefactNumber - 1)}>
+      <button
+        className="buttonLeft"
+        onClick={() => setArtefactNumber(artefactNumber - 1)}
+      >
         click here to change exhibit -1
       </button>
     </>

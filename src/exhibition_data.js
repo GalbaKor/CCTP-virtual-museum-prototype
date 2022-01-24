@@ -10,7 +10,7 @@ export const exhibitions = [
       "/space_exhibition_assets/booster_rockets_and_fuel_tank/scene.gltf",
     geometryPath: "booster",
     materialPath: "Material__198",
-    position: [0, -25, 0],
+    position: [0, 0, -30],
   },
   {
     title: "Exhibit 2",
@@ -20,7 +20,7 @@ export const exhibitions = [
     image: "https://via.placeholder.com/450",
     link: "/Exhibition-2",
     modelPath: "/space_exhibition_assets/space_shuttle/scene.gltf",
-    position: [0, -25, 0],
+    position: [0, 0, -10],
   },
   {
     title: "Exhibit 3",
@@ -30,7 +30,7 @@ export const exhibitions = [
     image: "https://via.placeholder.com/450",
     link: "#",
     modelPath: "/space_exhibition_assets/saturn_v_rocket/scene.gltf",
-    position: [0, -25, 0],
+    position: [0, 0, -35],
   },
   // {
   //   title: "Exhibit 4",

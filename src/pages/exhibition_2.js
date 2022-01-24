@@ -1,3 +1,4 @@
+// Main imports
 import React, { Suspense, useRef, useEffect, useState } from "react";
 import {
   Html,
@@ -6,65 +7,25 @@ import {
   useProgress,
   GizmoHelper,
   GizmoViewport,
+  GizmoViewcube,
   Billboard,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { A11yAnnouncer, A11y } from "@react-three/a11y";
+
+// Component imports
 import { Lights } from "../components/lights";
 import { Loader } from "../components/loader";
 import { exhibitions } from "../exhibition_data";
-import { SpaceModel } from "./model_data";
 
-// const Models = (modelPath) => {
-//   const gltf = useGLTF(modelPath, true);
-//   const { nodes, materials } = gltf;
+// Model imports
+import BoosterRocket from "../space_exhibition_assets/booster_rockets_and_fuel_tank/Scene";
+import N1Rocket from "../space_exhibition_assets/n1_rocket/Scene";
+import ShuttleModel from "../space_exhibition_assets/space_shuttle/Scene";
+import SaturnV from "../space_exhibition_assets/saturn_v_rocket/Scene";
 
-//   for (var i = 0; i < exhibitions.length; i++) {
-//     return (
-//       <mesh
-//         geometry={nodes.exhibitions.geometryPath}
-//         materials={materials.exhibitions.materialPath.material}
-//       ></mesh>
-//     );
-//   }
-// };
-
-// function Model(props) {
-//   // creating multiple of the same model requires directly pulling the geometry and materials as below
-//   // const { nodes, materials } = useGLTF(exhibitions[0].modelPath);
-//   // return (
-//   //   <group {...props} dispose={null} scale={[1, 1, 1]}>
-//   //     <mesh
-//   //       geometry={nodes.booster.geometry}
-//   //       material={materials.Material__198}
-//   //     />
-//   //   </group>
-
-//   //single model - scalable variant
-//   const gltf = useGLTF(exhibitions[0].modelPath, true);
-//   return (
-//     <primitive
-//       object={gltf.scene}
-//       dispose={null}
-//       position={exhibitions[0].position}
-//     />
-//   );
-// }
-
-// const Lights = () => {
-//   return (
-//     <>
-//       <ambientLight intensity={0.5} />
-//       <directionalLight position={[10, 10, 5]} intensity={1} />
-//       <spotLight intensity={1} position={[0, 100, 0]} />
-//       <spotLight intensity={0.5} position={[30, 100, 0]} />
-//     </>
-//   );
-// };
-
-// function Loader() {
-//   const { progress } = useProgress();
-//   return <Html center>{progress} % loaded</Html>;
-// }
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
 
 export const Exhibition2 = () => {
   const [cameraProps, setCameraProps] = useState({
@@ -74,102 +35,21 @@ export const Exhibition2 = () => {
     position: [0, 0, 90],
   });
 
-  // const [exhibitTitle, setExhibitTitle] = useState(exhibitions[0].title);
-
   const [artefactNumber, setArtefactNumber] = useState(0);
 
-  // function Model() {
-  //   //const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
-  //   const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
-
-  //   return (
-  //     <primitive
-  //       object={gltf.scene}
-  //       // object={useGLTF(exhibitions[artefactNumber].modelPath, true).scene}
-  //       dispose={null}
-  //       position={exhibitions[artefactNumber].position}
-  //     />
-  //   );
-  // }
-
-  /* work on this part - find out if you can transfer useState across files */
-  function SpaceModel(props) {
-    const { nodes, materials } = useGLTF(exhibitions[artefactNumber].modelPath);
-    const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
-
-    const [hover, setHover] = useState(false);
-
-    if (artefactNumber === 0) {
-      // const { nodes, materials } = useGLTF(exhibitions[0].modelPath);
-      // const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
-
-      return (
-        <group
-          {...props}
-          dispose={null}
-          // scale={[1, 1, 1]}
-          // interaction hover test
-          onPointerOver={() => {
-            setHover(true);
-          }}
-          onPointerOut={() => {
-            setHover(false);
-          }}
-          scale={hover ? 1.5 : 1}
-        >
-          <mesh
-            geometry={nodes.booster.geometry}
-            material={materials.Material__198}
-            object={gltf.scene}
-            dispose={null}
-            position={exhibitions[artefactNumber].position}
-          />
-        </group>
-      );
-    } else if (artefactNumber === 1) {
-      // const { nodes, materials } = useGLTF(exhibitions[1].modelPath);
-      // const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
-      return (
-        <group {...props} dispose={null} scale={[1, 1, 1]}>
-          <mesh
-            geometry={nodes.shuttle.geometry}
-            material={materials.Material__197}
-            object={gltf.scene}
-            dispose={null}
-            position={exhibitions[artefactNumber].position}
-          />
-        </group>
-      );
-    } else if (artefactNumber === 2) {
-      // const { nodes, materials } = useGLTF(exhibitions[2].modelPath);
-      // const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
-      return (
-        <group {...props} dispose={null} scale={[1, 1, 1]}>
-          <mesh
-            geometry={nodes.saturnv.geometry}
-            material={materials.Scene__Root}
-            object={gltf.scene}
-            dispose={null}
-            position={exhibitions[artefactNumber].position}
-          />
-        </group>
-      );
-    }
-  }
+  const [open, setOpen] = React.useState(false);
+  const [tutorial, setTutorial] = React.useState(false);
 
   return (
     <>
-      <Canvas
-        className="canvas-h80"
-        colorManagement
-        // camera={{ fov: 75, near: 0.1, far: 1000, position: [0, 0, 90] }}
-        camera={cameraProps}
-      >
+      <A11yAnnouncer />
+      <Canvas className="canvas-h80" colorManagement camera={cameraProps}>
         <OrbitControls
-          enableZoom={true}
+          enableZoom={false}
           minZoom={Math.PI / 4}
           maxZoom={Math.PI / 4}
           enablePan={false}
+          enableRotate={false}
           // maxAzimuthAngle={Math.PI / 4}
           // maxPolarAngle={Math.PI}
           // minAzimuthAngle={-Math.PI / 4}
@@ -177,40 +57,97 @@ export const Exhibition2 = () => {
         />
         <Lights />
         <Suspense fallback={<Loader />}>
-          {/* multiple models via multi load */}
-          {/* <Model position={[-50, -20, 1]} rotation={[5, 0, 3]} /> */}
-          {/* <Model position={[0, -20, 1]} rotation={[5, 0, 1.5]} /> */}
-          {/* <Model position={[50, -20, 1]} rotation={[5, 0, 3]} /> */}
-          {/* single model via multi load */}
-          {/* <Model position={[0, -30, 0]} rotation={[5, 0, 0]} /> */}
-
-          {/* single model load gltf */}
-          {/* <Model modelPath={exhibitions[artefactNumber].modelPath} /> */}
-          <SpaceModel />
+          <A11y role="content" focusCall={() => console.log("in focus")}>
+            <N1Rocket
+              position={[-150, 20, 0]}
+              rotation={[-Math.PI / 2, Math.PI / 2, 0]}
+              onClick={() => setOpen(true)}
+              // plan is to call a hook and useState to change the modal content
+            />
+          </A11y>
+          <A11y role="content" focusCall={() => console.log("in focus")}>
+            <BoosterRocket
+              onClick={() => setOpen(true)}
+              position={[20, -20, 0]}
+              rotation={[-Math.PI / 2, 0, 0]}
+            />
+          </A11y>
+          <SaturnV
+            position={[90, -50, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            onClick={() => setOpen(true)}
+          />
+          <ShuttleModel
+            position={[-60, -40, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            onClick={() => setOpen(true)}
+          />
         </Suspense>
-        <GizmoHelper
-          alignment="top-right" // widget alignment within scene
-          margin={[80, 80]} // widget margins (X, Y)
-          // onUpdate={/* called during camera animation  */}
+        {/* <GizmoHelper
+          alignment="top-right"
+          margin={[80, 80]}
           onTarget={OrbitControls}
         >
           <GizmoViewport
             axisColors={["red", "green", "blue"]}
             labelColor="black"
           />
-          {/* alternative: <GizmoViewcube /> */}
-        </GizmoHelper>
+        </GizmoHelper> */}
       </Canvas>
-      <div className="exhibition-title-text">
-        {/* <h1>{exhibitTitle}</h1> */}
+      <div className="tutorial-button" onClick={() => setTutorial(true)}>
+        <a href="#" className="tutorial-button-link">
+          ?
+        </a>
+      </div>
+
+      <Modal open={tutorial} onClose={() => setTutorial(false)}>
+        <h2 className="modal-title">Tutorial</h2>
+        <p>
+          Click on each of the models to open more information the artefacts
+          they represent. Then, when you are finished, press escape, click the
+          cross or anywhere outside the information box to return to the model
+          screen.
+        </p>
+        <p>
+          If you wish to move to a different scene containing a new set of
+          artefacts, cycle through the carousel below and click on the boxes to
+          change scene.
+        </p>
+      </Modal>
+
+      <Modal open={open} onClose={() => setOpen(false)} center>
+        <h2 className="modal-title">Artefact title</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
+          magnam cupiditate, aliquam laborum distinctio non, saepe magni
+          laudantium eum deserunt iure dolorem. Sequi id possimus sint in
+          ducimus deleniti voluptate explicabo placeat. Incidunt dolor
+          architecto, mollitia labore ducimus libero ea quaerat minus quia
+          consequatur praesentium quas laboriosam quam illum beatae?
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem sit
+          tempora eius reprehenderit dignissimos odio incidunt debitis eligendi
+          earum deleniti in ea praesentium quaerat atque quam recusandae
+          repellat, aliquid minus, placeat quas voluptatum velit doloremque ut.
+          At corporis, sit corrupti suscipit aperiam sequi est unde, velit vero
+          temporibus delectus possimus?
+        </p>
+        <div className="modal-image"></div>
+        <div className="modal-image"></div>
+      </Modal>
+
+      <div className="bottom20">
+        {/* <h1>{exhibitions[artefactNumber].title}</h1>
+        <h3>{exhibitions[artefactNumber].subtitle}</h3>
+        <p>{exhibitions[artefactNumber].description}</p> */}
+      </div>
+      {/* <div className="exhibition-title-text">
         <h1>{exhibitions[artefactNumber].title}</h1>
         <h3>{exhibitions[artefactNumber].subtitle}</h3>
         <p>{exhibitions[artefactNumber].description}</p>
-      </div>
-      {/* <button onClick={() => setExhibitTitle(exhibitions[1].title)}>
-        click here to change exhibit
-      </button> */}
-      <button
+      </div> */}
+      {/* <button
         onClick={() => [
           setArtefactNumber(artefactNumber + 1),
           OrbitControls.controls.reset(),
@@ -220,7 +157,7 @@ export const Exhibition2 = () => {
       </button>
       <button onClick={() => setArtefactNumber(artefactNumber - 1)}>
         click here to change exhibit -1
-      </button>
+      </button> */}
     </>
   );
 };
