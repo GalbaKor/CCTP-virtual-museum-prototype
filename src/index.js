@@ -12,6 +12,7 @@ ReactDOM.render(
     <Routes>
       <Route path="/" element={<App />}></Route>
       <Route path="/Exhibition-1" element={<Exhibition1 />} />
+      {/* Plan to introduce more Routing for each point on the page */}
       <Route path="/Exhibition-2" element={<Exhibition2 />} />
     </Routes>
   </Router>,
