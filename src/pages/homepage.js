@@ -2,56 +2,89 @@ import React from "react";
 import { exhibitions } from "../exhibition_data";
 import { Link } from "react-router-dom";
 import { FaAngleDoubleDown } from "react-icons/fa";
+import {
+  SimpleGrid,
+  Box,
+  Container,
+  Grid,
+  Image,
+  Text,
+  Center,
+  Divider,
+} from "@chakra-ui/react";
 
 export default function Homepage({ setApp }) {
   return (
-    <section id="exhibits pic" className="exhibits-section">
-      <div className="exhibits-section-container">
-        {/* Introduction heading and paragraph */}
-        <div className="exhibits-section-introduction">
-          <h1 className="exhibits-section-header">
-            Virtual <br /> Museum Prototype
-          </h1>
+    <Container minWidth="full" minHeight="100vh" backgroundColor="black">
+      <Container maxWidth="container.xl">
+        <Center py="8">
+          <Text fontSize={["2xl", "4xl", "6xl"]} textColor="white">
+            Virtual Museum Webapp Prototype
+          </Text>
+        </Center>
 
-          <a
-            href="#exhibition-grid"
-            className="exhibit-introduction-button"
-            alt="down"
-          >
-            <FaAngleDoubleDown />
-          </a>
-          <p className="exhibits-section-paragraph">
-            Click on any of the exhibits below to explore them in a virtual
-            scene. <br />
-            Once inside, interact with the artefacts to learn more and see them
-            up close.
-          </p>
-        </div>
-        {/* List of exhibits stored in an array */}
-        <div id="exhibition-grid" className="exhibition-grid">
+        <Text fontSize={["lg", "xl", "2xl"]} textColor="white">
+          This React based prototype project utilises React-Three-Fiber and
+          React Router to display a series of 3D, interactible objects across a
+          series of self contained exhibits.
+          <br />
+          <br />
+          It is an exploration of how digital space could be used to satisfy
+          museum-goers who might not otherwise be able to travel to and
+          experience a physical museum.
+        </Text>
+
+        <Text fontSize={["lg", "xl", "2xl"]} textColor="white" py="8">
+          Click on any of the exhibits below to explore them in a virtual scene.{" "}
+          <br />
+          Once inside, interact with the artefacts to learn more and see them up
+          close.
+        </Text>
+      </Container>
+
+      <Container maxWidth="container.xl">
+        <Text fontSize="4xl" textColor="white">
+          Exhibits:
+        </Text>
+      </Container>
+
+      <Container maxWidth="container.xl" py="10">
+        <Grid
+          templateColumns={[
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(3, 1fr)",
+          ]}
+          gridGap="2rem"
+        >
           {exhibitions.map((exhibition) => (
-            <div className="exhibition-grid-item-container">
-              <Link to={exhibition.link}></Link>
-              <a
-                href={exhibition.link}
-                key={exhibition.image}
-                onClick={() => setApp(true)}
-              >
-                <div className="exhibition-grid-item">
-                  <img
-                    src={exhibition.image}
-                    alt="exhibit"
-                    className="exhibition-grid-item-image"
-                  />
-                  <div className="exhibition-grid-item-overlay">
-                    <h2 className="text">{exhibition.title}</h2>
-                  </div>
-                </div>
-              </a>
-            </div>
+            <a
+              href={exhibition.link}
+              key={exhibition.image}
+              onClick={() => setApp(true)}
+            >
+              <Box position="relative" _hover={{ opacity: "75%" }}>
+                <Image
+                  w="100%"
+                  borderRadius="md"
+                  src={exhibition.image}
+                  alt="museum image"
+                ></Image>
+                <Text
+                  fontSize="2xl"
+                  position="absolute"
+                  top="50%"
+                  left="50%"
+                  transform="translate(-50%, -50%)"
+                >
+                  <Center h="2rem">{exhibition.title}</Center>
+                </Text>
+              </Box>
+            </a>
           ))}
-        </div>
-      </div>
-    </section>
+        </Grid>
+      </Container>
+    </Container>
   );
 }
