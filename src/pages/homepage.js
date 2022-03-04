@@ -12,6 +12,20 @@ import {
   Center,
   Divider,
 } from "@chakra-ui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
+} from "@chakra-ui/react";
+import {
+  HamburgerIcon,
+  AddIcon,
+  ExternalLinkIcon,
+  RepeatIcon,
+  EditIcon,
+} from "@chakra-ui/icons";
 
 export default function Homepage({ setApp }) {
   return (
@@ -43,6 +57,23 @@ export default function Homepage({ setApp }) {
       </Container>
 
       <Container maxWidth="container.xl">
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label="Options"
+            icon={<HamburgerIcon />}
+            _hover={{ opacity: "60%" }}
+            variant=""
+            fontSize="3rem"
+            color="white"
+          />
+          <MenuList>
+            <MenuItem icon={<AddIcon />}>New Tab</MenuItem>
+            <MenuItem icon={<ExternalLinkIcon />}>New Window</MenuItem>
+            <MenuItem icon={<RepeatIcon />}>Open Closed Tab</MenuItem>
+            <MenuItem icon={<EditIcon />}>Open File...</MenuItem>
+          </MenuList>
+        </Menu>
         <Text fontSize="4xl" textColor="white">
           Exhibits:
         </Text>
