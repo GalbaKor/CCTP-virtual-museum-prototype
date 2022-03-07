@@ -28,7 +28,7 @@ export const exhibitions = [
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium dolore rerum laborum iure enim sint nemo omnis voluptate exercitationem eius?",
     image: "https://via.placeholder.com/450",
-    link: "#",
+    link: "/Exhibition-3",
     modelPath: "/space_exhibition_assets/saturn_v_rocket/scene.gltf",
     position: [0, 0, -35],
   },
