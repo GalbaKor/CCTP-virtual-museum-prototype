@@ -68,64 +68,56 @@ export const Exhibition3 = ({ setApp }) => {
 
   return (
     <>
-      <Container minWidth="full" backgroundColor="black">
-        <Container maxWidth="container.xl">
-          <Button onClick={modalNavOnOpen} mt="8">
-            Navigate Scenes
-          </Button>
-          {/* <Menu>
-            <MenuButton
-              as={IconButton}
-              aria-label="Options"
-              icon={<HamburgerIcon />}
-              _hover={{ opacity: "60%" }}
-              variant=""
-              fontSize="3rem"
-              color="white"
-              onClick={modalNavOnOpen}
-            />
-            <MenuList>
-              <MenuItem icon={<AddIcon />}>New Tab</MenuItem>
-              <MenuItem icon={<ExternalLinkIcon />}>New Window</MenuItem>
-              <MenuItem icon={<RepeatIcon />}>Open Closed Tab</MenuItem>
-              <MenuItem icon={<EditIcon />}>Open File...</MenuItem>
-            </MenuList>
-          </Menu> */}
-          <Center py="8">
-            <Text fontSize={["lg", "xl", "xl"]} textColor="white" mt="-24">
-              Rockets and Boosters
-            </Text>
-          </Center>
-        </Container>
+      <Container minWidth="full" backgroundColor="black" minHeight="100vh">
+        {/* Top bar navigation */}
+        <Center>
+          <Container maxWidth="container.xl" zIndex={2} height="10vh">
+            <Center py="8">
+              <Text fontSize={["lg", "xl", "xl"]} textColor="white">
+                Rockets and Boosters
+              </Text>
+            </Center>
+          </Container>
+        </Center>
 
+        {/* Grid of models */}
         <Container minWidth="full">
           {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
-          <Grid
-            templateColumns={[
-              "repeat(1, 1fr)",
-              "repeat(1, 1fr)",
-              "repeat(2, 1fr)",
-              "repeat(3, 1fr)",
-            ]}
-            // gridGap="2rem"
-          >
-            <Center minWidth="full" minHeight="100vh">
-              <N1RocketContainer />
-            </Center>
-            <Center minWidth="full">
-              <N1RocketContainer />
-            </Center>
-            <Center minWidth="full">
-              <N1RocketContainer />
-            </Center>
+          <Center minWidth="full">
+            <Grid
+              minWidth="full"
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+              // gridGap="2rem"
+            >
+              <Center minWidth="full" height="80vh">
+                <BoosterRocketContainer />
+              </Center>
+              <Center minWidth="full">
+                <ShuttleContainer />
+              </Center>
+              <Center minWidth="full">
+                <SaturnVContainer />
+              </Center>
 
-            {/* <Box maxWidth={["xs", "xs", "lg", "md"]} minHeight="90vh">
+              {/* <Box maxWidth={["xs", "xs", "lg", "md"]} minHeight="90vh">
               <N1RocketContainer />
             </Box>
             <Box maxWidth={["xs", "xs", "lg", "md"]} minHeight="90vh">
               <N1RocketContainer />
             </Box> */}
-          </Grid>
+            </Grid>
+          </Center>
+        </Container>
+
+        <Container height="10vh">
+          <Center>
+            <Button onClick={modalNavOnOpen}>Navigate Scenes</Button>
+          </Center>
         </Container>
 
         <Modal
@@ -238,7 +230,7 @@ export const Exhibition3 = ({ setApp }) => {
   );
 };
 
-function N1RocketContainer() {
+function BoosterRocketContainer() {
   const [cameraProps, setCameraProps] = useState({
     fov: 75,
     near: 1,
@@ -262,12 +254,77 @@ function N1RocketContainer() {
           // plan is to call a hook and useState to change the modal content
         /> */}
 
-        <BoosterRocket position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} />
+        <BoosterRocket position={[0, -20, 0]} rotation={[-Math.PI / 2, 0, 0]} />
         {/* <SaturnV position={[90, -50, 0]} rotation={[-Math.PI / 2, 0, 0]} />
         <ShuttleModel
           position={[-60, -40, 0]}
           rotation={[-Math.PI / 2, 0, 0]}
         /> */}
+      </Suspense>
+    </Canvas>
+  );
+}
+
+function ShuttleContainer() {
+  const [cameraProps, setCameraProps] = useState({
+    fov: 75,
+    near: 1,
+    far: 1000,
+    position: [0, 0, 100],
+  });
+  return (
+    <Canvas colorManagement camera={cameraProps}>
+      <OrbitControls
+        // enableZoom={false}
+        minZoom={Math.PI / 4}
+        maxZoom={Math.PI / 4}
+        enablePan={true}
+        enableRotate={true}
+      />
+      <Lights />
+      <Suspense fallback={<Loader />}>
+        {/* <N1Rocket
+          position={[-20, 0, 0]}
+          rotation={[-Math.PI / 2, Math.PI / 2, 0]}
+        /> */}
+
+        {/* <BoosterRocket position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} /> */}
+        {/* <SaturnV position={[90, -50, 0]} rotation={[-Math.PI / 2, 0, 0]} />
+        <ShuttleModel
+          position={[-60, -40, 0]}
+          rotation={[-Math.PI / 2, 0, 0]}
+        /> */}
+        <ShuttleModel position={[0, -20, 0]} rotation={[-Math.PI / 2, 0, 0]} />
+      </Suspense>
+    </Canvas>
+  );
+}
+
+function SaturnVContainer() {
+  const [cameraProps, setCameraProps] = useState({
+    fov: 75,
+    near: 1,
+    far: 1000,
+    position: [0, 0, 100],
+  });
+  return (
+    <Canvas colorManagement camera={cameraProps}>
+      <OrbitControls
+        // enableZoom={false}
+        minZoom={Math.PI / 4}
+        maxZoom={Math.PI / 4}
+        enablePan={true}
+        enableRotate={true}
+      />
+      <Lights />
+      <Suspense fallback={<Loader />}>
+        {/* <N1Rocket
+          position={[-20, 0, 0]}
+          rotation={[-Math.PI / 2, Math.PI / 2, 0]}
+        /> */}
+        {/* <BoosterRocket position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} /> */}
+        <SaturnV position={[0, -20, 0]} rotation={[-Math.PI / 2, 0, 0]} />
+        {/* <ShuttleModel position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} /> */}
       </Suspense>
     </Canvas>
   );
