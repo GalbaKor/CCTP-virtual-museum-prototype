@@ -54,6 +54,8 @@ import {
   EditIcon,
 } from "@chakra-ui/icons";
 
+import spaceBackground2 from "../space_exhibition_assets/space_background_2.jpg";
+
 export const Exhibition3 = ({ setApp }) => {
   const [open, setOpen] = React.useState(false);
   const [tutorial, setTutorial] = React.useState(false);
@@ -68,167 +70,195 @@ export const Exhibition3 = ({ setApp }) => {
 
   return (
     <>
-      <Container minWidth="full" backgroundColor="black" minHeight="100vh">
-        {/* Top bar navigation */}
-        <Center>
-          <Container maxWidth="container.xl" zIndex={2} height="10vh">
-            <Center py="8">
-              <Text fontSize={["lg", "xl", "xl"]} textColor="white">
-                Rockets and Boosters
-              </Text>
-            </Center>
-          </Container>
-        </Center>
+      {/* Background image container */}
+      <Container
+        style={{
+          backgroundImage: `url(${spaceBackground2})`,
+          backgroundSize: "cover",
+        }}
+        minWidth="full"
+        minHeight="100vh"
+        pos="fixed"
+      ></Container>
 
-        {/* Grid of models */}
-        <Container minWidth="full">
-          {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
-          <Center minWidth="full">
+      {/* Grid of models */}
+      <Container minWidth="full" minHeight="100vh">
+        {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+        <Center minWidth="full">
+          <Grid
+            minWidth="full"
+            templateColumns={[
+              "repeat(1, 1fr)",
+              "repeat(1, 1fr)",
+              "repeat(2, 1fr)",
+              "repeat(3, 1fr)",
+            ]}
+          >
+            {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
+            <Center minWidth="full" minHeight="100vh">
+              <BoosterRocketContainer />
+            </Center>
+            <Center minWidth="full" minHeight="100vh">
+              <ShuttleContainer />
+            </Center>
+            <Center minWidth="full" minHeight="100vh">
+              <SaturnVContainer />
+            </Center>
+          </Grid>
+        </Center>
+      </Container>
+
+      {/* Top bar navigation */}
+      <Box pos="fixed" top="0" minWidth="full" zIndex={20}>
+        <Center>
+          <Text fontSize={["lg", "xl", "xl"]} textColor="white" my="6">
+            Rockets and Boosters
+          </Text>
+        </Center>
+      </Box>
+
+      {/* Bottom Navigation */}
+      <Container pos="fixed" bottom="0" minWidth="full" zIndex={20} p="4">
+        <Center>
+          <Grid minWidth="full" templateColumns={["repeat(3, 1fr)"]} my="6">
+            <Center>
+              <Button onClick={modalNavOnOpen} width="24">
+                Tutorial
+              </Button>
+            </Center>
+            <Center>
+              <Button onClick={modalNavOnOpen} width="24">
+                Navigation
+              </Button>
+            </Center>
+            <Center>
+              <Button onClick={modalNavOnOpen} width="24">
+                Main Menu
+              </Button>
+            </Center>
+          </Grid>
+        </Center>
+      </Container>
+
+      {/* Modals */}
+      {/* Navigation grid */}
+      <Modal
+        isOpen={modalNavIsOpen}
+        onClose={modalNavOnClose}
+        size="2xl"
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent mx="4">
+          <Center>
+            <Center>
+              <ModalHeader minWidth="full">Artefact Navigation</ModalHeader>
+            </Center>
+            <ModalCloseButton />
+          </Center>
+
+          <ModalBody>
+            {/* <N1RocketContainer /> */}
             <Grid
-              minWidth="full"
               templateColumns={[
                 "repeat(1, 1fr)",
-                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
                 "repeat(2, 1fr)",
                 "repeat(3, 1fr)",
               ]}
-              // gridGap="2rem"
+              gridGap="2rem"
             >
-              <Center minWidth="full" height="80vh">
-                <BoosterRocketContainer />
-              </Center>
-              <Center minWidth="full">
-                <ShuttleContainer />
-              </Center>
-              <Center minWidth="full">
-                <SaturnVContainer />
-              </Center>
-
-              {/* <Box maxWidth={["xs", "xs", "lg", "md"]} minHeight="90vh">
-              <N1RocketContainer />
-            </Box>
-            <Box maxWidth={["xs", "xs", "lg", "md"]} minHeight="90vh">
-              <N1RocketContainer />
-            </Box> */}
+              {exhibitions.map((exhibition) => (
+                <a
+                  href={exhibition.link}
+                  key={exhibition.image}
+                  onClick={() => setApp(true)}
+                >
+                  <Box position="relative" _hover={{ opacity: "75%" }}>
+                    <Image
+                      w="100%"
+                      borderRadius="md"
+                      src={exhibition.image}
+                      alt="museum image"
+                    ></Image>
+                    <Text
+                      fontSize="2xl"
+                      position="absolute"
+                      top="50%"
+                      left="50%"
+                      transform="translate(-50%, -50%)"
+                    >
+                      <Center h="2rem">{exhibition.title}</Center>
+                    </Text>
+                  </Box>
+                </a>
+              ))}
+              {exhibitions.map((exhibition) => (
+                <a
+                  href={exhibition.link}
+                  key={exhibition.image}
+                  onClick={() => setApp(true)}
+                >
+                  <Box position="relative" _hover={{ opacity: "75%" }}>
+                    <Image
+                      w="100%"
+                      borderRadius="md"
+                      src={exhibition.image}
+                      alt="museum image"
+                    ></Image>
+                    <Text
+                      fontSize="2xl"
+                      position="absolute"
+                      top="50%"
+                      left="50%"
+                      transform="translate(-50%, -50%)"
+                    >
+                      <Center h="2rem">{exhibition.title}</Center>
+                    </Text>
+                  </Box>
+                </a>
+              ))}
+              {exhibitions.map((exhibition) => (
+                <a
+                  href={exhibition.link}
+                  key={exhibition.image}
+                  onClick={() => setApp(true)}
+                >
+                  <Box position="relative" _hover={{ opacity: "75%" }}>
+                    <Image
+                      w="100%"
+                      borderRadius="md"
+                      src={exhibition.image}
+                      alt="museum image"
+                    ></Image>
+                    <Text
+                      fontSize="2xl"
+                      position="absolute"
+                      top="50%"
+                      left="50%"
+                      transform="translate(-50%, -50%)"
+                    >
+                      <Center h="2rem">{exhibition.title}</Center>
+                    </Text>
+                  </Box>
+                </a>
+              ))}
             </Grid>
-          </Center>
-        </Container>
+          </ModalBody>
 
-        <Container height="10vh">
-          <Center>
-            <Button onClick={modalNavOnOpen}>Navigate Scenes</Button>
-          </Center>
-        </Container>
-
-        <Modal
-          isOpen={modalNavIsOpen}
-          onClose={modalNavOnClose}
-          size="4xl"
-          isCentered
-          scrollBehavior="inside"
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>modalNavOnOpen Title</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              {/* <N1RocketContainer /> */}
-              <Grid
-                templateColumns={[
-                  "repeat(1, 1fr)",
-                  "repeat(2, 1fr)",
-                  "repeat(2, 1fr)",
-                  "repeat(3, 1fr)",
-                ]}
-                gridGap="2rem"
-              >
-                {exhibitions.map((exhibition) => (
-                  <a
-                    href={exhibition.link}
-                    key={exhibition.image}
-                    onClick={() => setApp(true)}
-                  >
-                    <Box position="relative" _hover={{ opacity: "75%" }}>
-                      <Image
-                        w="100%"
-                        borderRadius="md"
-                        src={exhibition.image}
-                        alt="museum image"
-                      ></Image>
-                      <Text
-                        fontSize="2xl"
-                        position="absolute"
-                        top="50%"
-                        left="50%"
-                        transform="translate(-50%, -50%)"
-                      >
-                        <Center h="2rem">{exhibition.title}</Center>
-                      </Text>
-                    </Box>
-                  </a>
-                ))}
-                {exhibitions.map((exhibition) => (
-                  <a
-                    href={exhibition.link}
-                    key={exhibition.image}
-                    onClick={() => setApp(true)}
-                  >
-                    <Box position="relative" _hover={{ opacity: "75%" }}>
-                      <Image
-                        w="100%"
-                        borderRadius="md"
-                        src={exhibition.image}
-                        alt="museum image"
-                      ></Image>
-                      <Text
-                        fontSize="2xl"
-                        position="absolute"
-                        top="50%"
-                        left="50%"
-                        transform="translate(-50%, -50%)"
-                      >
-                        <Center h="2rem">{exhibition.title}</Center>
-                      </Text>
-                    </Box>
-                  </a>
-                ))}
-                {exhibitions.map((exhibition) => (
-                  <a
-                    href={exhibition.link}
-                    key={exhibition.image}
-                    onClick={() => setApp(true)}
-                  >
-                    <Box position="relative" _hover={{ opacity: "75%" }}>
-                      <Image
-                        w="100%"
-                        borderRadius="md"
-                        src={exhibition.image}
-                        alt="museum image"
-                      ></Image>
-                      <Text
-                        fontSize="2xl"
-                        position="absolute"
-                        top="50%"
-                        left="50%"
-                        transform="translate(-50%, -50%)"
-                      >
-                        <Center h="2rem">{exhibition.title}</Center>
-                      </Text>
-                    </Box>
-                  </a>
-                ))}
-              </Grid>
-            </ModalBody>
-
-            <ModalFooter>
-              <Button onClick={modalNavOnClose}>Close</Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </Container>
+          <ModalFooter>
+            <Button onClick={modalNavOnClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
+
+// Each model is contained within it's own function.
+// The function consists of a Canvas component, with a pre-set OrbitControls, Lights and Suspense loader.
+// The models themselves are stored in a separate component file and thus must first be imported into the overall model container component
 
 function BoosterRocketContainer() {
   const [cameraProps, setCameraProps] = useState({
