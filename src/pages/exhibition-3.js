@@ -39,6 +39,16 @@ import {
 } from "@chakra-ui/react";
 
 import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+} from "@chakra-ui/react";
+
+import {
   Menu,
   MenuButton,
   MenuList,
@@ -73,7 +83,19 @@ export const Exhibition3 = ({ setApp }) => {
     onClose: modalNavOnClose,
   } = useDisclosure();
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: tutorialDrawerIsOpen,
+    onOpen: tutorialDrawerOnOpen,
+    onClose: tutorialDrawerOnClose,
+  } = useDisclosure();
+  const tutorialRef = React.useRef();
+
+  const {
+    isOpen: menuDrawerIsOpen,
+    onOpen: menuDrawerOnOpen,
+    onClose: menuDrawerOnClose,
+  } = useDisclosure();
+  const menuRef = React.useRef();
 
   return (
     <>
@@ -129,7 +151,11 @@ export const Exhibition3 = ({ setApp }) => {
         <Center>
           <Grid minWidth="full" templateColumns={["repeat(3, 1fr)"]} my="6">
             <Center>
-              <Button onClick={modalNavOnOpen} width="auto">
+              <Button
+                ref={tutorialRef}
+                onClick={tutorialDrawerOnOpen}
+                width="auto"
+              >
                 <QuestionOutlineIcon w={6} h={6} />
                 {isMobileScreen && <p>&nbsp;Tutorial</p>}
               </Button>
@@ -141,7 +167,7 @@ export const Exhibition3 = ({ setApp }) => {
               </Button>
             </Center>
             <Center>
-              <Button onClick={modalNavOnOpen} width="auto">
+              <Button ref={menuRef} onClick={menuDrawerOnOpen} width="auto">
                 <HamburgerIcon w={6} h={6} />
                 {isMobileScreen && <p>&nbsp;Main Menu</p>}
               </Button>
@@ -149,6 +175,51 @@ export const Exhibition3 = ({ setApp }) => {
           </Grid>
         </Center>
       </Container>
+
+      {/* Drawers */}
+      {/* Tutorial */}
+      <Drawer
+        isOpen={tutorialDrawerIsOpen}
+        placement="left"
+        onClose={tutorialDrawerOnClose}
+        finalFocusRef={tutorialRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Tutorial</DrawerHeader>
+
+          <DrawerBody></DrawerBody>
+
+          <DrawerFooter>
+            <Button variant="outline" mr={3} onClick={tutorialDrawerOnClose}>
+              Close
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+
+      {/* Main Menu */}
+      <Drawer
+        isOpen={menuDrawerIsOpen}
+        placement="right"
+        onClose={menuDrawerOnClose}
+        finalFocusRef={menuRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Main Menu</DrawerHeader>
+
+          <DrawerBody></DrawerBody>
+
+          <DrawerFooter>
+            <Button variant="outline" mr={3} onClick={menuDrawerOnClose}>
+              Close
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
 
       {/* Modals */}
       {/* Navigation grid */}
