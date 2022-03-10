@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 // import { A11yAnnouncer, A11y } from "@react-three/a11y";
+import { useMediaQuery } from "react-responsive";
 
 // Component imports
 import { Lights } from "../components/lights";
@@ -47,7 +48,9 @@ import {
 } from "@chakra-ui/react";
 
 import {
+  QuestionOutlineIcon,
   HamburgerIcon,
+  Search2Icon,
   AddIcon,
   ExternalLinkIcon,
   RepeatIcon,
@@ -59,6 +62,10 @@ import spaceBackground2 from "../space_exhibition_assets/space_background_2.jpg"
 export const Exhibition3 = ({ setApp }) => {
   const [open, setOpen] = React.useState(false);
   const [tutorial, setTutorial] = React.useState(false);
+
+  const isMobileScreen = useMediaQuery({
+    query: "(min-width: 640px)",
+  });
 
   const {
     isOpen: modalNavIsOpen,
@@ -122,18 +129,21 @@ export const Exhibition3 = ({ setApp }) => {
         <Center>
           <Grid minWidth="full" templateColumns={["repeat(3, 1fr)"]} my="6">
             <Center>
-              <Button onClick={modalNavOnOpen} width="24">
-                Tutorial
+              <Button onClick={modalNavOnOpen} width="auto">
+                <QuestionOutlineIcon w={6} h={6} />
+                {isMobileScreen && <p>&nbsp;Tutorial</p>}
               </Button>
             </Center>
             <Center>
-              <Button onClick={modalNavOnOpen} width="24">
-                Navigation
+              <Button onClick={modalNavOnOpen} width="auto">
+                <Search2Icon w={6} h={6} />
+                {isMobileScreen && <p>&nbsp;Navigation</p>}
               </Button>
             </Center>
             <Center>
-              <Button onClick={modalNavOnOpen} width="24">
-                Main Menu
+              <Button onClick={modalNavOnOpen} width="auto">
+                <HamburgerIcon w={6} h={6} />
+                {isMobileScreen && <p>&nbsp;Main Menu</p>}
               </Button>
             </Center>
           </Grid>
