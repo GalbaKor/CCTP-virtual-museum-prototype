@@ -1,5 +1,5 @@
 // Main imports
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -73,16 +73,20 @@ export const Exhibition3 = ({ setApp }) => {
   const [open, setOpen] = React.useState(false);
   const [tutorial, setTutorial] = React.useState(false);
 
+  // mobile queries
   const isMobileScreen = useMediaQuery({
     query: "(min-width: 640px)",
   });
 
+  // Modal and Drawer variables
+  // navigation
   const {
     isOpen: modalNavIsOpen,
     onOpen: modalNavOnOpen,
     onClose: modalNavOnClose,
   } = useDisclosure();
 
+  // tutorial
   const {
     isOpen: tutorialDrawerIsOpen,
     onOpen: tutorialDrawerOnOpen,
@@ -90,12 +94,37 @@ export const Exhibition3 = ({ setApp }) => {
   } = useDisclosure();
   const tutorialRef = React.useRef();
 
+  // main menu
   const {
     isOpen: menuDrawerIsOpen,
     onOpen: menuDrawerOnOpen,
     onClose: menuDrawerOnClose,
   } = useDisclosure();
   const menuRef = React.useRef();
+
+  // object data for navigation
+  const artefactNavigations = [
+    { id: 1, name: "Rockets", background: "https://via.placeholder.com/450" },
+    { id: 2, name: "Sci-Fi", background: "https://via.placeholder.com/450" },
+    { id: 3, name: "Sci-Fi 2", background: "https://via.placeholder.com/450" },
+    { id: 4, name: "Aliens", background: "https://via.placeholder.com/450" },
+    {
+      id: 5,
+      name: "Astronauts",
+      background: "https://via.placeholder.com/450",
+    },
+    {
+      id: 6,
+      name: "Other",
+      background: "https://via.placeholder.com/450",
+    },
+  ];
+
+  const [artefactGroup, setArtefactGroup] = useState(1);
+  // turns out useEffect wasn't actually necessary, but it's good for debug purposes regardless
+  useEffect(() => {
+    console.log("Artefact group " + [artefactGroup]);
+  }, [artefactGroup]);
 
   return (
     <>
@@ -111,8 +140,89 @@ export const Exhibition3 = ({ setApp }) => {
       ></Container>
 
       {/* Grid of models */}
-      <Container minWidth="full" minHeight="100vh">
-        {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+      {artefactGroup == 1 && (
+        <Container minWidth="full" minHeight="100vh">
+          {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+          <Center minWidth="full">
+            <Grid
+              minWidth="full"
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+            >
+              {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
+              <Center minWidth="full" minHeight="100vh">
+                <BoosterRocketContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <ShuttleContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <SaturnVContainer />
+              </Center>
+            </Grid>
+          </Center>
+        </Container>
+      )}
+      {artefactGroup == 2 && (
+        <Container minWidth="full" minHeight="100vh">
+          {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+          <Center minWidth="full">
+            <Grid
+              minWidth="full"
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+            >
+              {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
+              <Center minWidth="full" minHeight="100vh">
+                <BoosterRocketContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <BoosterRocketContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <BoosterRocketContainer />
+              </Center>
+            </Grid>
+          </Center>
+        </Container>
+      )}
+      {artefactGroup == 3 && (
+        <Container minWidth="full" minHeight="100vh">
+          {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+          <Center minWidth="full">
+            <Grid
+              minWidth="full"
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+            >
+              {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
+              <Center minWidth="full" minHeight="100vh">
+                <ShuttleContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <ShuttleContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <ShuttleContainer />
+              </Center>
+            </Grid>
+          </Center>
+        </Container>
+      )}
+
+      {/* <Container minWidth="full" minHeight="100vh">
         <Center minWidth="full">
           <Grid
             minWidth="full"
@@ -123,7 +233,6 @@ export const Exhibition3 = ({ setApp }) => {
               "repeat(3, 1fr)",
             ]}
           >
-            {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
             <Center minWidth="full" minHeight="100vh">
               <BoosterRocketContainer />
             </Center>
@@ -135,7 +244,7 @@ export const Exhibition3 = ({ setApp }) => {
             </Center>
           </Grid>
         </Center>
-      </Container>
+      </Container> */}
 
       {/* Top bar navigation */}
       <Box pos="fixed" top="0" minWidth="full" zIndex={20}>
@@ -189,7 +298,20 @@ export const Exhibition3 = ({ setApp }) => {
           <DrawerCloseButton />
           <DrawerHeader>Tutorial</DrawerHeader>
 
-          <DrawerBody></DrawerBody>
+          <DrawerBody>
+            <p>
+              Click on each of the models to open more information the artefacts
+              they represent. Then, when you are finished, press escape, click
+              the cross or anywhere outside the information box to return to the
+              model screen.
+            </p>
+            <br />
+            <p>
+              If you wish to move to a different scene containing a new set of
+              artefacts, cycle through the carousel below and click on the boxes
+              to change scene.
+            </p>
+          </DrawerBody>
 
           <DrawerFooter>
             <Button variant="outline" mr={3} onClick={tutorialDrawerOnClose}>
@@ -239,8 +361,8 @@ export const Exhibition3 = ({ setApp }) => {
             <ModalCloseButton />
           </Center>
 
+          {/* Body contains a grid of navigation boxes, which are mapped from the artefactNavigations object array const */}
           <ModalBody>
-            {/* <N1RocketContainer /> */}
             <Grid
               templateColumns={[
                 "repeat(1, 1fr)",
@@ -250,17 +372,19 @@ export const Exhibition3 = ({ setApp }) => {
               ]}
               gridGap="2rem"
             >
-              {exhibitions.map((exhibition) => (
+              {artefactNavigations.map((artefactNavigation) => (
                 <a
-                  href={exhibition.link}
-                  key={exhibition.image}
-                  onClick={() => setApp(true)}
+                  key={artefactNavigation.id}
+                  onClick={() => {
+                    setArtefactGroup(artefactNavigation.id);
+                    modalNavOnClose();
+                  }}
                 >
                   <Box position="relative" _hover={{ opacity: "75%" }}>
                     <Image
                       w="100%"
                       borderRadius="md"
-                      src={exhibition.image}
+                      src={artefactNavigation.background}
                       alt="museum image"
                     ></Image>
                     <Text
@@ -270,57 +394,7 @@ export const Exhibition3 = ({ setApp }) => {
                       left="50%"
                       transform="translate(-50%, -50%)"
                     >
-                      <Center h="2rem">{exhibition.title}</Center>
-                    </Text>
-                  </Box>
-                </a>
-              ))}
-              {exhibitions.map((exhibition) => (
-                <a
-                  href={exhibition.link}
-                  key={exhibition.image}
-                  onClick={() => setApp(true)}
-                >
-                  <Box position="relative" _hover={{ opacity: "75%" }}>
-                    <Image
-                      w="100%"
-                      borderRadius="md"
-                      src={exhibition.image}
-                      alt="museum image"
-                    ></Image>
-                    <Text
-                      fontSize="2xl"
-                      position="absolute"
-                      top="50%"
-                      left="50%"
-                      transform="translate(-50%, -50%)"
-                    >
-                      <Center h="2rem">{exhibition.title}</Center>
-                    </Text>
-                  </Box>
-                </a>
-              ))}
-              {exhibitions.map((exhibition) => (
-                <a
-                  href={exhibition.link}
-                  key={exhibition.image}
-                  onClick={() => setApp(true)}
-                >
-                  <Box position="relative" _hover={{ opacity: "75%" }}>
-                    <Image
-                      w="100%"
-                      borderRadius="md"
-                      src={exhibition.image}
-                      alt="museum image"
-                    ></Image>
-                    <Text
-                      fontSize="2xl"
-                      position="absolute"
-                      top="50%"
-                      left="50%"
-                      transform="translate(-50%, -50%)"
-                    >
-                      <Center h="2rem">{exhibition.title}</Center>
+                      {artefactNavigation.name}
                     </Text>
                   </Box>
                 </a>
