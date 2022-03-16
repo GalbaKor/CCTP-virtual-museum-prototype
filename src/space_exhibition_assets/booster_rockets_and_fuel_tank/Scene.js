@@ -20,9 +20,9 @@ export default function BoosterRocket({ position, rotation, ...props }) {
   const { nodes, materials } = useGLTF(
     "/space_exhibition_assets/booster_rockets_and_fuel_tank/scene.gltf"
   );
-  const [hover, setHover] = useState(false);
-  // const [title, setTitle] = useState(false);
 
+  // const [title, setTitle] = useState(false);
+  const [hover, setHover] = useState(false);
   useEffect(() => {
     document.body.style.cursor = hover ? "pointer" : "auto";
   }, [hover]);
