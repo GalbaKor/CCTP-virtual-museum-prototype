@@ -7,11 +7,13 @@ title: Booster Rockets and Fuel Tank
 */
 
 import React, { useRef } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, Html } from "@react-three/drei";
 
-import { Modal } from "react-responsive-modal";
+// chakra ui imports
+import { Button, Container } from "@chakra-ui/react";
+import { QuestionOutlineIcon } from "@chakra-ui/icons";
 
 export default function BoosterRocket({ position, rotation, ...props }) {
   const group = useRef();
@@ -19,15 +21,15 @@ export default function BoosterRocket({ position, rotation, ...props }) {
     "/space_exhibition_assets/booster_rockets_and_fuel_tank/scene.gltf"
   );
   const [hover, setHover] = useState(false);
+  // const [title, setTitle] = useState(false);
+
+  useEffect(() => {
+    document.body.style.cursor = hover ? "pointer" : "auto";
+  }, [hover]);
 
   useFrame(() => {
     group.current.rotation.y += 0.001;
   });
-
-  // const [open, setOpen] = useState(false);
-
-  // const onOpenModal = () => setOpen(true);
-  // const onCloseModal = () => setOpen(false);
 
   return (
     <>
@@ -36,33 +38,41 @@ export default function BoosterRocket({ position, rotation, ...props }) {
         ref={group}
         {...props}
         dispose={null}
-        onPointerOver={() => {
-          setHover(true);
-        }}
-        onPointerOut={() => {
-          setHover(false);
-        }}
         scale={hover ? 1.05 : 1}
-        // onClick={() => {
-        //   setOpen(true);
-        // }}
+        style={{ cursor: hover ? "pointer" : "default" }}
+        cursor={hover ? "pointer" : "default"}
       >
         <group rotation={rotation}>
           <mesh
             geometry={nodes.booster.geometry}
             material={materials.Material__198}
+            onPointerOver={() => setHover(true)}
+            onPointerOut={() => setHover(false)}
           />
+          {/* <Html>
+            <div>
+              <Button
+                onPointerOver={() => {
+                  setTitle(true);
+                }}
+                onPointerOut={() => {
+                  setTitle(false);
+                }}
+                color="white"
+              >
+                <QuestionOutlineIcon w={24} h={24} />
+              </Button>
+              <Container
+                display={title ? "block" : "none"}
+                className="content"
+                color="white"
+              >
+                <p>Booster Engines</p>
+              </Container>
+            </div>
+          </Html> */}
         </group>
       </group>
-      {/* <Modal
-        open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
-        center
-      >
-        <h2>Simple centered modal</h2>
-      </Modal> */}
     </>
   );
 }
