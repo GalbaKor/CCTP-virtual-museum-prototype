@@ -1,230 +1,623 @@
-import React, { Suspense, useRef, useEffect, useState } from "react";
-import {
-  Html,
-  useGLTF,
-  OrbitControls,
-  useProgress,
-  GizmoHelper,
-  GizmoViewport,
-  Billboard,
-} from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+// Main imports
+import React, { Suspense, useState, useEffect } from "react";
+import { OrbitControls, Html } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { A11yAnnouncer, A11y } from "@react-three/a11y";
+import { useMediaQuery } from "react-responsive";
+
+// Component imports
 import { Lights } from "../components/lights";
 import { Loader } from "../components/loader";
-import { exhibitions } from "../exhibition_data";
-import { SpaceModel } from "./model_data";
 
-// const Models = (modelPath) => {
-//   const gltf = useGLTF(modelPath, true);
-//   const { nodes, materials } = gltf;
+// Model imports
+import BoosterRocket from "../space_exhibition_assets/booster_rockets_and_fuel_tank/Scene";
+import ShuttleModel from "../space_exhibition_assets/space_shuttle/Scene";
+import SaturnV from "../space_exhibition_assets/saturn_v_rocket/Scene";
 
-//   for (var i = 0; i < exhibitions.length; i++) {
-//     return (
-//       <mesh
-//         geometry={nodes.exhibitions.geometryPath}
-//         materials={materials.exhibitions.materialPath.material}
-//       ></mesh>
-//     );
-//   }
-// };
+// import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
 
-// function Model(props) {
-//   // creating multiple of the same model requires directly pulling the geometry and materials as below
-//   // const { nodes, materials } = useGLTF(exhibitions[0].modelPath);
-//   // return (
-//   //   <group {...props} dispose={null} scale={[1, 1, 1]}>
-//   //     <mesh
-//   //       geometry={nodes.booster.geometry}
-//   //       material={materials.Material__198}
-//   //     />
-//   //   </group>
+// chakra ui imports
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Text,
+  Center,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react";
 
-//   //single model - scalable variant
-//   const gltf = useGLTF(exhibitions[0].modelPath, true);
-//   return (
-//     <primitive
-//       object={gltf.scene}
-//       dispose={null}
-//       position={exhibitions[0].position}
-//     />
-//   );
-// }
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+} from "@chakra-ui/react";
 
-// const Lights = () => {
-//   return (
-//     <>
-//       <ambientLight intensity={0.5} />
-//       <directionalLight position={[10, 10, 5]} intensity={1} />
-//       <spotLight intensity={1} position={[0, 100, 0]} />
-//       <spotLight intensity={0.5} position={[30, 100, 0]} />
-//     </>
-//   );
-// };
+import { useDisclosure } from "@chakra-ui/react";
 
-// function Loader() {
-//   const { progress } = useProgress();
-//   return <Html center>{progress} % loaded</Html>;
-// }
+import {
+  QuestionOutlineIcon,
+  HamburgerIcon,
+  Search2Icon,
+} from "@chakra-ui/icons";
 
-export const Exhibition1 = () => {
-  const [cameraProps, setCameraProps] = useState({
-    fov: 75,
-    near: 1,
-    far: 1000,
-    position: [0, 0, 90],
+import spaceBackground2 from "../space_exhibition_assets/space_background_2.jpg";
+
+export const Exhibition1 = ({ setApp }) => {
+  // mobile queries
+  const isMobileScreen = useMediaQuery({
+    query: "(min-width: 640px)",
   });
 
-  // const [exhibitTitle, setExhibitTitle] = useState(exhibitions[0].title);
+  // Modal and Drawer variables
+  // navigation
+  const {
+    isOpen: modalNavIsOpen,
+    onOpen: modalNavOnOpen,
+    onClose: modalNavOnClose,
+  } = useDisclosure();
 
-  const [artefactNumber, setArtefactNumber] = useState(0);
+  // tutorial
+  const {
+    isOpen: tutorialDrawerIsOpen,
+    onOpen: tutorialDrawerOnOpen,
+    onClose: tutorialDrawerOnClose,
+  } = useDisclosure();
+  const tutorialRef = React.useRef();
 
-  // function Model() {
-  //   //const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
-  //   const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
+  // main menu
+  const {
+    isOpen: menuDrawerIsOpen,
+    onOpen: menuDrawerOnOpen,
+    onClose: menuDrawerOnClose,
+  } = useDisclosure();
+  const menuRef = React.useRef();
 
-  //   return (
-  //     <primitive
-  //       object={gltf.scene}
-  //       // object={useGLTF(exhibitions[artefactNumber].modelPath, true).scene}
-  //       dispose={null}
-  //       position={exhibitions[artefactNumber].position}
-  //     />
-  //   );
-  // }
+  // object data for navigation
+  const artefactNavigations = [
+    { id: 1, name: "Rockets", background: "https://via.placeholder.com/450" },
+    { id: 2, name: "Sci-Fi", background: "https://via.placeholder.com/450" },
+    { id: 3, name: "Sci-Fi 2", background: "https://via.placeholder.com/450" },
+    { id: 4, name: "Aliens", background: "https://via.placeholder.com/450" },
+    {
+      id: 5,
+      name: "Astronauts",
+      background: "https://via.placeholder.com/450",
+    },
+    {
+      id: 6,
+      name: "Other",
+      background: "https://via.placeholder.com/450",
+    },
+  ];
 
-  /* work on this part - find out if you can transfer useState across files */
-  function SpaceModel(props) {
-    const { nodes, materials } = useGLTF(exhibitions[artefactNumber].modelPath);
-    const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
-
-    const [hover, setHover] = useState(false);
-
-    if (artefactNumber === 0) {
-      // const { nodes, materials } = useGLTF(exhibitions[0].modelPath);
-      // const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
-
-      return (
-        <group
-          {...props}
-          dispose={null}
-          // scale={[1, 1, 1]}
-          // interaction hover test
-          // onPointerOver={() => {
-          //   setHover(true);
-          // }}
-          // onPointerOut={() => {
-          //   setHover(false);
-          // }}
-          // scale={hover ? 1.5 : 1}
-        >
-          <mesh
-            geometry={nodes.booster.geometry}
-            material={materials.Material__198}
-            object={gltf.scene}
-            dispose={null}
-            position={exhibitions[artefactNumber].position}
-          />
-        </group>
-      );
-    } else if (artefactNumber === 1) {
-      // const { nodes, materials } = useGLTF(exhibitions[1].modelPath);
-      // const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
-      return (
-        <group {...props} dispose={null} scale={[1, 1, 1]}>
-          <mesh
-            geometry={nodes.shuttle.geometry}
-            material={materials.Material__197}
-            object={gltf.scene}
-            dispose={null}
-            position={exhibitions[artefactNumber].position}
-          />
-        </group>
-      );
-    } else if (artefactNumber === 2) {
-      // const { nodes, materials } = useGLTF(exhibitions[2].modelPath);
-      // const gltf = useGLTF(exhibitions[artefactNumber].modelPath, true);
-      return (
-        <group {...props} dispose={null} scale={[1, 1, 1]}>
-          <mesh
-            geometry={nodes.saturnv.geometry}
-            material={materials.Scene__Root}
-            object={gltf.scene}
-            dispose={null}
-            position={exhibitions[artefactNumber].position}
-          />
-        </group>
-      );
-    }
-  }
+  const [artefactGroup, setArtefactGroup] = useState(1);
+  // turns out useEffect wasn't actually necessary, but it's good for debug purposes regardless
+  useEffect(() => {
+    console.log("Artefact group " + [artefactGroup]);
+  }, [artefactGroup]);
 
   return (
     <>
-      <Canvas
-        className="canvas-h80"
-        colorManagement
-        // camera={{ fov: 75, near: 0.1, far: 1000, position: [0, 0, 90] }}
-        camera={cameraProps}
-      >
-        <OrbitControls
-          enableZoom={true}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
-          enablePan={false}
-          // maxAzimuthAngle={Math.PI / 4}
-          // maxPolarAngle={Math.PI}
-          // minAzimuthAngle={-Math.PI / 4}
-          // minPolarAngle={0}
-        />
-        <Lights />
-        <Suspense fallback={<Loader />}>
-          {/* multiple models via multi load */}
-          {/* <Model position={[-50, -20, 1]} rotation={[5, 0, 3]} /> */}
-          {/* <Model position={[0, -20, 1]} rotation={[5, 0, 1.5]} /> */}
-          {/* <Model position={[50, -20, 1]} rotation={[5, 0, 3]} /> */}
-          {/* single model via multi load */}
-          {/* <Model position={[0, -30, 0]} rotation={[5, 0, 0]} /> */}
+      {/* Background image container */}
+      <Container
+        style={{
+          backgroundImage: `url(${spaceBackground2})`,
+          backgroundSize: "cover",
+        }}
+        minWidth="full"
+        minHeight="100vh"
+        pos="fixed"
+      ></Container>
 
-          {/* single model load gltf */}
-          {/* <Model modelPath={exhibitions[artefactNumber].modelPath} /> */}
-          <SpaceModel />
-        </Suspense>
-        <GizmoHelper
-          alignment="top-right" // widget alignment within scene
-          margin={[80, 80]} // widget margins (X, Y)
-          // onUpdate={/* called during camera animation  */}
-          onTarget={OrbitControls}
-        >
-          <GizmoViewport
-            axisColors={["red", "green", "blue"]}
-            labelColor="black"
-          />
-          {/* alternative: <GizmoViewcube /> */}
-        </GizmoHelper>
-      </Canvas>
-      <div className="exhibition-title-text">
-        {/* <h1>{exhibitTitle}</h1> */}
-        <h1>{exhibitions[artefactNumber].title}</h1>
-        {/* <h3>{exhibitions[artefactNumber].subtitle}</h3> */}
-        <p>{exhibitions[artefactNumber].description}</p>
-      </div>
-      {/* <button onClick={() => setExhibitTitle(exhibitions[1].title)}>
-        click here to change exhibit
-      </button> */}
-      <button
-        className="buttonRight"
-        onClick={() => [
-          setArtefactNumber(artefactNumber + 1),
-          OrbitControls.controls.reset(),
-        ]}
+      {/* Grid of models */}
+      {artefactGroup === 1 && (
+        <Container minWidth="full" minHeight="100vh">
+          {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+          <Center minWidth="full">
+            <Grid
+              minWidth="full"
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+            >
+              {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
+              <Center
+                minWidth="full"
+                minHeight="100vh"
+                borderWidth="2px"
+                borderColor="white"
+              >
+                <BoosterRocketContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <ShuttleContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <SaturnVContainer />
+              </Center>
+            </Grid>
+          </Center>
+        </Container>
+      )}
+      {artefactGroup === 2 && (
+        <Container minWidth="full" minHeight="100vh">
+          {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+          <Center minWidth="full">
+            <Grid
+              minWidth="full"
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+            >
+              {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
+              <Center minWidth="full" minHeight="100vh">
+                <BoosterRocketContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <BoosterRocketContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <BoosterRocketContainer />
+              </Center>
+            </Grid>
+          </Center>
+        </Container>
+      )}
+      {artefactGroup === 3 && (
+        <Container minWidth="full" minHeight="100vh">
+          {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+          <Center minWidth="full">
+            <Grid
+              minWidth="full"
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+            >
+              {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
+              <Center minWidth="full" minHeight="100vh">
+                <ShuttleContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <ShuttleContainer />
+              </Center>
+              <Center minWidth="full" minHeight="100vh">
+                <ShuttleContainer />
+              </Center>
+            </Grid>
+          </Center>
+        </Container>
+      )}
+
+      {/* Top bar navigation */}
+      <Box pos="fixed" top="0" minWidth="full" zIndex={20}>
+        <Center>
+          <Text fontSize={["lg", "xl", "xl"]} textColor="white" my="6">
+            Rockets and Boosters
+          </Text>
+        </Center>
+      </Box>
+
+      {/* Bottom Navigation */}
+      <Container pos="fixed" bottom="0" minWidth="full" zIndex={20} p="4">
+        <Center>
+          <Grid minWidth="full" templateColumns={["repeat(3, 1fr)"]} my="6">
+            <Center>
+              <Button
+                ref={tutorialRef}
+                onClick={tutorialDrawerOnOpen}
+                width="auto"
+              >
+                <QuestionOutlineIcon w={6} h={6} />
+                {isMobileScreen && <p>&nbsp;Tutorial</p>}
+              </Button>
+            </Center>
+            <Center>
+              <Button onClick={modalNavOnOpen} width="auto">
+                <Search2Icon w={6} h={6} />
+                {isMobileScreen && <p>&nbsp;Navigation</p>}
+              </Button>
+            </Center>
+            <Center>
+              <Button ref={menuRef} onClick={menuDrawerOnOpen} width="auto">
+                <HamburgerIcon w={6} h={6} />
+                {isMobileScreen && <p>&nbsp;Main Menu</p>}
+              </Button>
+            </Center>
+          </Grid>
+        </Center>
+      </Container>
+
+      {/* Drawers */}
+      {/* Tutorial */}
+      <Drawer
+        isOpen={tutorialDrawerIsOpen}
+        placement="left"
+        onClose={tutorialDrawerOnClose}
+        finalFocusRef={tutorialRef}
       >
-        click here to change exhibit +1
-      </button>
-      <button
-        className="buttonLeft"
-        onClick={() => setArtefactNumber(artefactNumber - 1)}
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Tutorial</DrawerHeader>
+
+          <DrawerBody>
+            <p>
+              Click on each of the models to open more information the artefacts
+              they represent. Then, when you are finished, press escape, click
+              the cross or anywhere outside the information box to return to the
+              model screen.
+            </p>
+            <br />
+            <p>
+              If you wish to move to a different scene containing a new set of
+              artefacts, cycle through the carousel below and click on the boxes
+              to change scene.
+            </p>
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button variant="outline" mr={3} onClick={tutorialDrawerOnClose}>
+              Close
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+
+      {/* Main Menu */}
+      <Drawer
+        isOpen={menuDrawerIsOpen}
+        placement="right"
+        onClose={menuDrawerOnClose}
+        finalFocusRef={menuRef}
       >
-        click here to change exhibit -1
-      </button>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Main Menu</DrawerHeader>
+
+          <DrawerBody></DrawerBody>
+
+          <DrawerFooter>
+            <Button variant="outline" mr={3} onClick={menuDrawerOnClose}>
+              Close
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+
+      {/* Modals */}
+      {/* Navigation grid */}
+      <Modal
+        isOpen={modalNavIsOpen}
+        onClose={modalNavOnClose}
+        size="2xl"
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent mx="4">
+          <Center>
+            <Center>
+              <ModalHeader minWidth="full">Artefact Navigation</ModalHeader>
+            </Center>
+            <ModalCloseButton />
+          </Center>
+
+          {/* Body contains a grid of navigation boxes, which are mapped from the artefactNavigations object array const */}
+          <ModalBody>
+            <Grid
+              templateColumns={[
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+              ]}
+              gridGap="2rem"
+            >
+              {artefactNavigations.map((artefactNavigation) => (
+                <Button
+                  key={artefactNavigation.id}
+                  onClick={() => {
+                    setArtefactGroup(artefactNavigation.id);
+                    modalNavOnClose();
+                  }}
+                  size="lg"
+                >
+                  <Box position="relative" _hover={{ opacity: "75%" }}>
+                    {/* <Image
+                      w="100%"
+                      borderRadius="md"
+                      src={artefactNavigation.background}
+                      alt="museum image"
+                    ></Image> */}
+                    <Text
+                      fontSize="2xl"
+                      position="absolute"
+                      top="50%"
+                      left="50%"
+                      transform="translate(-50%, -50%)"
+                    >
+                      {artefactNavigation.name}
+                    </Text>
+                  </Box>
+                </Button>
+              ))}
+            </Grid>
+          </ModalBody>
+          <Center>
+            <ModalFooter>
+              <Button onClick={modalNavOnClose}>Close</Button>
+            </ModalFooter>
+          </Center>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
+
+// Each model is contained within it's own function.
+// The function consists of a Canvas component, with a pre-set OrbitControls, Lights and Suspense loader.
+// The models themselves are stored in a separate component file and thus must first be imported into the overall model container component
+
+function BoosterRocketContainer() {
+  const cameraProps = {
+    fov: 75,
+    near: 1,
+    far: 1000,
+    position: [0, 0, 100],
+  };
+  const {
+    isOpen: boosterDrawerIsOpen,
+    onOpen: boosterDrawerOnOpen,
+    onClose: boosterDrawerOnClose,
+  } = useDisclosure();
+  return (
+    <>
+      <Canvas colorManagement camera={cameraProps}>
+        <OrbitControls
+          // enableZoom={false}
+          minZoom={Math.PI / 4}
+          maxZoom={Math.PI / 4}
+          enablePan={true}
+          enableRotate={true}
+        />
+        <Lights />
+        <Suspense fallback={<Loader />}>
+          <A11y
+            role="button"
+            actionCall={() => console.log("clicked the rocket")}
+            description="A rotating orange rocket with two booster engines, click to open more information"
+          >
+            <BoosterRocket
+              position={[0, -20, 0]}
+              rotation={[-Math.PI / 2, 0, 0]}
+            />
+          </A11y>
+          <A11y
+            role="button"
+            actionCall={() => console.log("clicked the boosters")}
+            description="Click to learn more information about the booster engines"
+          >
+            <Html position={[9, 0, 0]} zIndexRange={[1, 0]}>
+              <Button onClick={boosterDrawerOnOpen}>
+                <QuestionOutlineIcon
+                  w={40}
+                  h={40}
+                  borderWidth="0px"
+                  borderRadius="50px"
+                  // borderColor="white"
+                  color="white"
+                  background="black"
+                />
+              </Button>
+            </Html>
+          </A11y>
+          <A11y
+            role="button"
+            actionCall={() => console.log("clicked the boosters")}
+            description="Click to learn more information about the booster engines"
+          >
+            <Html position={[-5, 40, 0]} zIndexRange={[1, 0]}>
+              <Button onClick={boosterDrawerOnOpen}>
+                <QuestionOutlineIcon
+                  w={40}
+                  h={40}
+                  borderWidth="0px"
+                  borderRadius="50px"
+                  // borderColor="white"
+                  color="white"
+                  background="black"
+                />
+              </Button>
+            </Html>
+          </A11y>
+        </Suspense>
+      </Canvas>
+      <A11yAnnouncer />
+
+      <Modal
+        isOpen={boosterDrawerIsOpen}
+        onClose={boosterDrawerOnClose}
+        size="2xl"
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent mx="4">
+          <Center>
+            <Center>
+              <ModalHeader minWidth="full">Booster Rockets</ModalHeader>
+            </Center>
+            <ModalCloseButton />
+          </Center>
+          <ModalBody>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
+            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
+            voluptatibus minus id placeat enim obcaecati repellat quaerat
+            deleniti facilis ea?
+          </ModalBody>
+          <Center>
+            <ModalFooter>
+              <Button onClick={boosterDrawerOnClose}>Close</Button>
+            </ModalFooter>
+          </Center>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+
+function ShuttleContainer() {
+  const cameraProps = {
+    fov: 75,
+    near: 1,
+    far: 1000,
+    position: [0, 0, 100],
+  };
+  const {
+    isOpen: shuttleDrawerIsOpen,
+    onOpen: shuttleDrawerOnOpen,
+    onClose: shuttleDrawerOnClose,
+  } = useDisclosure();
+  return (
+    <>
+      <Canvas colorManagement camera={cameraProps} zIndex="1">
+        <OrbitControls
+          // enableZoom={false}
+          minZoom={Math.PI / 4}
+          maxZoom={Math.PI / 4}
+          enablePan={true}
+          enableRotate={true}
+        />
+        <Lights />
+        <Suspense fallback={<Loader />}>
+          <A11y>
+            <ShuttleModel
+              position={[0, -20, 0]}
+              rotation={[-Math.PI / 2, 0, 0]}
+            />
+          </A11y>
+          <A11y
+            role="button"
+            actionCall={() => console.log("clicked the boosters")}
+            description="Click to learn more information about the booster engines"
+          >
+            <Html position={[0, -10, 10]} zIndexRange={[1, 0]}>
+              <Button onClick={shuttleDrawerOnOpen}>
+                <QuestionOutlineIcon
+                  w={40}
+                  h={40}
+                  borderWidth="0px"
+                  borderRadius="50px"
+                  // borderColor="white"
+                  color="white"
+                  background="black"
+                />
+              </Button>
+            </Html>
+          </A11y>
+          <A11y
+            role="button"
+            actionCall={() => console.log("clicked the boosters")}
+            description="Click to learn more information about the booster engines"
+          >
+            <Html position={[5, -10, -15]} zIndexRange={[1, 0]}>
+              <Button onClick={shuttleDrawerOnOpen}>
+                <QuestionOutlineIcon
+                  w={40}
+                  h={40}
+                  borderWidth="0px"
+                  borderRadius="50px"
+                  // borderColor="white"
+                  color="white"
+                  background="black"
+                />
+              </Button>
+            </Html>
+          </A11y>
+        </Suspense>
+      </Canvas>
+      <A11yAnnouncer />
+
+      <Modal
+        isOpen={shuttleDrawerIsOpen}
+        onClose={shuttleDrawerOnClose}
+        size="2xl"
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent mx="4">
+          <Center>
+            <Center>
+              <ModalHeader minWidth="full">Shuttle Rockets</ModalHeader>
+            </Center>
+            <ModalCloseButton />
+          </Center>
+          <ModalBody>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
+            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
+            voluptatibus minus id placeat enim obcaecati repellat quaerat
+            deleniti facilis ea?
+          </ModalBody>
+          <Center>
+            <ModalFooter>
+              <Button onClick={shuttleDrawerOnClose}>Close</Button>
+            </ModalFooter>
+          </Center>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+
+function SaturnVContainer() {
+  const cameraProps = {
+    fov: 75,
+    near: 1,
+    far: 1000,
+    position: [0, 0, 100],
+  };
+  return (
+    <Canvas colorManagement camera={cameraProps}>
+      <OrbitControls
+        // enableZoom={false}
+        minZoom={Math.PI / 4}
+        maxZoom={Math.PI / 4}
+        enablePan={true}
+        enableRotate={true}
+      />
+      <Lights />
+      <Suspense fallback={<Loader />}>
+        {/* <N1Rocket
+          position={[-20, 0, 0]}
+          rotation={[-Math.PI / 2, Math.PI / 2, 0]}
+        /> */}
+        {/* <BoosterRocket position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} /> */}
+        <SaturnV position={[0, -20, 0]} rotation={[-Math.PI / 2, 0, 0]} />
+        {/* <ShuttleModel position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} /> */}
+      </Suspense>
+    </Canvas>
+  );
+}

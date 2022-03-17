@@ -1,17 +1,6 @@
 import React from "react";
 import { exhibitions } from "../exhibition_data";
-import { Link } from "react-router-dom";
-import { FaAngleDoubleDown } from "react-icons/fa";
-import {
-  SimpleGrid,
-  Box,
-  Container,
-  Grid,
-  Image,
-  Text,
-  Center,
-  Divider,
-} from "@chakra-ui/react";
+import { Box, Container, Grid, Image, Text, Center } from "@chakra-ui/react";
 import {
   Menu,
   MenuButton,

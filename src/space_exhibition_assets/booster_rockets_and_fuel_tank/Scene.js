@@ -9,11 +9,7 @@ title: Booster Rockets and Fuel Tank
 import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF, Html } from "@react-three/drei";
-
-// chakra ui imports
-import { Button, Container } from "@chakra-ui/react";
-import { QuestionOutlineIcon } from "@chakra-ui/icons";
+import { useGLTF } from "@react-three/drei";
 
 export default function BoosterRocket({ position, rotation, ...props }) {
   const group = useRef();
@@ -22,14 +18,14 @@ export default function BoosterRocket({ position, rotation, ...props }) {
   );
 
   // const [title, setTitle] = useState(false);
-  const [hover, setHover] = useState(false);
-  useEffect(() => {
-    document.body.style.cursor = hover ? "pointer" : "auto";
-  }, [hover]);
+  // const [hover, setHover] = useState(false);
+  // useEffect(() => {
+  //   document.body.style.cursor = hover ? "pointer" : "auto";
+  // }, [hover]);
 
-  useFrame(() => {
-    group.current.rotation.y += 0.001;
-  });
+  // useFrame(() => {
+  //   group.current.rotation.y += 0.001;
+  // });
 
   return (
     <>
@@ -38,16 +34,16 @@ export default function BoosterRocket({ position, rotation, ...props }) {
         ref={group}
         {...props}
         dispose={null}
-        scale={hover ? 1.05 : 1}
-        style={{ cursor: hover ? "pointer" : "default" }}
-        cursor={hover ? "pointer" : "default"}
+        // scale={hover ? 1.05 : 1}
+        // style={{ cursor: hover ? "pointer" : "default" }}
+        // cursor={hover ? "pointer" : "default"}
       >
         <group rotation={rotation}>
           <mesh
             geometry={nodes.booster.geometry}
             material={materials.Material__198}
-            onPointerOver={() => setHover(true)}
-            onPointerOut={() => setHover(false)}
+            // onPointerOver={() => setHover(true)}
+            // onPointerOut={() => setHover(false)}
           />
           {/* <Html>
             <div>

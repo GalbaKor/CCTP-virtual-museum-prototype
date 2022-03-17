@@ -16,11 +16,11 @@ export default function ShuttleModel({ position, rotation, ...props }) {
   const { nodes, materials } = useGLTF(
     "/space_exhibition_assets/space_shuttle/scene.gltf"
   );
-  const [hover, setHover] = useState(false);
+  // const [hover, setHover] = useState(false);
 
-  useFrame(() => {
-    group.current.rotation.y += 0.001;
-  });
+  // useFrame(() => {
+  //   group.current.rotation.y += 0.001;
+  // });
 
   return (
     <group
@@ -28,13 +28,13 @@ export default function ShuttleModel({ position, rotation, ...props }) {
       ref={group}
       {...props}
       dispose={null}
-      onPointerOver={() => {
-        setHover(true);
-      }}
-      onPointerOut={() => {
-        setHover(false);
-      }}
-      scale={hover ? 1.05 : 1}
+      // onPointerOver={() => {
+      //   setHover(true);
+      // }}
+      // onPointerOut={() => {
+      //   setHover(false);
+      // }}
+      // scale={hover ? 1.05 : 1}
     >
       <group rotation={rotation}>
         <mesh
