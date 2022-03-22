@@ -1,0 +1,11 @@
+Model Information:
+* title:	Space Helmet Study
+* source:	https://sketchfab.com/3d-models/space-helmet-study-367cec9498314678b0ab6cc93bbb82f6
+* author:	MalteHedenstrom (https://sketchfab.com/MalteHedenstrom)
+
+Model License:
+* license type:	CC-BY-NC-ND-4.0 (http://creativecommons.org/licenses/by-nc-nd/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions can not be distributed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Space Helmet Study" (https://sketchfab.com/3d-models/space-helmet-study-367cec9498314678b0ab6cc93bbb82f6) by MalteHedenstrom (https://sketchfab.com/MalteHedenstrom) licensed under CC-BY-NC-ND-4.0 (http://creativecommons.org/licenses/by-nc-nd/4.0/)

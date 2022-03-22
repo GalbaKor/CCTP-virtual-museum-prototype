@@ -1,9 +1,18 @@
 // Main imports
 import React, { Suspense, useState, useEffect } from "react";
-import { OrbitControls, Html } from "@react-three/drei";
+import { OrbitControls, Html, Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { A11yAnnouncer, A11y } from "@react-three/a11y";
 import { useMediaQuery } from "react-responsive";
+// import {
+//   EffectComposer,
+//   Selection,
+//   Select,
+//   Outline,
+// } from "@react-three/postprocessing";
+import { useThree } from "@react-three/fiber";
+import { useRef } from "react";
+import { MapControls } from "@react-three/drei";
 
 // Component imports
 import { Lights } from "../components/lights";
@@ -13,6 +22,7 @@ import { Loader } from "../components/loader";
 import BoosterRocket from "../space_exhibition_assets/booster_rockets_and_fuel_tank/Scene";
 import ShuttleModel from "../space_exhibition_assets/space_shuttle/Scene";
 import SaturnV from "../space_exhibition_assets/saturn_v_rocket/Scene";
+import VictoryClass from "../space_exhibition_assets/victory-class_star_destroyer/Scene";
 
 // import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
@@ -53,6 +63,7 @@ import {
 } from "@chakra-ui/icons";
 
 import spaceBackground2 from "../space_exhibition_assets/space_background_2.jpg";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 export const Exhibition1 = ({ setApp }) => {
   // mobile queries
@@ -213,7 +224,7 @@ export const Exhibition1 = ({ setApp }) => {
       <Box pos="fixed" top="0" minWidth="full" zIndex={20}>
         <Center>
           <Text fontSize={["lg", "xl", "xl"]} textColor="white" my="6">
-            Rockets and Boosters
+            Rockets and Shuttles
           </Text>
         </Center>
       </Box>
@@ -383,7 +394,7 @@ export const Exhibition1 = ({ setApp }) => {
 function BoosterRocketContainer() {
   const cameraProps = {
     fov: 75,
-    near: 1,
+    near: 10,
     far: 1000,
     position: [0, 0, 100],
   };
@@ -397,8 +408,8 @@ function BoosterRocketContainer() {
       <Canvas colorManagement camera={cameraProps}>
         <OrbitControls
           // enableZoom={false}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
+          minDistance={60}
+          maxDistance={100}
           enablePan={true}
           enableRotate={true}
         />
@@ -406,8 +417,10 @@ function BoosterRocketContainer() {
         <Suspense fallback={<Loader />}>
           <A11y
             role="button"
-            actionCall={() => console.log("clicked the rocket")}
+            focusCall={() => console.log("focused the crocket")}
+            actionCall={() => console.log("clicked the crocket")}
             description="A rotating orange rocket with two booster engines, click to open more information"
+            zIndexRange={[2, 1]}
           >
             <BoosterRocket
               position={[0, -20, 0]}
@@ -437,6 +450,7 @@ function BoosterRocketContainer() {
             role="button"
             actionCall={() => console.log("clicked the boosters")}
             description="Click to learn more information about the booster engines"
+            zIndexRange={[2, 1]}
           >
             <Html position={[-5, 40, 0]} zIndexRange={[1, 0]}>
               <Button onClick={boosterDrawerOnOpen}>
@@ -514,16 +528,19 @@ function ShuttleContainer() {
         <Suspense fallback={<Loader />}>
           <A11y>
             <ShuttleModel
-              position={[0, -20, 0]}
+              position={[0, -10, 0]}
               rotation={[-Math.PI / 2, 0, 0]}
             />
           </A11y>
+          <Environment preset="city" />
+
           <A11y
             role="button"
             actionCall={() => console.log("clicked the boosters")}
             description="Click to learn more information about the booster engines"
+            zIndexRange={[2, 1]}
           >
-            <Html position={[0, -10, 10]} zIndexRange={[1, 0]}>
+            <Html position={[0, 5, 15]} zIndexRange={[1, 0]}>
               <Button onClick={shuttleDrawerOnOpen}>
                 <QuestionOutlineIcon
                   w={40}
@@ -541,8 +558,9 @@ function ShuttleContainer() {
             role="button"
             actionCall={() => console.log("clicked the boosters")}
             description="Click to learn more information about the booster engines"
+            zIndexRange={[2, 1]}
           >
-            <Html position={[5, -10, -15]} zIndexRange={[1, 0]}>
+            <Html position={[5, 0, -15]} zIndexRange={[1, 0]}>
               <Button onClick={shuttleDrawerOnOpen}>
                 <QuestionOutlineIcon
                   w={40}
@@ -599,25 +617,124 @@ function SaturnVContainer() {
     far: 1000,
     position: [0, 0, 100],
   };
+  const {
+    isOpen: saturnVDrawerIsOpen,
+    onOpen: saturnVDrawerOnOpen,
+    onClose: saturnVDrawerOnClose,
+  } = useDisclosure();
+  const [buttonHover, setButtonHover] = useState(false);
   return (
-    <Canvas colorManagement camera={cameraProps}>
-      <OrbitControls
-        // enableZoom={false}
-        minZoom={Math.PI / 4}
-        maxZoom={Math.PI / 4}
-        enablePan={true}
-        enableRotate={true}
-      />
-      <Lights />
-      <Suspense fallback={<Loader />}>
-        {/* <N1Rocket
-          position={[-20, 0, 0]}
-          rotation={[-Math.PI / 2, Math.PI / 2, 0]}
-        /> */}
-        {/* <BoosterRocket position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} /> */}
-        <SaturnV position={[0, -20, 0]} rotation={[-Math.PI / 2, 0, 0]} />
-        {/* <ShuttleModel position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} /> */}
-      </Suspense>
-    </Canvas>
+    <>
+      <Canvas colorManagement camera={cameraProps} zIndex="1">
+        <OrbitControls
+          // enableZoom={false}
+          minZoom={Math.PI / 4}
+          maxZoom={Math.PI / 4}
+          enablePan={true}
+          enableRotate={true}
+        />
+        <Lights />
+        <Suspense fallback={<Loader />}>
+          <A11y
+            role="button"
+            focusCall={() => console.log("focused the crocket")}
+            actionCall={() => console.log("clicked the crocket")}
+            description="A rotating orange rocket with two booster engines, click to open more information"
+            zIndexRange={[2, 1]}
+          >
+            <SaturnV position={[0, -20, 0]} rotation={[-Math.PI / 2, 0, 0]} />
+          </A11y>
+          <Environment preset="city" />
+
+          {/* <A11y
+            role="button"
+            onClick={saturnVDrawerOnOpen}
+            actionCall={() => console.log("clicked the boosters")}
+            description="Click to learn more information about the booster engines"
+            zIndexRange={[0, 1]}
+            position={[0, 0, 0]}
+          > */}
+          <Html zIndexRange={[1, 0]} position={[5, 0, 0]}>
+            <Button
+              onClick={saturnVDrawerOnOpen}
+              onMouseEnter={() => {
+                setButtonHover(true);
+              }}
+              onMouseLeave={() => {
+                setButtonHover(false);
+              }}
+            >
+              <QuestionOutlineIcon
+                w={40}
+                h={40}
+                borderWidth="0px"
+                borderRadius="50px"
+                margin="2"
+                padding="1"
+                // borderColor="white"
+                color={buttonHover ? "black" : "white"}
+                fontSize={buttonHover ? 2 : 1}
+                // color="white"
+                background={buttonHover ? "white" : "black"}
+                opacity={buttonHover ? 1 : 0.5}
+              />
+            </Button>
+          </Html>
+          {/* </A11y> */}
+          {/* <A11y
+            role="button"
+            onClick={saturnVDrawerOnOpen}
+            actionCall={() => console.log("clicked the boosters")}
+            description="Click to learn more information about the booster engines"
+            zIndexRange={[0, 1]}
+            position={[0, 30, 5]}
+          > */}
+          <Html zIndexRange={[1, 0]} position={[0, 30, 5]}>
+            <Button onClick={saturnVDrawerOnOpen}>
+              <QuestionOutlineIcon
+                w={40}
+                h={40}
+                borderWidth="0px"
+                borderRadius="50px"
+                // borderColor="white"
+                color="white"
+                background="black"
+              />
+            </Button>
+          </Html>
+          {/* </A11y> */}
+        </Suspense>
+      </Canvas>
+      <A11yAnnouncer />
+
+      <Modal
+        isOpen={saturnVDrawerIsOpen}
+        onClose={saturnVDrawerOnClose}
+        size="2xl"
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent mx="4">
+          <Center>
+            <Center>
+              <ModalHeader minWidth="full">saturnV Rockets</ModalHeader>
+            </Center>
+            <ModalCloseButton />
+          </Center>
+          <ModalBody>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
+            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
+            voluptatibus minus id placeat enim obcaecati repellat quaerat
+            deleniti facilis ea?
+          </ModalBody>
+          <Center>
+            <ModalFooter>
+              <Button onClick={saturnVDrawerOnClose}>Close</Button>
+            </ModalFooter>
+          </Center>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }

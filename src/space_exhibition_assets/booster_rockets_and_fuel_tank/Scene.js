@@ -10,6 +10,7 @@ import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
+import * as THREE from "three";
 
 export default function BoosterRocket({ position, rotation, ...props }) {
   const group = useRef();
@@ -18,7 +19,7 @@ export default function BoosterRocket({ position, rotation, ...props }) {
   );
 
   // const [title, setTitle] = useState(false);
-  // const [hover, setHover] = useState(false);
+  const [hover, setHover] = useState(false);
   // useEffect(() => {
   //   document.body.style.cursor = hover ? "pointer" : "auto";
   // }, [hover]);
@@ -26,6 +27,10 @@ export default function BoosterRocket({ position, rotation, ...props }) {
   // useFrame(() => {
   //   group.current.rotation.y += 0.001;
   // });
+  const hoverMaterial = new THREE.MeshPhongMaterial({
+    color: "red",
+    flatShading: true,
+  });
 
   return (
     <>
@@ -37,6 +42,11 @@ export default function BoosterRocket({ position, rotation, ...props }) {
         // scale={hover ? 1.05 : 1}
         // style={{ cursor: hover ? "pointer" : "default" }}
         // cursor={hover ? "pointer" : "default"}
+
+        // onPointerOver={(e) => e.object.material.color.set("red")}
+        // setting the color works, setting material doesn't
+        // onPointerOVer={(e) => e.object.material.set(hoverMaterial)}
+        // onPointerOut={(e) => e.object.material.set(materials.Material__198)}
       >
         <group rotation={rotation}>
           <mesh
@@ -44,7 +54,17 @@ export default function BoosterRocket({ position, rotation, ...props }) {
             material={materials.Material__198}
             // onPointerOver={() => setHover(true)}
             // onPointerOut={() => setHover(false)}
-          />
+          >
+            {/* {hover === true && (
+              <meshStandardMaterial
+                attach="material"
+                color="white"
+                roughness={0.3}
+                metalness={0.0}
+                opacity={hover ? 1 : 0}
+              />
+            )} */}
+          </mesh>
           {/* <Html>
             <div>
               <Button

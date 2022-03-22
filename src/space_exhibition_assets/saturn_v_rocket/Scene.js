@@ -16,11 +16,11 @@ export default function SaturnV({ position, rotation, ...props }) {
   const { nodes, materials } = useGLTF(
     "/space_exhibition_assets/saturn_v_rocket/scene.gltf"
   );
-  const [hover, setHover] = useState(false);
+  // const [hover, setHover] = useState(false);
 
-  useFrame(() => {
-    group.current.rotation.y += 0.003;
-  });
+  // useFrame(() => {
+  //   group.current.rotation.y += 0.003;
+  // });
 
   return (
     <group
@@ -28,13 +28,13 @@ export default function SaturnV({ position, rotation, ...props }) {
       ref={group}
       {...props}
       dispose={null}
-      onPointerOver={() => {
-        setHover(true);
-      }}
-      onPointerOut={() => {
-        setHover(false);
-      }}
-      scale={hover ? 1.05 : 1}
+      // onPointerOver={() => {
+      //   setHover(true);
+      // }}
+      // onPointerOut={() => {
+      //   setHover(false);
+      // }}
+      // scale={hover ? 1.05 : 1}
     >
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <mesh

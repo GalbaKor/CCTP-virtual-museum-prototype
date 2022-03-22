@@ -1,0 +1,11 @@
+Model Information:
+* title:	Victory-Class Star Destroyer
+* source:	https://sketchfab.com/3d-models/victory-class-star-destroyer-b8cc09d62b154fc8bc26ca9bc1a456ae
+* author:	lightwarrior (https://sketchfab.com/lightwarrior)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Victory-Class Star Destroyer" (https://sketchfab.com/3d-models/victory-class-star-destroyer-b8cc09d62b154fc8bc26ca9bc1a456ae) by lightwarrior (https://sketchfab.com/lightwarrior) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
