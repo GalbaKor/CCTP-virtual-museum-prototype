@@ -10,6 +10,7 @@
     "@react-three/a11y": "^2.2.3",
     "@react-three/drei": "^8.3.1",
     "@react-three/fiber": "^7.0.24",
+    "@svgr/cli": "^6.2.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",

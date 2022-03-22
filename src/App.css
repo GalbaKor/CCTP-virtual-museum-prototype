@@ -326,3 +326,12 @@ body,
   height: 1px;
   background: white;
 }
+
+path {
+  stroke: black;
+  fill: grey;
+  cursor: pointer;
+}
+path:hover {
+  opacity: 50%;
+}
