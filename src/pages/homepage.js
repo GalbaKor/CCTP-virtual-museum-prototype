@@ -16,6 +16,8 @@ import {
   EditIcon,
 } from "@chakra-ui/icons";
 
+import SvgMap from "../components/iconComponent";
+
 export default function Homepage({ setApp }) {
   return (
     <Container minWidth="full" minHeight="100vh" backgroundColor="black">
@@ -66,6 +68,7 @@ export default function Homepage({ setApp }) {
         <Text fontSize="4xl" textColor="white">
           Exhibits:
         </Text>
+        <SvgMap />
       </Container>
 
       <Container maxWidth="container.xl" py="10">
