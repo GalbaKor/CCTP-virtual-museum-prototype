@@ -6,23 +6,29 @@ source: https://sketchfab.com/3d-models/star-trek-dderidex-class-warbird-4cd1e18
 title: Star Trek - D'Deridex Class Warbird
 */
 
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 
-export default function Model({ ...props }) {
-  const group = useRef()
-  const { nodes, materials } = useGLTF('/scene.gltf')
+export default function Dderidex({ position, rotation, ...props }) {
+  const group = useRef();
+  const { nodes, materials } = useGLTF(
+    "/space_exhibition_assets/star_trek-dderidex/scene.gltf"
+  );
   return (
-    <group ref={group} {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]}>
-        <group rotation={[0, 0, -Math.PI]}>
+    <group ref={group} position={position} {...props} dispose={null}>
+      <group rotation={rotation}>
+        <group rotation={[0, 0, -Math.PI]} scale={0.23}>
           <group rotation={[Math.PI / 2, 0, 0]}>
             <mesh
-              geometry={nodes.DDeridex_Class_Warbird_Dderidex_diffuse_1K_0.geometry}
+              geometry={
+                nodes.DDeridex_Class_Warbird_Dderidex_diffuse_1K_0.geometry
+              }
               material={materials.Dderidex_diffuse_1K}
             />
             <mesh
-              geometry={nodes.DDeridex_Class_Warbird_Dderidex_windows_1_0.geometry}
+              geometry={
+                nodes.DDeridex_Class_Warbird_Dderidex_windows_1_0.geometry
+              }
               material={materials.Dderidex_windows_1}
             />
             <group position={[-200, 200, 200]} rotation={[1.11, -0.42, 0.69]}>
@@ -33,7 +39,7 @@ export default function Model({ ...props }) {
         </group>
       </group>
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/scene.gltf')
+useGLTF.preload("/space_exhibition_assets/star_trek-dderidex/scene.gltf");

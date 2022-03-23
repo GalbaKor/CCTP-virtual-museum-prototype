@@ -16,7 +16,7 @@ export default function VictoryClass({ position, rotation, ...props }) {
   );
   return (
     <group ref={group} position={position} {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]}>
+      <group rotation={rotation}>
         <group rotation={[Math.PI / 2, 0, 0]} scale={1}>
           <group position={[0, 0, -9.56]} rotation={[-Math.PI / 2, 0, 0]}>
             <mesh

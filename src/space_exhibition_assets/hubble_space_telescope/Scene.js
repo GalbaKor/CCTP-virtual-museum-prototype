@@ -7,19 +7,18 @@ title: Hubble Space Telescope
 */
 
 import React, { useRef } from "react";
-import { useGLTF, useAnimations } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 
-export default function HubbleTelescope({ ...props }) {
+export default function HubbleTelescope({ position, rotation, ...props }) {
   const group = useRef();
-  const { nodes, materials, animations } = useGLTF(
+  const { nodes, materials } = useGLTF(
     "/space_exhibition_assets/hubble_space_telescope/scene.gltf"
   );
-  const { actions } = useAnimations(animations, group);
   return (
-    <group ref={group} {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]}>
+    <group ref={group} position={position} {...props} dispose={null}>
+      <group rotation={rotation}>
         <group rotation={[Math.PI / 2, 0, 0]}>
-          <group scale={0.01}>
+          <group scale={1}>
             <primitive object={nodes.GLTF_created_0_rootJoint} />
             <skinnedMesh
               geometry={nodes.mesh_0.geometry}

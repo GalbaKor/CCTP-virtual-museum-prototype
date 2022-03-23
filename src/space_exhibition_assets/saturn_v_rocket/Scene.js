@@ -36,7 +36,7 @@ export default function SaturnV({ position, rotation, ...props }) {
       // }}
       // scale={hover ? 1.05 : 1}
     >
-      <group rotation={[-Math.PI / 2, 0, 0]}>
+      <group rotation={rotation}>
         <mesh
           geometry={nodes.saturnv.geometry}
           material={materials.Scene__Root}

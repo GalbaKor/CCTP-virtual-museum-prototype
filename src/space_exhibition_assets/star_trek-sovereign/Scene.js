@@ -6,31 +6,41 @@ source: https://sketchfab.com/3d-models/star-trek-sovereign-class-e54ca13f5a3747
 title: Star Trek - Sovereign Class
 */
 
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 
-export default function Model({ ...props }) {
-  const group = useRef()
-  const { nodes, materials } = useGLTF('/scene.gltf')
+export default function Sovereign({ position, rotation, ...props }) {
+  const group = useRef();
+  const { nodes, materials } = useGLTF(
+    "/space_exhibition_assets/star_trek-sovereign/scene.gltf"
+  );
   return (
-    <group ref={group} {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]}>
-        <group rotation={[0, 0, -3.14]}>
+    <group ref={group} position={position} {...props} dispose={null}>
+      <group rotation={rotation}>
+        <group rotation={[0, 0, -3.14]} scale={0.16}>
           <group rotation={[Math.PI / 2, 0, 0]}>
             <mesh
-              geometry={nodes.Sovereign_Class_Sovereign_Class_diffuse_1_1_0.geometry}
+              geometry={
+                nodes.Sovereign_Class_Sovereign_Class_diffuse_1_1_0.geometry
+              }
               material={materials.Sovereign_Class_diffuse_1_1}
             />
             <mesh
-              geometry={nodes.Sovereign_Class_Sovereign_Class_decals_1_0.geometry}
+              geometry={
+                nodes.Sovereign_Class_Sovereign_Class_decals_1_0.geometry
+              }
               material={materials.Sovereign_Class_decals_1}
             />
             <mesh
-              geometry={nodes.Sovereign_Class_Sovereign_Class_diffuse_2_1_0.geometry}
+              geometry={
+                nodes.Sovereign_Class_Sovereign_Class_diffuse_2_1_0.geometry
+              }
               material={materials.Sovereign_Class_diffuse_2_1}
             />
             <mesh
-              geometry={nodes.Sovereign_Class_Sovereign_Class_diffuse_3_1_0.geometry}
+              geometry={
+                nodes.Sovereign_Class_Sovereign_Class_diffuse_3_1_0.geometry
+              }
               material={materials.Sovereign_Class_diffuse_3_1}
             />
             <group position={[-200, 200, 200]} rotation={[1.11, -0.42, 0.69]}>
@@ -41,7 +51,7 @@ export default function Model({ ...props }) {
         </group>
       </group>
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/scene.gltf')
+useGLTF.preload("/space_exhibition_assets/star_trek-sovereign/scene.gltf");

@@ -1,7 +1,12 @@
 import * as React from "react";
 
 const SvgUntitled1 = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1347 749" {...props}>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1347 749"
+    {...props}
+    id="museumMap"
+  >
     <path
       style={{
         fill: "#fff",

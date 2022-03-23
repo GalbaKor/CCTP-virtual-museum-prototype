@@ -18,7 +18,7 @@ body {
 }
 
 /* Works on Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
+/* *::-webkit-scrollbar {
   width: 6px;
 }
 
@@ -34,6 +34,29 @@ body {
   background-color: black;
   border-radius: 0px;
   border: 3px solid black;
+} */
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+::-webkit-scrollbar:vertical {
+  width: 12px;
+}
+::-webkit-scrollbar:horizontal {
+  height: 12px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  border: 2px solid #ffffff;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.loader {
+  color: white;
 }
 
 body {
@@ -295,7 +318,7 @@ body,
   cursor: pointer;
   color: black;
   background-color: light-grey;
-  pointer: hover;
+  cursor: hover;
   transform: scale(1.5);
   transition-timing-function: ease-in-out;
 }
@@ -327,11 +350,11 @@ body,
   background: white;
 }
 
-path {
+#museumMap path {
   stroke: black;
   fill: grey;
   cursor: pointer;
 }
-path:hover {
+#museumMap path:hover {
   opacity: 50%;
 }

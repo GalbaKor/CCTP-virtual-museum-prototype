@@ -6,16 +6,18 @@ source: https://sketchfab.com/3d-models/space-helmet-study-367cec9498314678b0ab6
 title: Space Helmet Study
 */
 
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 
-export default function Model({ ...props }) {
-  const group = useRef()
-  const { nodes, materials } = useGLTF('/scene.gltf')
+export default function SpaceHelmet({ position, rotation, ...props }) {
+  const group = useRef();
+  const { nodes, materials } = useGLTF(
+    "/space_exhibition_assets/space_helmet_study/scene.gltf"
+  );
   return (
-    <group ref={group} {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]}>
-        <group scale={[0.07, 0.07, 0.07]}>
+    <group ref={group} position={position} {...props} dispose={null}>
+      <group rotation={rotation}>
+        <group scale={10}>
           <group rotation={[Math.PI / 2, 0, 0]}>
             <group position={[1.99, 2.21, 1.57]} rotation={[2.06, 0.39, -0.89]}>
               <mesh
@@ -45,13 +47,19 @@ export default function Model({ ...props }) {
                 material={nodes.pCylinder23_UV_Material_0.material}
               />
             </group>
-            <group position={[-2.46, 2.36, -0.36]} rotation={[0.94, 0.01, 1.54]}>
+            <group
+              position={[-2.46, 2.36, -0.36]}
+              rotation={[0.94, 0.01, 1.54]}
+            >
               <mesh
                 geometry={nodes.pCylinder24_UV_Material_0.geometry}
                 material={nodes.pCylinder24_UV_Material_0.material}
               />
             </group>
-            <group position={[-2.57, 2.36, -0.09]} rotation={[0.94, 0.01, 1.54]}>
+            <group
+              position={[-2.57, 2.36, -0.09]}
+              rotation={[0.94, 0.01, 1.54]}
+            >
               <mesh
                 geometry={nodes.pCylinder25_UV_Material_0.geometry}
                 material={nodes.pCylinder25_UV_Material_0.material}
@@ -75,13 +83,21 @@ export default function Model({ ...props }) {
                 material={nodes.pCylinder31_UV_Material_0.material}
               />
             </group>
-            <group position={[-2.24, 1.35, -0.13]} rotation={[0.93, -0.04, 1.55]} scale={[0.81, 0.81, 0.81]}>
+            <group
+              position={[-2.24, 1.35, -0.13]}
+              rotation={[0.93, -0.04, 1.55]}
+              scale={[0.81, 0.81, 0.81]}
+            >
               <mesh
                 geometry={nodes.pCylinder33_UV_Material_0.geometry}
                 material={nodes.pCylinder33_UV_Material_0.material}
               />
             </group>
-            <group position={[-2.24, 1.32, 0.22]} rotation={[0.93, -0.04, 1.55]} scale={[0.81, 0.81, 0.81]}>
+            <group
+              position={[-2.24, 1.32, 0.22]}
+              rotation={[0.93, -0.04, 1.55]}
+              scale={[0.81, 0.81, 0.81]}
+            >
               <mesh
                 geometry={nodes.pCylinder34_UV_Material_0.geometry}
                 material={nodes.pCylinder34_UV_Material_0.material}
@@ -105,19 +121,28 @@ export default function Model({ ...props }) {
                 material={nodes.pCylinder37_UV_Material_0.material}
               />
             </group>
-            <group position={[-0.14, 1.5, -2.27]} rotation={[1.38, -0.71, 3.14]}>
+            <group
+              position={[-0.14, 1.5, -2.27]}
+              rotation={[1.38, -0.71, 3.14]}
+            >
               <mesh
                 geometry={nodes.pCylinder38_UV_Material_0.geometry}
                 material={nodes.pCylinder38_UV_Material_0.material}
               />
             </group>
-            <group position={[2.4, 2.25, 0.26]} rotation={[-3.12, -0.94, -0.02]}>
+            <group
+              position={[2.4, 2.25, 0.26]}
+              rotation={[-3.12, -0.94, -0.02]}
+            >
               <mesh
                 geometry={nodes.pCylinder39_UV_Material_0.geometry}
                 material={nodes.pCylinder39_UV_Material_0.material}
               />
             </group>
-            <group position={[2.4, 2.51, 0.26]} rotation={[-3.12, -0.94, -0.02]}>
+            <group
+              position={[2.4, 2.51, 0.26]}
+              rotation={[-3.12, -0.94, -0.02]}
+            >
               <mesh
                 geometry={nodes.pCylinder40_UV_Material_0.geometry}
                 material={nodes.pCylinder40_UV_Material_0.material}
@@ -715,7 +740,7 @@ export default function Model({ ...props }) {
         </group>
       </group>
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/scene.gltf')
+useGLTF.preload("/space_exhibition_assets/space_helmet_study/scene.gltf");
