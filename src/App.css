@@ -355,6 +355,12 @@ body,
   fill: grey;
   cursor: pointer;
 }
-#museumMap path:hover {
+/* #museumMap path:hover {
+  opacity: 50%;
+} */
+#museumMap [role="listitem"]:hover {
   opacity: 50%;
 }
+/* #museumMap path:focus {
+  opacity: 50%;
+} */

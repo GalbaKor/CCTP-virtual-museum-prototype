@@ -1,74 +1,64 @@
 import React from "react";
 import { exhibitions } from "../exhibition_data";
 import { Box, Container, Grid, Image, Text, Center } from "@chakra-ui/react";
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  IconButton,
-} from "@chakra-ui/react";
-import {
-  HamburgerIcon,
-  AddIcon,
-  ExternalLinkIcon,
-  RepeatIcon,
-  EditIcon,
-} from "@chakra-ui/icons";
 
-import SvgMap from "../components/iconComponent";
+import MuseumMapTest from "../components/iconComponent";
+import MuseumMap from "../components/museumMap";
 
 export default function Homepage({ setApp }) {
   return (
     <Container minWidth="full" minHeight="100vh" backgroundColor="black">
       <Container maxWidth="container.xl">
-        <Center py="8">
-          <Text fontSize={["2xl", "4xl", "6xl"]} textColor="white">
+        <Center py="12">
+          <Text fontSize={["xl", "2xl", "4xl"]} textColor="white">
             Virtual Museum Webapp Prototype
           </Text>
         </Center>
 
-        <Text fontSize={["lg", "xl", "2xl"]} textColor="white">
-          This React based prototype project utilises React-Three-Fiber and
-          React Router to display a series of 3D, interactible objects across a
-          series of self contained exhibits.
+        <Text fontSize={["md", "md", "lg"]} pt={6} textColor="white">
+          This React based prototype project primarily utilises
+          React-Three-Fiber, Three JS and React Three Fiber to display a series
+          of 3D, interactible objects.
           <br />
           <br />
-          It is an exploration of how digital space could be used to satisfy
+          It is an exploration of how digital spaces could be used to satisfy
           museum-goers who might not otherwise be able to travel to and
           experience a physical museum.
+          <br />
+          <br />
+          The project differentiates itself from competing museum webapps by
+          emphasising the models themselves rather than the museum's structure -
+          as is the case with many alternatives. While the project is heavily
+          limited by a lack of photorealistic images due to a reliance on
+          royalty free Sketchfab models, it serves as a proof of concept and a
+          stepping stone for potential future React based museum webapps.
         </Text>
 
-        <Text fontSize={["lg", "xl", "2xl"]} textColor="white" py="8">
-          Click on any of the exhibits below to explore them in a virtual scene.{" "}
+        <Text fontSize={["lg", "xl", "xl"]} textColor="white" pt="8">
+          Instructions:
+        </Text>
+
+        <Text fontSize={["md", "md", "lg"]} textColor="white">
+          Click on Exhibition 1 to view the current up-to-date version of an
+          example exhibit. <br />
+          Once inside, try interacting with the artefacts to see them up close
+          and click the information points to learn more about what they
+          represent.
           <br />
-          Once inside, interact with the artefacts to learn more and see them up
-          close.
         </Text>
       </Container>
 
       <Container maxWidth="container.xl">
-        <Menu>
-          <MenuButton
-            as={IconButton}
-            aria-label="Options"
-            icon={<HamburgerIcon />}
-            _hover={{ opacity: "60%" }}
-            variant=""
-            fontSize="3rem"
-            color="white"
-          />
-          <MenuList>
-            <MenuItem icon={<AddIcon />}>New Tab</MenuItem>
-            <MenuItem icon={<ExternalLinkIcon />}>New Window</MenuItem>
-            <MenuItem icon={<RepeatIcon />}>Open Closed Tab</MenuItem>
-            <MenuItem icon={<EditIcon />}>Open File...</MenuItem>
-          </MenuList>
-        </Menu>
-        <Text fontSize="4xl" textColor="white">
-          Exhibits:
-        </Text>
-        <SvgMap />
+        <Center>
+          <Text fontSize={["lg", "xl", "2xl"]} py={16} textColor="white">
+            Interactive Exhibition Site Map:
+          </Text>
+        </Center>
+
+        {/* <MuseumMapTest /> */}
+        <Container maxWidth="container.md" py={6}>
+          <MuseumMap />
+        </Container>
       </Container>
 
       <Container maxWidth="container.xl" py="10">
