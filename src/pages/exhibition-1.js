@@ -9,6 +9,7 @@ import {
 import { Canvas } from "@react-three/fiber";
 import { A11yAnnouncer, A11y } from "@react-three/a11y";
 import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router-dom";
 // import {
 //   EffectComposer,
 //   Selection,
@@ -47,6 +48,7 @@ import "react-responsive-modal/styles.css";
 import {
   Box,
   Button,
+  Stack,
   Container,
   Grid,
   Text,
@@ -60,6 +62,8 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 
+import { List, ListItem, ListIcon, Link } from "@chakra-ui/react";
+
 import {
   Drawer,
   DrawerBody,
@@ -70,21 +74,25 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure, Icon, IconButton, ButtonGroup } from "@chakra-ui/react";
 
 import {
   QuestionOutlineIcon,
   HamburgerIcon,
   Search2Icon,
 } from "@chakra-ui/icons";
+import { FaHome, FaScroll, FaMapMarkedAlt } from "react-icons/fa";
 
 import spaceBackground2 from "../space_exhibition_assets/space_background_2.jpg";
+import spaceBackground from "../space_exhibition_assets/space_background.jpg";
 
 export const Exhibition1 = ({ setApp }) => {
   // mobile queries
   const isMobileScreen = useMediaQuery({
     query: "(min-width: 640px)",
   });
+
+  const navigate = useNavigate();
 
   // Modal and Drawer variables
   // navigation
@@ -168,127 +176,163 @@ export const Exhibition1 = ({ setApp }) => {
 
       {/* Grid of models */}
       {artefactTab == 1 && (
-        <Container minWidth="full" minHeight="100vh">
-          {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
-          <Center minWidth="full">
-            <Grid
-              minWidth="full"
-              templateColumns={[
-                "repeat(1, 1fr)",
-                "repeat(1, 1fr)",
-                "repeat(2, 1fr)",
-                "repeat(3, 1fr)",
-              ]}
-            >
-              {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
-              <Center
+        <>
+          <Box pos="fixed" top="0" minWidth="full" zIndex={20}>
+            <Center>
+              <Text fontSize={["lg", "xl", "xl"]} textColor="white" my="6">
+                Rockets and Shuttles
+              </Text>
+            </Center>
+          </Box>
+          <Container minWidth="full" minHeight="100vh">
+            {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+            <Center minWidth="full">
+              <Grid
                 minWidth="full"
-                minHeight="100vh"
-                borderWidth="2px"
-                borderColor="white"
+                templateColumns={[
+                  "repeat(1, 1fr)",
+                  "repeat(1, 1fr)",
+                  "repeat(2, 1fr)",
+                  "repeat(3, 1fr)",
+                ]}
               >
-                <BoosterRocketContainer />
-              </Center>
-              <Center minWidth="full" minHeight="100vh">
-                <ShuttleContainer />
-              </Center>
-              <Center minWidth="full" minHeight="100vh">
-                <SaturnVContainer />
-              </Center>
-            </Grid>
-          </Center>
-        </Container>
+                {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
+                <Center
+                  minWidth="full"
+                  minHeight="100vh"
+                  borderWidth="2px"
+                  borderColor="white"
+                >
+                  <BoosterRocketContainer />
+                </Center>
+                <Center minWidth="full" minHeight="100vh">
+                  <ShuttleContainer />
+                </Center>
+                <Center minWidth="full" minHeight="100vh">
+                  <SaturnVContainer />
+                </Center>
+              </Grid>
+            </Center>
+          </Container>
+        </>
       )}
       {artefactTab == 2 && (
-        <Container minWidth="full" minHeight="100vh">
-          {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
-          <Center minWidth="full">
-            <Grid
-              minWidth="full"
-              templateColumns={[
-                "repeat(1, 1fr)",
-                "repeat(1, 1fr)",
-                "repeat(1, 1fr)",
-                "repeat(1, 1fr)",
-              ]}
-            >
-              {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
-              <Center minWidth="full" minHeight="100vh">
-                <VenatorContainer />
-              </Center>
-              <Center minWidth="full" minHeight="100vh">
-                <VictoryContainer />
-              </Center>
-              <Center minWidth="full" minHeight="100vh">
-                <ResurgentContainer />
-              </Center>
-            </Grid>
-          </Center>
-        </Container>
+        <>
+          <Box pos="fixed" top="0" minWidth="full" zIndex={20}>
+            <Center>
+              <Text fontSize={["lg", "xl", "xl"]} textColor="white" my="6">
+                Sci-Fi
+              </Text>
+            </Center>
+          </Box>
+          <Container minWidth="full" minHeight="100vh">
+            {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+            <Center minWidth="full">
+              <Grid
+                minWidth="full"
+                templateColumns={[
+                  "repeat(1, 1fr)",
+                  "repeat(1, 1fr)",
+                  "repeat(1, 1fr)",
+                  "repeat(1, 1fr)",
+                ]}
+              >
+                {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
+                <Center minWidth="full" minHeight="100vh">
+                  <VenatorContainer />
+                </Center>
+                <Center minWidth="full" minHeight="100vh">
+                  <VictoryContainer />
+                </Center>
+                <Center minWidth="full" minHeight="100vh">
+                  <ResurgentContainer />
+                </Center>
+              </Grid>
+            </Center>
+          </Container>
+        </>
       )}
       {artefactTab == 3 && (
-        <Container minWidth="full" minHeight="100vh">
-          {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
-          <Center minWidth="full">
-            <Grid
-              minWidth="full"
-              templateColumns={[
-                "repeat(1, 1fr)",
-                "repeat(1, 1fr)",
-                "repeat(1, 1fr)",
-                "repeat(1, 1fr)",
-              ]}
-            >
-              {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
-              <Center minWidth="full" minHeight="100vh">
-                <DderidexContainer />
-              </Center>
-              <Center minWidth="full" minHeight="100vh">
-                <EnterpriseContainer />
-              </Center>
-              <Center minWidth="full" minHeight="100vh">
-                <SovereignContainer />
-              </Center>
-            </Grid>
-          </Center>
-        </Container>
+        <>
+          <Box pos="fixed" top="0" minWidth="full" zIndex={20}>
+            <Center>
+              <Text fontSize={["lg", "xl", "xl"]} textColor="white" my="6">
+                Sci-Fi 2
+              </Text>
+            </Center>
+          </Box>
+          <Container minWidth="full" minHeight="100vh">
+            {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+            <Center minWidth="full">
+              <Grid
+                minWidth="full"
+                templateColumns={[
+                  "repeat(1, 1fr)",
+                  "repeat(1, 1fr)",
+                  "repeat(1, 1fr)",
+                  "repeat(1, 1fr)",
+                ]}
+              >
+                {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
+                <Center minWidth="full" minHeight="100vh">
+                  <DderidexContainer />
+                </Center>
+                <Center minWidth="full" minHeight="100vh">
+                  <EnterpriseContainer />
+                </Center>
+                <Center minWidth="full" minHeight="100vh">
+                  <SovereignContainer />
+                </Center>
+              </Grid>
+            </Center>
+          </Container>
+        </>
       )}
       {artefactTab == 4 && (
-        <Container minWidth="full" minHeight="100vh">
-          {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
-          <Center minWidth="full">
-            <Grid
-              minWidth="full"
-              templateColumns={[
-                "repeat(1, 1fr)",
-                "repeat(1, 1fr)",
-                "repeat(1, 1fr)",
-                "repeat(3, 1fr)",
-              ]}
-            >
-              {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
-              <Center minWidth="full" minHeight="100vh">
+        <>
+          <Box pos="fixed" top="0" minWidth="full" zIndex={20}>
+            <Center>
+              <Text fontSize={["lg", "xl", "xl"]} textColor="white" my="6">
+                Astronauts
+              </Text>
+            </Center>
+          </Box>
+          <Container minWidth="full" minHeight="100vh">
+            {/* Responsive grid - 1 column for small mobile, 2 for small-medium laptop screens, 3 for larger desktops */}
+            <Center minWidth="full">
+              <Grid
+                minWidth="full"
+                templateColumns={[
+                  "repeat(1, 1fr)",
+                  "repeat(1, 1fr)",
+                  "repeat(1, 1fr)",
+                  "repeat(2, 1fr)",
+                ]}
+              >
+                {/* Canvas model containers take up the full height and width of the parent, so the immediate parent must be given a width and height */}
+                <Center minWidth="full" minHeight="100vh">
+                  <SpaceSuitContainer />
+                </Center>
+                <Center minWidth="full" minHeight="100vh">
+                  <SpaceHelmetContainer />
+                </Center>
+                {/* <Center minWidth="full" minHeight="100vh">
                 <SpaceSuitContainer />
-              </Center>
-              <Center minWidth="full" minHeight="100vh">
-                <SpaceHelmetContainer />
-              </Center>
-              <Center minWidth="full" minHeight="100vh">
-                <SpaceSuitContainer />
-              </Center>
-            </Grid>
-          </Center>
-        </Container>
+              </Center> */}
+              </Grid>
+            </Center>
+          </Container>
+        </>
       )}
 
       {/* Top bar navigation */}
-      <Box pos="fixed" top="0" minWidth="full" zIndex={20}>
+      {/* <Box pos="fixed" top="0" minWidth="full" zIndex={20}>
         <Center>
           <Text fontSize={["lg", "xl", "xl"]} textColor="white" my="6">
             Rockets and Shuttles
           </Text>
         </Center>
-      </Box>
+      </Box> */}
 
       {/* Bottom Navigation */}
       <Container pos="fixed" bottom="0" minWidth="full" zIndex={20} p="4">
@@ -356,6 +400,12 @@ export const Exhibition1 = ({ setApp }) => {
               to change scene.
             </p>
             <br />
+            <p>
+              Occasionally, models may take longer to load due to higher levels
+              of detail. Please wait for the models to load before interacting
+              with the webpage.
+            </p>
+            <br />
             <br />
             {/* <p>
               If you'd like the tutorial to open when you next load open an
@@ -407,10 +457,65 @@ export const Exhibition1 = ({ setApp }) => {
           <DrawerCloseButton />
           <DrawerHeader>Main Menu</DrawerHeader>
 
-          <DrawerBody></DrawerBody>
+          <DrawerBody>
+            {/* <List spacing={3}>
+              <ListItem>
+                <ListIcon as={FaHome} color="black.500" />
+                <a href="/">Home Page</a>
+              </ListItem>
+              <ListItem>
+                <ListIcon as={FaMapMarkedAlt} color="black.500" />
+                Museum Exhibition Map
+              </ListItem>
+              <ListItem>
+                <ListIcon as={FaScroll} color="black.500" />
+                Exhibitions
+              </ListItem>
+            </List> */}
+
+            <Stack spacing={6}>
+              {/* <ButtonGroup>
+                <Button
+                  aria-label="Click to return home"
+                  onClick={() => navigate("/")}
+                >
+                  <Icon as={FaHome} />
+                  Home Page
+                </Button>
+                <IconButton
+                  aria-label="Click to return home"
+                  icon={<Icon as={FaHome} />}
+                />
+              </ButtonGroup> */}
+              <Button
+                aria-label="Click to return home"
+                onClick={() => navigate("/")}
+                textAlign="left"
+                width="full"
+              >
+                {/* <Icon as={FaHome} /> */}
+                <p width="full">Home Page</p>
+              </Button>
+              <Button
+                aria-label="Click to view the exhibition map"
+                onClick={() => navigate("/")}
+              >
+                {" "}
+                {/* <Icon as={FaMapMarkedAlt} /> */}
+                Museum Map
+              </Button>
+              <Button
+                aria-label="Click to view other exhibitions"
+                onClick={() => navigate("/")}
+              >
+                {/* <Icon as={FaScroll} /> */}
+                Exhibitions
+              </Button>
+            </Stack>
+          </DrawerBody>
 
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClose={menuDrawerOnClose}>
+            <Button variant="outline" mr={3} onClick={menuDrawerOnClose}>
               Close
             </Button>
           </DrawerFooter>
@@ -436,6 +541,7 @@ export const Exhibition1 = ({ setApp }) => {
           </Center>
 
           {/* Body contains a grid of navigation boxes, which are mapped from the artefactNavigations object array const */}
+          {/* Could experiment using Chakra's link overlay component */}
           <ModalBody>
             <Grid
               templateColumns={[
@@ -1654,7 +1760,12 @@ function SpaceSuitContainer() {
   const [buttonHover, setButtonHover] = useState(false);
   return (
     <>
-      <Canvas colorManagement camera={cameraProps} zIndex="1">
+      <Canvas
+        colorManagement
+        camera={cameraProps}
+        zIndex="1"
+        frameloop="demand"
+      >
         <OrbitControls
           // enableZoom={false}
           minZoom={Math.PI / 4}
@@ -1772,7 +1883,7 @@ function SpaceHelmetContainer() {
   const cameraProps = {
     fov: 75,
     near: 1,
-    far: 1000,
+    far: 160,
     position: [0, 0, 100],
   };
   const {
@@ -1783,7 +1894,12 @@ function SpaceHelmetContainer() {
   const [buttonHover, setButtonHover] = useState(false);
   return (
     <>
-      <Canvas colorManagement camera={cameraProps} zIndex="1">
+      <Canvas
+        colorManagement
+        camera={cameraProps}
+        zIndex="1"
+        frameloop="demand"
+      >
         <OrbitControls
           // enableZoom={false}
           minZoom={Math.PI / 4}
@@ -1866,6 +1982,7 @@ function SpaceHelmetContainer() {
           {/* </A11y> */}
         </Suspense>
       </Canvas>
+
       <A11yAnnouncer />
 
       <Modal
