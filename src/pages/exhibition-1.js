@@ -50,6 +50,7 @@ import {
   Stack,
   Container,
   Grid,
+  GridItem,
   Text,
   Center,
   Modal,
@@ -59,6 +60,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Image,
 } from "@chakra-ui/react";
 
 import { List, ListItem, ListIcon, Link } from "@chakra-ui/react";
@@ -84,6 +86,15 @@ import { FaHome, FaScroll, FaMapMarkedAlt } from "react-icons/fa";
 
 import spaceBackground2 from "../space_exhibition_assets/space_background_2.jpg";
 import spaceBackground from "../space_exhibition_assets/space_background.jpg";
+
+import boosterImage1 from "../space_exhibition_assets/booster_rockets_and_fuel_tank/picture-1.jpg";
+import boosterImage2 from "../space_exhibition_assets/booster_rockets_and_fuel_tank/picture-2.jpg";
+
+import saturnVImage1 from "../space_exhibition_assets/saturn_v_rocket/picture-1.jpg";
+import saturnVImage2 from "../space_exhibition_assets/saturn_v_rocket/picture-2.jpg";
+
+import spaceShuttleImage1 from "../space_exhibition_assets/space_shuttle/picture-1.jpg";
+import spaceShuttleImage2 from "../space_exhibition_assets/space_shuttle/picture-2.jpg";
 
 export const Exhibition1 = ({ setApp }) => {
   // mobile queries
@@ -324,15 +335,6 @@ export const Exhibition1 = ({ setApp }) => {
         </>
       )}
 
-      {/* Top bar navigation */}
-      {/* <Box pos="fixed" top="0" minWidth="full" zIndex={20}>
-        <Center>
-          <Text fontSize={["lg", "xl", "xl"]} textColor="white" my="6">
-            Rockets and Shuttles
-          </Text>
-        </Center>
-      </Box> */}
-
       {/* Bottom Navigation */}
       <Container pos="fixed" bottom="0" minWidth="full" zIndex={20} p="4">
         <Center>
@@ -455,64 +457,64 @@ export const Exhibition1 = ({ setApp }) => {
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader>Main Menu</DrawerHeader>
-
           <DrawerBody>
-            {/* <List spacing={3}>
-              <ListItem>
-                <ListIcon as={FaHome} color="black.500" />
-                <a href="/">Home Page</a>
-              </ListItem>
-              <ListItem>
-                <ListIcon as={FaMapMarkedAlt} color="black.500" />
-                Museum Exhibition Map
-              </ListItem>
-              <ListItem>
-                <ListIcon as={FaScroll} color="black.500" />
-                Exhibitions
-              </ListItem>
-            </List> */}
-
             <Stack spacing={6}>
-              {/* <ButtonGroup>
-                <Button
-                  aria-label="Click to return home"
-                  onClick={() => navigate("/")}
-                >
-                  <Icon as={FaHome} />
-                  Home Page
-                </Button>
-                <IconButton
-                  aria-label="Click to return home"
-                  icon={<Icon as={FaHome} />}
-                />
-              </ButtonGroup> */}
+              {/* Home Page button */}
               <Button
                 aria-label="Click to return home"
                 onClick={() => navigate("/")}
                 textAlign="left"
                 width="full"
               >
-                {/* <Icon as={FaHome} /> */}
-                <p width="full">Home Page</p>
+                <Grid templateColumns="repeat(6, 1fr)" width="full">
+                  <GridItem colSpan={2}>
+                    <Center height="full">
+                      <Icon as={FaHome} width={6} height={6} />
+                    </Center>
+                  </GridItem>
+                  <GridItem colSpan={4} textAlign="left">
+                    <p width="full">Home Page</p>
+                  </GridItem>
+                </Grid>
               </Button>
+              {/* Museum Map button */}
               <Button
-                aria-label="Click to view the exhibition map"
+                aria-label="Click to return home"
                 onClick={() => navigate("/")}
+                textAlign="left"
+                width="full"
               >
-                {" "}
-                {/* <Icon as={FaMapMarkedAlt} /> */}
-                Museum Map
+                <Grid templateColumns="repeat(6, 1fr)" width="full">
+                  <GridItem colSpan={2}>
+                    <Center height="full">
+                      <Icon as={FaMapMarkedAlt} width={6} height={6} />
+                    </Center>
+                  </GridItem>
+                  <GridItem colSpan={4} textAlign="left">
+                    <p width="full">Museum Map</p>
+                  </GridItem>
+                </Grid>
               </Button>
+              {/* Exhibitions button */}
               <Button
-                aria-label="Click to view other exhibitions"
+                aria-label="Click to return home"
                 onClick={() => navigate("/")}
+                textAlign="left"
+                width="full"
               >
-                {/* <Icon as={FaScroll} /> */}
-                Exhibitions
+                <Grid templateColumns="repeat(6, 1fr)" width="full">
+                  <GridItem colSpan={2}>
+                    <Center height="full">
+                      <Icon as={FaScroll} width={6} height={6} />
+                    </Center>
+                  </GridItem>
+                  <GridItem colSpan={4} textAlign="left">
+                    <p width="full">Exhibitions</p>
+                  </GridItem>
+                </Grid>
               </Button>
             </Stack>
           </DrawerBody>
-
           <DrawerFooter>
             <Button variant="outline" mr={3} onClick={menuDrawerOnClose}>
               Close
@@ -608,11 +610,24 @@ function BoosterRocketContainer() {
     far: 1000,
     position: [0, 0, 100],
   };
+
   const {
-    isOpen: boosterDrawerIsOpen,
-    onOpen: boosterDrawerOnOpen,
-    onClose: boosterDrawerOnClose,
+    isOpen: booster1DrawerIsOpen,
+    onOpen: booster1DrawerOnOpen,
+    onClose: booster1DrawerOnClose,
   } = useDisclosure();
+  const {
+    isOpen: booster2DrawerIsOpen,
+    onOpen: booster2DrawerOnOpen,
+    onClose: booster2DrawerOnClose,
+  } = useDisclosure();
+
+  // const {
+  //   isOpen: booster2DrawerIsOpen,
+  //   onOpen: booster2DrawerOnOpen,
+  //   onClose: booster2DrawerOnClose,
+  // } = useDisclosure();
+
   return (
     <>
       <Canvas colorManagement camera={cameraProps}>
@@ -643,7 +658,7 @@ function BoosterRocketContainer() {
             description="Click to learn more information about the booster engines"
           >
             <Html position={[9, 0, 0]} zIndexRange={[1, 0]}>
-              <Button onClick={boosterDrawerOnOpen}>
+              <Button onClick={booster1DrawerOnOpen}>
                 <QuestionOutlineIcon
                   w={40}
                   h={40}
@@ -663,7 +678,7 @@ function BoosterRocketContainer() {
             zIndexRange={[2, 1]}
           >
             <Html position={[-5, 40, 0]} zIndexRange={[1, 0]}>
-              <Button onClick={boosterDrawerOnOpen}>
+              <Button onClick={booster2DrawerOnOpen}>
                 <QuestionOutlineIcon
                   w={40}
                   h={40}
@@ -680,9 +695,10 @@ function BoosterRocketContainer() {
       </Canvas>
       <A11yAnnouncer />
 
+      {/* Modal 1 */}
       <Modal
-        isOpen={boosterDrawerIsOpen}
-        onClose={boosterDrawerOnClose}
+        isOpen={booster1DrawerIsOpen}
+        onClose={booster1DrawerOnClose}
         size="2xl"
         isCentered
         scrollBehavior="inside"
@@ -696,14 +712,76 @@ function BoosterRocketContainer() {
             <ModalCloseButton />
           </Center>
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
-            voluptatibus minus id placeat enim obcaecati repellat quaerat
-            deleniti facilis ea?
+            A booster rocket (or engine) is either the first stage of a
+            multistage launch vehicle, or else a shorter-burning rocket used in
+            parallel with longer-burning sustainer rockets to augment the space
+            vehicle's takeoff thrust and payload capability.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={boosterImage1}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A space rocket with orange booster engines behind some trees"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+            Boosters are traditionally necessary to launch spacecraft into low
+            Earth orbit (absent a single-stage-to-orbit design), and are
+            especially important for a space vehicle to go beyond Earth
+            orbit.[citation needed] The booster is dropped to fall back to Earth
+            once its fuel is expended, a point known as booster engine cut-off
+            (BECO).
           </ModalBody>
           <Center>
             <ModalFooter>
-              <Button onClick={boosterDrawerOnClose}>Close</Button>
+              <Button onClick={booster1DrawerOnClose}>Close</Button>
+            </ModalFooter>
+          </Center>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal 2 */}
+      <Modal
+        isOpen={booster2DrawerIsOpen}
+        onClose={booster2DrawerOnClose}
+        size="2xl"
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent mx="4">
+          <Center>
+            <Center>
+              <ModalHeader minWidth="full">Booster Rockets</ModalHeader>
+            </Center>
+            <ModalCloseButton />
+          </Center>
+          <ModalBody>
+            A liquid rocket booster (LRB) uses liquid fuel and oxidizer to give
+            a liquid-propellant or hybrid rocket an extra boost at take-off,
+            and/or increase the total payload that can be carried. It is
+            attached to the side of a rocket. Unlike solid rocket boosters, LRBs
+            can be throttled down if the engines are designed to allow it, and
+            can be shut down safely in an emergency for additional escape
+            options in human spaceflight.
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={boosterImage2}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A white space rocket beginning its launch"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+          </ModalBody>
+          <Center>
+            <ModalFooter>
+              <Button onClick={booster2DrawerOnClose}>Close</Button>
             </ModalFooter>
           </Center>
         </ModalContent>
@@ -720,10 +798,16 @@ function ShuttleContainer() {
     position: [0, 0, 100],
   };
   const {
-    isOpen: shuttleDrawerIsOpen,
-    onOpen: shuttleDrawerOnOpen,
-    onClose: shuttleDrawerOnClose,
+    isOpen: shuttle1DrawerIsOpen,
+    onOpen: shuttle1DrawerOnOpen,
+    onClose: shuttle1DrawerOnClose,
   } = useDisclosure();
+  const {
+    isOpen: shuttle2DrawerIsOpen,
+    onOpen: shuttle2DrawerOnOpen,
+    onClose: shuttle2DrawerOnClose,
+  } = useDisclosure();
+
   return (
     <>
       <Canvas colorManagement camera={cameraProps} zIndex="1">
@@ -751,7 +835,7 @@ function ShuttleContainer() {
             zIndexRange={[2, 1]}
           >
             <Html position={[0, 5, 15]} zIndexRange={[1, 0]}>
-              <Button onClick={shuttleDrawerOnOpen}>
+              <Button onClick={shuttle1DrawerOnOpen}>
                 <QuestionOutlineIcon
                   w={40}
                   h={40}
@@ -771,7 +855,7 @@ function ShuttleContainer() {
             zIndexRange={[2, 1]}
           >
             <Html position={[5, 0, -15]} zIndexRange={[1, 0]}>
-              <Button onClick={shuttleDrawerOnOpen}>
+              <Button onClick={shuttle2DrawerOnOpen}>
                 <QuestionOutlineIcon
                   w={40}
                   h={40}
@@ -788,9 +872,10 @@ function ShuttleContainer() {
       </Canvas>
       <A11yAnnouncer />
 
+      {/* Modal 1 */}
       <Modal
-        isOpen={shuttleDrawerIsOpen}
-        onClose={shuttleDrawerOnClose}
+        isOpen={shuttle1DrawerIsOpen}
+        onClose={shuttle1DrawerOnClose}
         size="2xl"
         isCentered
         scrollBehavior="inside"
@@ -799,19 +884,92 @@ function ShuttleContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">Shuttle Rockets</ModalHeader>
+              <ModalHeader minWidth="full">Booster Rockets</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
-            voluptatibus minus id placeat enim obcaecati repellat quaerat
-            deleniti facilis ea?
+            The Space Shuttle is a retired, partially reusable low Earth orbital
+            spacecraft system operated from 1981 to 2011 by the U.S. National
+            Aeronautics and Space Administration (NASA) as part of the Space
+            Shuttle program. Its official program name was Space Transportation
+            System (STS), taken from a 1969 plan for a system of reusable
+            spacecraft where it was the only item funded for development.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={spaceShuttleImage1}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A space rocket with orange booster engines behind some trees"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+            Five complete Space Shuttle orbiter vehicles were built and flown on
+            a total of 135 missions from 1981 to 2011, launched from the Kennedy
+            Space Center (KSC) in Florida. Operational missions launched
+            numerous satellites, interplanetary probes, and the Hubble Space
+            Telescope (HST), conducted science experiments in orbit,
+            participated in the Shuttle-Mir program with Russia, and
+            participated in construction and servicing of the International
+            Space Station (ISS). The Space Shuttle fleet's total mission time
+            was 1,323 days.
           </ModalBody>
           <Center>
             <ModalFooter>
-              <Button onClick={shuttleDrawerOnClose}>Close</Button>
+              <Button onClick={shuttle1DrawerOnClose}>Close</Button>
+            </ModalFooter>
+          </Center>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal 2 */}
+      <Modal
+        isOpen={shuttle2DrawerIsOpen}
+        onClose={shuttle2DrawerOnClose}
+        size="2xl"
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent mx="4">
+          <Center>
+            <Center>
+              <ModalHeader minWidth="full">Booster Rockets</ModalHeader>
+            </Center>
+            <ModalCloseButton />
+          </Center>
+          <ModalBody>
+            The first orbiter, Enterprise, was built in 1976 and used in
+            Approach and Landing Tests (ALT), but had no orbital capability.
+            Four fully operational orbiters were initially built: Columbia,
+            Challenger, Discovery, and Atlantis. Of these, two were lost in
+            mission accidents: Challenger in 1986 and Columbia in 2003, with a
+            total of 14 astronauts killed. A fifth operational (and sixth in
+            total) orbiter, Endeavour, was built in 1991 to replace Challenger.
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={spaceShuttleImage2}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A white space rocket beginning its launch"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+            After it arrived at Edwards AFB, Enterprise underwent flight testing
+            with the Shuttle Carrier Aircraft, a Boeing 747 that had been
+            modified to carry the orbiter. In February 1977, Enterprise began
+            the Approach and Landing Tests (ALT) and underwent captive flights,
+            where it remained attached to the Shuttle Carrier Aircraft for the
+            duration of the flight.
+          </ModalBody>
+          <Center>
+            <ModalFooter>
+              <Button onClick={shuttle2DrawerOnClose}>Close</Button>
             </ModalFooter>
           </Center>
         </ModalContent>
@@ -828,10 +986,16 @@ function SaturnVContainer() {
     position: [0, 0, 100],
   };
   const {
-    isOpen: saturnVDrawerIsOpen,
-    onOpen: saturnVDrawerOnOpen,
-    onClose: saturnVDrawerOnClose,
+    isOpen: saturnV1DrawerIsOpen,
+    onOpen: saturnV1DrawerOnOpen,
+    onClose: saturnV1DrawerOnClose,
   } = useDisclosure();
+  const {
+    isOpen: saturnV2DrawerIsOpen,
+    onOpen: saturnV2DrawerOnOpen,
+    onClose: saturnV2DrawerOnClose,
+  } = useDisclosure();
+
   const [buttonHover, setButtonHover] = useState(false);
   return (
     <>
@@ -866,7 +1030,7 @@ function SaturnVContainer() {
           > */}
           <Html zIndexRange={[1, 0]} position={[5, 0, 0]}>
             <Button
-              onClick={saturnVDrawerOnOpen}
+              onClick={saturnV1DrawerOnOpen}
               onMouseEnter={() => {
                 setButtonHover(true);
               }}
@@ -900,7 +1064,7 @@ function SaturnVContainer() {
             position={[0, 30, 5]}
           > */}
           <Html zIndexRange={[1, 0]} position={[0, 30, 5]}>
-            <Button onClick={saturnVDrawerOnOpen}>
+            <Button onClick={saturnV2DrawerOnOpen}>
               <QuestionOutlineIcon
                 w={40}
                 h={40}
@@ -917,9 +1081,10 @@ function SaturnVContainer() {
       </Canvas>
       <A11yAnnouncer />
 
+      {/* Modal 1 */}
       <Modal
-        isOpen={saturnVDrawerIsOpen}
-        onClose={saturnVDrawerOnClose}
+        isOpen={saturnV1DrawerIsOpen}
+        onClose={saturnV1DrawerOnClose}
         size="2xl"
         isCentered
         scrollBehavior="inside"
@@ -928,19 +1093,84 @@ function SaturnVContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">saturnV Rockets</ModalHeader>
+              <ModalHeader minWidth="full">Booster Rockets</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
-            voluptatibus minus id placeat enim obcaecati repellat quaerat
-            deleniti facilis ea?
+            Saturn V (pronounced Saturn five) was an American human-rated,
+            three-stage, liquid-fueled super heavy-lift launch vehicle developed
+            by NASA under the Apollo program for human exploration of the Moon.
+            It was flown from 1967 to 1973. It was used for nine crewed flights
+            to the Moon, and to launch Skylab, the first American space station.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={saturnVImage1}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A space rocket with orange booster engines behind some trees"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+            As of 2022, the Saturn V remains the only launch vehicle to carry
+            humans beyond low Earth orbit. Saturn V holds records for the
+            heaviest payload launched and largest payload capacity to low Earth
+            orbit (LEO): 310,000 lb (140,000 kg), which included the third stage
+            and unburned propellant needed to send the Apollo command and
+            service module and Lunar Module to the Moon.
           </ModalBody>
           <Center>
             <ModalFooter>
-              <Button onClick={saturnVDrawerOnClose}>Close</Button>
+              <Button onClick={saturnV1DrawerOnClose}>Close</Button>
+            </ModalFooter>
+          </Center>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal 2 */}
+      <Modal
+        isOpen={saturnV2DrawerIsOpen}
+        onClose={saturnV2DrawerOnClose}
+        size="2xl"
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent mx="4">
+          <Center>
+            <Center>
+              <ModalHeader minWidth="full">Booster Rockets</ModalHeader>
+            </Center>
+            <ModalCloseButton />
+          </Center>
+          <ModalBody>
+            The largest production model of the Saturn family of rockets, the
+            Saturn V was designed under the direction of Wernher von Braun at
+            the Marshall Space Flight Center in Huntsville, Alabama; the lead
+            contractors were Boeing, North American Aviation, Douglas Aircraft
+            Company, and IBM. A total of 15 flight-capable vehicles were built,
+            plus three for ground testing. Thirteen were launched from Kennedy
+            Space Center with no loss of crew or payload. A total of 24
+            astronauts were launched to the Moon from December 1968 through
+            December 1972.
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={saturnVImage2}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A white space rocket beginning its launch"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+          </ModalBody>
+          <Center>
+            <ModalFooter>
+              <Button onClick={saturnV2DrawerOnClose}>Close</Button>
             </ModalFooter>
           </Center>
         </ModalContent>
