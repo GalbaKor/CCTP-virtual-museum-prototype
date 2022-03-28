@@ -1,8 +1,6 @@
 import React from "react";
 import { exhibitions } from "../exhibition_data";
 import { Box, Container, Grid, Image, Text, Center } from "@chakra-ui/react";
-
-import MuseumMapTest from "../components/iconComponent";
 import MuseumMap from "../components/museumMap";
 
 export default function Homepage({ setApp }) {
@@ -23,7 +21,20 @@ export default function Homepage({ setApp }) {
           <br />
           It is an exploration of how digital spaces could be used to satisfy
           museum-goers who might not otherwise be able to travel to and
-          experience a physical museum.
+          experience a physical museum. Moreover, traditional museums are less
+          likely to contain artefacts that were created digitally such as assets
+          from science fiction media. A digital museum has the potential to
+          remove such stigma and entertain a wider diversity of people.
+          <br />
+          <br />
+          Initial user and literature research suggested that competing webapps
+          often make excessive use of nauseating and unnecessary animations
+          while simaltaneously remaining too confined to a physical location. On
+          the other hand, some users enjoyed using digital museums to trial
+          exhibits and plan out routes through the museum's floor map before
+          attending the physical site. This inspired research and implementation
+          of a SVG based interactive floor map which could be used to better
+          connect a physical and digital museum from the same stakeholder.
           <br />
           <br />
           The project differentiates itself from competing museum webapps by
@@ -62,6 +73,11 @@ export default function Homepage({ setApp }) {
       </Container>
 
       <Container maxWidth="container.xl" py="10">
+        <Center>
+          <Text fontSize={["lg", "xl", "2xl"]} py={16} textColor="white">
+            Exhibition list (only first one works):
+          </Text>
+        </Center>
         <Grid
           templateColumns={[
             "repeat(1, 1fr)",
@@ -74,7 +90,7 @@ export default function Homepage({ setApp }) {
           {exhibitions.map((exhibition) => (
             <a
               href={exhibition.link}
-              key={exhibition.image}
+              key={exhibition.key}
               onClick={() => setApp(true)}
             >
               <Box position="relative" _hover={{ opacity: "75%" }}>

@@ -1,24 +1,10 @@
 // Main imports
 import React, { Suspense, useState, useEffect } from "react";
-import {
-  OrbitControls,
-  Html,
-  Environment,
-  PerspectiveCamera,
-} from "@react-three/drei";
+import { OrbitControls, Html, Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { A11yAnnouncer, A11y } from "@react-three/a11y";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
-// import {
-//   EffectComposer,
-//   Selection,
-//   Select,
-//   Outline,
-// } from "@react-three/postprocessing";
-import { useThree } from "@react-three/fiber";
-import { useRef } from "react";
-import { MapControls } from "@react-three/drei";
 
 // Component imports
 import { Lights } from "../components/lights";
@@ -37,10 +23,9 @@ import Enterprise from "../space_exhibition_assets/star_trek-enterprise/Scene";
 import Dderidex from "../space_exhibition_assets/star_trek-dderidex/Scene";
 import Sovereign from "../space_exhibition_assets/star_trek-sovereign/Scene";
 
-import SpaceHelmet from "../space_exhibition_assets/space_helmet_study/Scene";
+import AstronautHelmet from "../space_exhibition_assets/astronaut_helmet/Scene";
 import SpaceSuit from "../space_exhibition_assets/space_suit/Scene";
 
-// import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 
 // chakra ui imports
@@ -63,8 +48,6 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-import { List, ListItem, ListIcon, Link } from "@chakra-ui/react";
-
 import {
   Drawer,
   DrawerBody,
@@ -75,7 +58,7 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 
-import { useDisclosure, Icon, IconButton, ButtonGroup } from "@chakra-ui/react";
+import { useDisclosure, Icon } from "@chakra-ui/react";
 
 import {
   QuestionOutlineIcon,
@@ -85,7 +68,6 @@ import {
 import { FaHome, FaScroll, FaMapMarkedAlt } from "react-icons/fa";
 
 import spaceBackground2 from "../space_exhibition_assets/space_background_2.jpg";
-import spaceBackground from "../space_exhibition_assets/space_background.jpg";
 
 import boosterImage1 from "../space_exhibition_assets/booster_rockets_and_fuel_tank/picture-1.jpg";
 import boosterImage2 from "../space_exhibition_assets/booster_rockets_and_fuel_tank/picture-2.jpg";
@@ -95,6 +77,25 @@ import saturnVImage2 from "../space_exhibition_assets/saturn_v_rocket/picture-2.
 
 import spaceShuttleImage1 from "../space_exhibition_assets/space_shuttle/picture-1.jpg";
 import spaceShuttleImage2 from "../space_exhibition_assets/space_shuttle/picture-2.jpg";
+
+import venatorImage1 from "../space_exhibition_assets/venator-class_star_destroyer/picture-1.jpg";
+import venatorImage2 from "../space_exhibition_assets/venator-class_star_destroyer/picture-2.jpg";
+
+import victoryImage1 from "../space_exhibition_assets/victory-class_star_destroyer/picture-1.jpg";
+import victoryImage2 from "../space_exhibition_assets/victory-class_star_destroyer/picture-2.jpg";
+
+import resurgentImage1 from "../space_exhibition_assets/resurgent-class_star_destroyer/picture-1.jpg";
+
+import dderidexImage1 from "../space_exhibition_assets/star_trek-dderidex/picture-2.jpg";
+
+import enterpriseImage1 from "../space_exhibition_assets/star_trek-enterprise/picture-1.jpg";
+
+import sovereignImage1 from "../space_exhibition_assets/star_trek-sovereign/picture-1.jpg";
+
+import spaceSuitImage1 from "../space_exhibition_assets/space_suit/picture-1.jpg";
+import spaceSuitImage2 from "../space_exhibition_assets/space_suit/picture-2.jpg";
+
+import helmetImage1 from "../space_exhibition_assets/astronaut_helmet/picture-2.jpg";
 
 export const Exhibition1 = ({ setApp }) => {
   // mobile queries
@@ -119,14 +120,6 @@ export const Exhibition1 = ({ setApp }) => {
     onClose: tutorialDrawerOnClose,
   } = useDisclosure();
   const tutorialRef = React.useRef();
-
-  // const tutorialOnboarding =
-  //   localStorage.getItem("tutorialOnboardingVariable") || 1;
-  // useEffect(() => {
-  //   if (tutorialOnboarding === 1) {
-  //   }
-  //   console.log("tutorial onboarding is " + tutorialOnboarding);
-  // }, [tutorialOnboarding]);
 
   // main menu
   const {
@@ -164,12 +157,6 @@ export const Exhibition1 = ({ setApp }) => {
   useEffect(() => {
     console.log(localStorage.getItem("exhibition1CurrentTab"));
   }, [artefactTab]);
-
-  // const [artefactGroup, setArtefactGroup] = useState(1);
-  // // turns out useEffect wasn't actually necessary, but it's good for debug purposes regardless
-  // useEffect(() => {
-  //   console.log("Artefact group " + [artefactGroup]);
-  // }, [artefactGroup]);
 
   return (
     <>
@@ -563,6 +550,8 @@ export const Exhibition1 = ({ setApp }) => {
                       artefactNavigation.id
                     );
                     modalNavOnClose();
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
                   }}
                   size="lg"
                 >
@@ -622,18 +611,15 @@ function BoosterRocketContainer() {
     onClose: booster2DrawerOnClose,
   } = useDisclosure();
 
-  // const {
-  //   isOpen: booster2DrawerIsOpen,
-  //   onOpen: booster2DrawerOnOpen,
-  //   onClose: booster2DrawerOnClose,
-  // } = useDisclosure();
+  const [button1Hover, setButton1Hover] = useState(false);
+  const [button2Hover, setButton2Hover] = useState(false);
 
   return (
     <>
       <Canvas colorManagement camera={cameraProps}>
         <OrbitControls
           // enableZoom={false}
-          minDistance={60}
+          minDistance={30}
           maxDistance={100}
           enablePan={true}
           enableRotate={true}
@@ -641,56 +627,61 @@ function BoosterRocketContainer() {
         <Lights />
         <Suspense fallback={<Loader />}>
           <A11y
-            role="button"
-            focusCall={() => console.log("focused the crocket")}
-            actionCall={() => console.log("clicked the crocket")}
-            description="A rotating orange rocket with two booster engines, click to open more information"
-            zIndexRange={[2, 1]}
+            role="content"
+            description="Two thin big white rocket engines are attached to a larger orange booster engine."
+            tabIndex={0.99}
           >
             <BoosterRocket
               position={[0, -20, 0]}
               rotation={[-Math.PI / 2, 0, 0]}
             />
           </A11y>
-          <A11y
-            role="button"
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-          >
-            <Html position={[9, 0, 0]} zIndexRange={[1, 0]}>
-              <Button onClick={booster1DrawerOnOpen}>
-                <QuestionOutlineIcon
-                  w={40}
-                  h={40}
-                  borderWidth="0px"
-                  borderRadius="50px"
-                  // borderColor="white"
-                  color="white"
-                  background="black"
-                />
-              </Button>
-            </Html>
-          </A11y>
-          <A11y
-            role="button"
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[2, 1]}
-          >
-            <Html position={[-5, 40, 0]} zIndexRange={[1, 0]}>
-              <Button onClick={booster2DrawerOnOpen}>
-                <QuestionOutlineIcon
-                  w={40}
-                  h={40}
-                  borderWidth="0px"
-                  borderRadius="50px"
-                  // borderColor="white"
-                  color="white"
-                  background="black"
-                />
-              </Button>
-            </Html>
-          </A11y>
+
+          <Html position={[-5, 40, 0]} zIndexRange={[1, 0]} tabIndex={0.98}>
+            <Button
+              onClick={booster1DrawerOnOpen}
+              onMouseEnter={() => {
+                setButton1Hover(true);
+              }}
+              onMouseLeave={() => {
+                setButton1Hover(false);
+              }}
+            >
+              <QuestionOutlineIcon
+                w={40}
+                h={40}
+                borderWidth="0px"
+                borderRadius="50px"
+                color={button1Hover ? "black" : "white"}
+                fontSize={button1Hover ? 2 : 1}
+                background={button1Hover ? "white" : "black"}
+                opacity={button1Hover ? 1 : 0.5}
+              />
+            </Button>
+          </Html>
+
+          <Html position={[9, 0, 0]} zIndexRange={[1, 0]} tabIndex={0.97}>
+            <Button
+              onClick={booster2DrawerOnOpen}
+              onMouseEnter={() => {
+                setButton2Hover(true);
+              }}
+              onMouseLeave={() => {
+                setButton2Hover(false);
+              }}
+            >
+              <QuestionOutlineIcon
+                w={40}
+                h={40}
+                borderWidth="0px"
+                borderRadius="50px"
+                color={button2Hover ? "black" : "white"}
+                fontSize={button2Hover ? 2 : 1}
+                background={button2Hover ? "white" : "black"}
+                opacity={button2Hover ? 1 : 0.5}
+              />
+            </Button>
+          </Html>
         </Suspense>
       </Canvas>
       <A11yAnnouncer />
@@ -699,7 +690,7 @@ function BoosterRocketContainer() {
       <Modal
         isOpen={booster1DrawerIsOpen}
         onClose={booster1DrawerOnClose}
-        size="2xl"
+        size="4xl"
         isCentered
         scrollBehavior="inside"
       >
@@ -718,7 +709,7 @@ function BoosterRocketContainer() {
             vehicle's takeoff thrust and payload capability.
             <br />
             <Center>
-              <Box boxSize="xl" height="full" py={4}>
+              <Box boxSize="2xl" height="full" py={4}>
                 <Image
                   src={boosterImage1}
                   fallbackSrc="https://via.placeholder.com/300"
@@ -808,66 +799,76 @@ function ShuttleContainer() {
     onClose: shuttle2DrawerOnClose,
   } = useDisclosure();
 
+  const [button1Hover, setButton1Hover] = useState(false);
+  const [button2Hover, setButton2Hover] = useState(false);
+
   return (
     <>
       <Canvas colorManagement camera={cameraProps} zIndex="1">
         <OrbitControls
           // enableZoom={false}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
+          minDistance={30}
+          maxDistance={100}
           enablePan={true}
           enableRotate={true}
         />
         <Lights />
         <Suspense fallback={<Loader />}>
-          <A11y>
+          <A11y
+            role="content"
+            description="A white and black space shuttle."
+            tabIndex={0.89}
+          >
             <ShuttleModel
               position={[0, -10, 0]}
               rotation={[-Math.PI / 2, 0, 0]}
             />
           </A11y>
           <Environment preset="city" />
-
-          <A11y
-            role="button"
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[2, 1]}
-          >
-            <Html position={[0, 5, 15]} zIndexRange={[1, 0]}>
-              <Button onClick={shuttle1DrawerOnOpen}>
-                <QuestionOutlineIcon
-                  w={40}
-                  h={40}
-                  borderWidth="0px"
-                  borderRadius="50px"
-                  // borderColor="white"
-                  color="white"
-                  background="black"
-                />
-              </Button>
-            </Html>
-          </A11y>
-          <A11y
-            role="button"
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[2, 1]}
-          >
-            <Html position={[5, 0, -15]} zIndexRange={[1, 0]}>
-              <Button onClick={shuttle2DrawerOnOpen}>
-                <QuestionOutlineIcon
-                  w={40}
-                  h={40}
-                  borderWidth="0px"
-                  borderRadius="50px"
-                  // borderColor="white"
-                  color="white"
-                  background="black"
-                />
-              </Button>
-            </Html>
-          </A11y>
+          <Html position={[0, 0, 15]} zIndexRange={[1, 0]} tabIndex={0.88}>
+            <Button
+              onClick={shuttle1DrawerOnOpen}
+              onMouseEnter={() => {
+                setButton1Hover(true);
+              }}
+              onMouseLeave={() => {
+                setButton1Hover(false);
+              }}
+            >
+              <QuestionOutlineIcon
+                w={40}
+                h={40}
+                borderWidth="0px"
+                borderRadius="50px"
+                color={button1Hover ? "black" : "white"}
+                fontSize={button1Hover ? 2 : 1}
+                background={button1Hover ? "white" : "black"}
+                opacity={button1Hover ? 1 : 0.5}
+              />
+            </Button>
+          </Html>
+          <Html position={[5, 0, -10]} zIndexRange={[1, 0]} tabIndex={0.87}>
+            <Button
+              onClick={shuttle2DrawerOnOpen}
+              onMouseEnter={() => {
+                setButton2Hover(true);
+              }}
+              onMouseLeave={() => {
+                setButton2Hover(false);
+              }}
+            >
+              <QuestionOutlineIcon
+                w={40}
+                h={40}
+                borderWidth="0px"
+                borderRadius="50px"
+                color={button2Hover ? "black" : "white"}
+                fontSize={button2Hover ? 2 : 1}
+                background={button2Hover ? "white" : "black"}
+                opacity={button2Hover ? 1 : 0.5}
+              />
+            </Button>
+          </Html>
         </Suspense>
       </Canvas>
       <A11yAnnouncer />
@@ -884,7 +885,7 @@ function ShuttleContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">Booster Rockets</ModalHeader>
+              <ModalHeader minWidth="full">Space Shuttle</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
@@ -937,7 +938,7 @@ function ShuttleContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">Booster Rockets</ModalHeader>
+              <ModalHeader minWidth="full">Space Shuttle</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
@@ -996,46 +997,32 @@ function SaturnVContainer() {
     onClose: saturnV2DrawerOnClose,
   } = useDisclosure();
 
-  const [buttonHover, setButtonHover] = useState(false);
+  const [button1Hover, setButton1Hover] = useState(false);
+  const [button2Hover, setButton2Hover] = useState(false);
   return (
     <>
       <Canvas colorManagement camera={cameraProps} zIndex="1">
         <OrbitControls
           // enableZoom={false}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
+          minDistance={30}
+          maxDistance={100}
           enablePan={true}
           enableRotate={true}
         />
         <Lights />
         <Suspense fallback={<Loader />}>
-          <A11y
-            role="button"
-            focusCall={() => console.log("focused the crocket")}
-            actionCall={() => console.log("clicked the crocket")}
-            description="A rotating orange rocket with two booster engines, click to open more information"
-            zIndexRange={[2, 1]}
-          >
+          <A11y role="content" description="A Saturn V rocket." tabIndex={0.79}>
             <SaturnV position={[0, -20, 0]} rotation={[-Math.PI / 2, 0, 0]} />
           </A11y>
           <Environment preset="city" />
-
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 0, 0]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[5, 0, 0]}>
+          <Html zIndexRange={[1, 0]} position={[0, 0, 0]} tabIndex={0.78}>
             <Button
               onClick={saturnV1DrawerOnOpen}
               onMouseEnter={() => {
-                setButtonHover(true);
+                setButton1Hover(true);
               }}
               onMouseLeave={() => {
-                setButtonHover(false);
+                setButton1Hover(false);
               }}
             >
               <QuestionOutlineIcon
@@ -1045,38 +1032,35 @@ function SaturnVContainer() {
                 borderRadius="50px"
                 margin="2"
                 padding="1"
-                // borderColor="white"
-                color={buttonHover ? "black" : "white"}
-                fontSize={buttonHover ? 2 : 1}
-                // color="white"
-                background={buttonHover ? "white" : "black"}
-                opacity={buttonHover ? 1 : 0.5}
+                color={button1Hover ? "black" : "white"}
+                fontSize={button1Hover ? 2 : 1}
+                background={button1Hover ? "white" : "black"}
+                opacity={button1Hover ? 1 : 0.5}
               />
             </Button>
           </Html>
-          {/* </A11y> */}
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 30, 5]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[0, 30, 5]}>
-            <Button onClick={saturnV2DrawerOnOpen}>
+          <Html zIndexRange={[1, 0]} position={[-4, 30, 0]} tabIndex={0.77}>
+            <Button
+              onClick={saturnV2DrawerOnOpen}
+              onMouseEnter={() => {
+                setButton2Hover(true);
+              }}
+              onMouseLeave={() => {
+                setButton2Hover(false);
+              }}
+            >
               <QuestionOutlineIcon
                 w={40}
                 h={40}
                 borderWidth="0px"
                 borderRadius="50px"
-                // borderColor="white"
-                color="white"
-                background="black"
+                color={button2Hover ? "black" : "white"}
+                fontSize={button2Hover ? 2 : 1}
+                background={button2Hover ? "white" : "black"}
+                opacity={button2Hover ? 1 : 0.5}
               />
             </Button>
           </Html>
-          {/* </A11y> */}
         </Suspense>
       </Canvas>
       <A11yAnnouncer />
@@ -1093,7 +1077,7 @@ function SaturnVContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">Booster Rockets</ModalHeader>
+              <ModalHeader minWidth="full">Saturn V</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
@@ -1142,7 +1126,7 @@ function SaturnVContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">Booster Rockets</ModalHeader>
+              <ModalHeader minWidth="full">Saturn V</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
@@ -1188,28 +1172,34 @@ function VenatorContainer() {
     position: [0, 0, 150],
   };
   const {
-    isOpen: venatorDrawerIsOpen,
-    onOpen: venatorDrawerOnOpen,
-    onClose: venatorDrawerOnClose,
+    isOpen: venator1DrawerIsOpen,
+    onOpen: venator1DrawerOnOpen,
+    onClose: venator1DrawerOnClose,
   } = useDisclosure();
-  const [buttonHover, setButtonHover] = useState(false);
+  const {
+    isOpen: venator2DrawerIsOpen,
+    onOpen: venator2DrawerOnOpen,
+    onClose: venator2DrawerOnClose,
+  } = useDisclosure();
+
+  const [button1Hover, setButton1Hover] = useState(false);
+  const [button2Hover, setButton2Hover] = useState(false);
   return (
     <>
       <Canvas colorManagement camera={cameraProps} zIndex="1">
         <OrbitControls
           // enableZoom={false}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
+          minDistance={30}
+          maxDistance={150}
           enablePan={true}
           enableRotate={true}
         />
         <Lights />
         <Suspense fallback={<Loader />}>
           <A11y
-            role="button"
-            focusCall={() => console.log("focused the crocket")}
-            actionCall={() => console.log("clicked the crocket")}
-            description="A rotating orange rocket with two booster engines, click to open more information"
+            role="content"
+            description="Venator class star destroyer."
+            tabIndex={0.99}
             zIndexRange={[2, 1]}
           >
             <VenatorClass
@@ -1219,22 +1209,14 @@ function VenatorContainer() {
           </A11y>
           <Environment preset="city" />
 
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 0, 0]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[5, 0, 0]}>
+          <Html zIndexRange={[1, 0]} position={[5, -5, 20]} tabIndex={0.98}>
             <Button
-              onClick={venatorDrawerOnOpen}
+              onClick={venator1DrawerOnOpen}
               onMouseEnter={() => {
-                setButtonHover(true);
+                setButton1Hover(true);
               }}
               onMouseLeave={() => {
-                setButtonHover(false);
+                setButton1Hover(false);
               }}
             >
               <QuestionOutlineIcon
@@ -1244,45 +1226,43 @@ function VenatorContainer() {
                 borderRadius="50px"
                 margin="2"
                 padding="1"
-                // borderColor="white"
-                color={buttonHover ? "black" : "white"}
-                fontSize={buttonHover ? 2 : 1}
-                // color="white"
-                background={buttonHover ? "white" : "black"}
-                opacity={buttonHover ? 1 : 0.5}
+                color={button1Hover ? "black" : "white"}
+                fontSize={button1Hover ? 2 : 1}
+                background={button1Hover ? "white" : "black"}
+                opacity={button1Hover ? 1 : 0.5}
               />
             </Button>
           </Html>
-          {/* </A11y> */}
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 30, 5]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[0, 30, 5]}>
-            <Button onClick={venatorDrawerOnOpen}>
+          <Html zIndexRange={[1, 0]} position={[0, 0, -30]} tabIndex={0.97}>
+            <Button
+              onClick={venator2DrawerOnOpen}
+              onMouseEnter={() => {
+                setButton2Hover(true);
+              }}
+              onMouseLeave={() => {
+                setButton2Hover(false);
+              }}
+            >
               <QuestionOutlineIcon
                 w={40}
                 h={40}
                 borderWidth="0px"
                 borderRadius="50px"
-                // borderColor="white"
-                color="white"
-                background="black"
+                color={button2Hover ? "black" : "white"}
+                fontSize={button2Hover ? 2 : 1}
+                background={button2Hover ? "white" : "black"}
+                opacity={button2Hover ? 1 : 0.5}
               />
             </Button>
           </Html>
-          {/* </A11y> */}
         </Suspense>
       </Canvas>
       <A11yAnnouncer />
 
+      {/* Modal 1 */}
       <Modal
-        isOpen={venatorDrawerIsOpen}
-        onClose={venatorDrawerOnClose}
+        isOpen={venator1DrawerIsOpen}
+        onClose={venator1DrawerOnClose}
         size="2xl"
         isCentered
         scrollBehavior="inside"
@@ -1291,19 +1271,84 @@ function VenatorContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">Venator </ModalHeader>
+              <ModalHeader minWidth="full">Venator</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
-            voluptatibus minus id placeat enim obcaecati repellat quaerat
-            deleniti facilis ea?
+            The Venator-class Star Destroyer, or Venator-class cruiser, also
+            known as the Jedi cruiser, Republic attack cruiser, or Republic Star
+            Destroyer, was a line of wedge-shaped cruiser-classed Star
+            Destroyers in the navies of the Galactic Republic and its successor
+            Galactic Empire. Designed by Lira Wessex and manufactured by Kuat
+            Drive Yards, the Venator was a versatile capital ship capable of
+            serving as both a combatant in ship-to-ship naval warfare and a
+            starfighter carrier, while also being employed as a troop transport,
+            cargo ship, and supply and replenishment vessel.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={venatorImage1}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="Venator fleet battle"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
           </ModalBody>
           <Center>
             <ModalFooter>
-              <Button onClick={venatorDrawerOnClose}>Close</Button>
+              <Button onClick={venator1DrawerOnClose}>Close</Button>
+            </ModalFooter>
+          </Center>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal 2 */}
+      <Modal
+        isOpen={venator2DrawerIsOpen}
+        onClose={venator2DrawerOnClose}
+        size="2xl"
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent mx="4">
+          <Center>
+            <Center>
+              <ModalHeader minWidth="full">Venator</ModalHeader>
+            </Center>
+            <ModalCloseButton />
+          </Center>
+          <ModalBody>
+            As the backbone of the Galactic Republic's naval forces during the
+            Clone Wars, the Venator was commonly employed by the Jedi Generals
+            of the Grand Army of the Republic as their flagships, thus earning
+            the "Jedi cruiser" moniker. Deployed across the galaxy against the
+            Confederacy of Independent Systems, Venators saw action in many
+            major engagements, such as the Battle of Christophsis, the
+            Malevolence Campaign, the Battle of Ryloth, and the Second Battle of
+            Geonosis. In the climactic Battle of Coruscant in the waning days of
+            the war, some 1,000 Venators defended the galactic capital Coruscant
+            against a massive Separatist fleet.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={venatorImage2}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="Venator fleet battle"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+          </ModalBody>
+          <Center>
+            <ModalFooter>
+              <Button onClick={venator2DrawerOnClose}>Close</Button>
             </ModalFooter>
           </Center>
         </ModalContent>
@@ -1320,28 +1365,33 @@ function VictoryContainer() {
     position: [0, 0, 150],
   };
   const {
-    isOpen: victoryDrawerIsOpen,
-    onOpen: victoryDrawerOnOpen,
-    onClose: victoryDrawerOnClose,
+    isOpen: victory1DrawerIsOpen,
+    onOpen: victory1DrawerOnOpen,
+    onClose: victory1DrawerOnClose,
   } = useDisclosure();
-  const [buttonHover, setButtonHover] = useState(false);
+  const {
+    isOpen: victory2DrawerIsOpen,
+    onOpen: victory2DrawerOnOpen,
+    onClose: victory2DrawerOnClose,
+  } = useDisclosure();
+  const [button1Hover, setButton1Hover] = useState(false);
+  const [button2Hover, setButton2Hover] = useState(false);
   return (
     <>
       <Canvas colorManagement camera={cameraProps} zIndex="1">
         <OrbitControls
           // enableZoom={false}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
+          minDistance={30}
+          maxDistance={150}
           enablePan={true}
           enableRotate={true}
         />
         <Lights />
         <Suspense fallback={<Loader />}>
           <A11y
-            role="button"
-            focusCall={() => console.log("focused the crocket")}
-            actionCall={() => console.log("clicked the crocket")}
-            description="A rotating orange rocket with two booster engines, click to open more information"
+            role="content"
+            description="A Victory class star destroyer."
+            tabIndex={0.89}
             zIndexRange={[2, 1]}
           >
             <VictoryClass
@@ -1351,22 +1401,14 @@ function VictoryContainer() {
           </A11y>
           <Environment preset="city" />
 
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 0, 0]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[5, 0, 0]}>
+          <Html zIndexRange={[1, 0]} position={[-25, 0, -50]} tabIndex={0.88}>
             <Button
-              onClick={victoryDrawerOnOpen}
+              onClick={victory1DrawerOnOpen}
               onMouseEnter={() => {
-                setButtonHover(true);
+                setButton1Hover(true);
               }}
               onMouseLeave={() => {
-                setButtonHover(false);
+                setButton1Hover(false);
               }}
             >
               <QuestionOutlineIcon
@@ -1376,45 +1418,43 @@ function VictoryContainer() {
                 borderRadius="50px"
                 margin="2"
                 padding="1"
-                // borderColor="white"
-                color={buttonHover ? "black" : "white"}
-                fontSize={buttonHover ? 2 : 1}
-                // color="white"
-                background={buttonHover ? "white" : "black"}
-                opacity={buttonHover ? 1 : 0.5}
+                color={button1Hover ? "black" : "white"}
+                fontSize={button1Hover ? 2 : 1}
+                background={button1Hover ? "white" : "black"}
+                opacity={button1Hover ? 1 : 0.5}
               />
             </Button>
           </Html>
-          {/* </A11y> */}
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 30, 5]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[0, 30, 5]}>
-            <Button onClick={victoryDrawerOnOpen}>
+          <Html zIndexRange={[1, 0]} position={[5, -3, 0]} tabIndex={0.87}>
+            <Button
+              onClick={victory2DrawerOnOpen}
+              onMouseEnter={() => {
+                setButton2Hover(true);
+              }}
+              onMouseLeave={() => {
+                setButton2Hover(false);
+              }}
+            >
               <QuestionOutlineIcon
                 w={40}
                 h={40}
                 borderWidth="0px"
                 borderRadius="50px"
-                // borderColor="white"
-                color="white"
-                background="black"
+                color={button2Hover ? "black" : "white"}
+                fontSize={button2Hover ? 2 : 1}
+                background={button2Hover ? "white" : "black"}
+                opacity={button2Hover ? 1 : 0.5}
               />
             </Button>
           </Html>
-          {/* </A11y> */}
         </Suspense>
       </Canvas>
       <A11yAnnouncer />
 
+      {/* Modal 1 */}
       <Modal
-        isOpen={victoryDrawerIsOpen}
-        onClose={victoryDrawerOnClose}
+        isOpen={victory1DrawerIsOpen}
+        onClose={victory1DrawerOnClose}
         size="2xl"
         isCentered
         scrollBehavior="inside"
@@ -1423,19 +1463,85 @@ function VictoryContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">Victory</ModalHeader>
+              <ModalHeader minWidth="full">Victory I</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
-            voluptatibus minus id placeat enim obcaecati repellat quaerat
-            deleniti facilis ea?
+            The Victory I-class Star Destroyer, also known as the Victory
+            I-class Destroyer and Victoria I-class Star Destroyer, was a warship
+            designed for planetary defense, planetary assault, ground troop
+            support, and ship-to-ship combat. It was used by the Galactic
+            Republic during the mid-Clone Wars, the Galactic Empire and the
+            Corporate Sector during the Galactic Civil War and the Confederation
+            during the Second Galactic Civil War.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={victoryImage1}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A space rocket with orange booster engines behind some trees"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+            The Victory I-class Star Destroyer's biggest disadvantage was its
+            underpowered LF9 ion engines, which could not produce sufficient
+            acceleration to pursue newer and faster ships, allowing them to
+            escape ship-to-ship combat. This flaw was rectified in the limited
+            Victory II-class, produced shortly before the advent of the Empire.
           </ModalBody>
           <Center>
             <ModalFooter>
-              <Button onClick={victoryDrawerOnClose}>Close</Button>
+              <Button onClick={victory1DrawerOnClose}>Close</Button>
+            </ModalFooter>
+          </Center>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal 2 */}
+      <Modal
+        isOpen={victory2DrawerIsOpen}
+        onClose={victory2DrawerOnClose}
+        size="2xl"
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent mx="4">
+          <Center>
+            <Center>
+              <ModalHeader minWidth="full">Victory II</ModalHeader>
+            </Center>
+            <ModalCloseButton />
+          </Center>
+          <ModalBody>
+            The Victory II-class Star Destroyer was a class of Star Destroyer
+            that was manufactured by Kuat Drive Yards as a successor to the
+            original Victory-class Star Destroyer. Initially a life extension
+            program, it became the Victory II program which introduced the
+            Victory II-class, and sought to fix many problems from the previous
+            model including increasing combat performance and longevity. Despite
+            the rebuilds, the Victory II was not able to correct all of the
+            issues of its predecessor.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={victoryImage2}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A space rocket with orange booster engines behind some trees"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+          </ModalBody>
+          <Center>
+            <ModalFooter>
+              <Button onClick={victory2DrawerOnClose}>Close</Button>
             </ModalFooter>
           </Center>
         </ModalContent>
@@ -1462,18 +1568,17 @@ function ResurgentContainer() {
       <Canvas colorManagement camera={cameraProps} zIndex="1">
         <OrbitControls
           // enableZoom={false}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
+          minDistance={30}
+          maxDistance={150}
           enablePan={true}
           enableRotate={true}
         />
         <Lights />
         <Suspense fallback={<Loader />}>
           <A11y
-            role="button"
-            focusCall={() => console.log("focused the crocket")}
-            actionCall={() => console.log("clicked the crocket")}
-            description="A rotating orange rocket with two booster engines, click to open more information"
+            role="content"
+            description="A Resurgent class star destroyer."
+            tabIndex={0.79}
             zIndexRange={[2, 1]}
           >
             <ResurgentClass
@@ -1482,16 +1587,7 @@ function ResurgentContainer() {
             />
           </A11y>
           <Environment preset="city" />
-
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 0, 0]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[5, 0, 0]}>
+          <Html zIndexRange={[1, 0]} position={[0, 10, 0]} tabIndex={0.78}>
             <Button
               onClick={resurgentDrawerOnOpen}
               onMouseEnter={() => {
@@ -1517,33 +1613,11 @@ function ResurgentContainer() {
               />
             </Button>
           </Html>
-          {/* </A11y> */}
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 30, 5]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[0, 30, 5]}>
-            <Button onClick={resurgentDrawerOnOpen}>
-              <QuestionOutlineIcon
-                w={40}
-                h={40}
-                borderWidth="0px"
-                borderRadius="50px"
-                // borderColor="white"
-                color="white"
-                background="black"
-              />
-            </Button>
-          </Html>
-          {/* </A11y> */}
         </Suspense>
       </Canvas>
       <A11yAnnouncer />
 
+      {/* Modal 1 */}
       <Modal
         isOpen={resurgentDrawerIsOpen}
         onClose={resurgentDrawerOnClose}
@@ -1560,11 +1634,29 @@ function ResurgentContainer() {
             <ModalCloseButton />
           </Center>
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
-            voluptatibus minus id placeat enim obcaecati repellat quaerat
-            deleniti facilis ea?
+            The Resurgent-class Star Destroyer, also known as the
+            Resurgent-class Battlecruiser, the Resurgent Star Destroyer, or the
+            First Order Star Destroyer was an iconic model of battlecruiser and
+            Star Destroyer built by Kuat-Entralla Engineering. It saw service in
+            the First Order Navy in the Unknown Regions after the signing of the
+            Galactic Concordance. Based on the Imperial-class Star Destroyers of
+            the Galactic Empire, it featured advanced weaponry and extreme size
+            and represented the might of the emergent First Order throughout the
+            galaxy.[1] It was still considered a new model by 34 ABY.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={resurgentImage1}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A space rocket with orange booster engines behind some trees"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
           </ModalBody>
+
           <Center>
             <ModalFooter>
               <Button onClick={resurgentDrawerOnClose}>Close</Button>
@@ -1595,18 +1687,17 @@ function DderidexContainer() {
       <Canvas colorManagement camera={cameraProps} zIndex="1">
         <OrbitControls
           // enableZoom={false}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
+          minDistance={30}
+          maxDistance={150}
           enablePan={true}
           enableRotate={true}
         />
         <Lights />
         <Suspense fallback={<Loader />}>
           <A11y
-            role="button"
-            focusCall={() => console.log("focused the crocket")}
-            actionCall={() => console.log("clicked the crocket")}
-            description="A rotating orange rocket with two booster engines, click to open more information"
+            role="content"
+            description="Romulan D'deridex warbird."
+            tabIndex={0.99}
             zIndexRange={[2, 1]}
           >
             <Dderidex
@@ -1616,15 +1707,7 @@ function DderidexContainer() {
           </A11y>
           <Environment preset="city" />
 
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 0, 0]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[5, 0, 0]}>
+          <Html zIndexRange={[1, 0]} position={[5, 0, 0]} tabIndex={0.98}>
             <Button
               onClick={dderidexDrawerOnOpen}
               onMouseEnter={() => {
@@ -1650,29 +1733,6 @@ function DderidexContainer() {
               />
             </Button>
           </Html>
-          {/* </A11y> */}
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 30, 5]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[0, 30, 5]}>
-            <Button onClick={dderidexDrawerOnOpen}>
-              <QuestionOutlineIcon
-                w={40}
-                h={40}
-                borderWidth="0px"
-                borderRadius="50px"
-                // borderColor="white"
-                color="white"
-                background="black"
-              />
-            </Button>
-          </Html>
-          {/* </A11y> */}
         </Suspense>
       </Canvas>
       <A11yAnnouncer />
@@ -1688,16 +1748,45 @@ function DderidexContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">dderidex</ModalHeader>
+              <ModalHeader minWidth="full">D'deridex</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
-            voluptatibus minus id placeat enim obcaecati repellat quaerat
-            deleniti facilis ea?
+            The D'deridex-class warbird was classified as a battle cruiser by
+            Starfleet. Using a forced quantum singularity as a power source and
+            the latest in Romulan cloaking technology, the D'deridex was not
+            only one of the most advanced vessels in the Romulan Star Empire,
+            but also in the Alpha Quadrant. These warbirds were roughly twice as
+            long as a Federation Galaxy-class starship with a lower overall
+            maximum warp.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={dderidexImage1}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A space rocket with orange booster engines behind some trees"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+            Although not mentioned on screen, the original Andrew Probert design
+            of the warbird was to have a single torpedo launcher positioned at
+            the upper "nape" of the ship, at the top foremost position of the
+            upper "shell". In addition, the warbird was to have a total of ten
+            disruptor emitters, positioned in various locations on the model.
+            These positions included: one pair on the "head" (one on either
+            "cheek"), one pair on the vertical structure at the aft end of the
+            ship (one on either side), two pairs on the aft edges of the port
+            and starboard dorsal and ventral wings (one emitter at each
+            location, for a total of four), and one pair at the dorsal apex of
+            the ship. However, two other emitters are seen on at least one
+            warbird, namely in the "nose" (pictured) and top part of the upper
+            "back" (shown in The Next Generation episode "Contagion").
           </ModalBody>
+
           <Center>
             <ModalFooter>
               <Button onClick={dderidexDrawerOnClose}>Close</Button>
@@ -1726,19 +1815,17 @@ function EnterpriseContainer() {
     <>
       <Canvas colorManagement camera={cameraProps} zIndex="1">
         <OrbitControls
-          // enableZoom={false}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
+          minDistance={30}
+          maxDistance={150}
           enablePan={true}
           enableRotate={true}
         />
         <Lights />
         <Suspense fallback={<Loader />}>
           <A11y
-            role="button"
-            focusCall={() => console.log("focused the crocket")}
-            actionCall={() => console.log("clicked the crocket")}
-            description="A rotating orange rocket with two booster engines, click to open more information"
+            role="content"
+            description="The original Enterprise A."
+            tabIndex={0.89}
             zIndexRange={[2, 1]}
           >
             <Enterprise
@@ -1748,15 +1835,7 @@ function EnterpriseContainer() {
           </A11y>
           <Environment preset="city" />
 
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 0, 0]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[5, 0, 0]}>
+          <Html zIndexRange={[1, 0]} position={[5, 0, 0]} tabIndex={0.88}>
             <Button
               onClick={enterpriseDrawerOnOpen}
               onMouseEnter={() => {
@@ -1782,29 +1861,6 @@ function EnterpriseContainer() {
               />
             </Button>
           </Html>
-          {/* </A11y> */}
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 30, 5]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[0, 30, 5]}>
-            <Button onClick={enterpriseDrawerOnOpen}>
-              <QuestionOutlineIcon
-                w={40}
-                h={40}
-                borderWidth="0px"
-                borderRadius="50px"
-                // borderColor="white"
-                color="white"
-                background="black"
-              />
-            </Button>
-          </Html>
-          {/* </A11y> */}
         </Suspense>
       </Canvas>
       <A11yAnnouncer />
@@ -1820,15 +1876,38 @@ function EnterpriseContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">enterprise</ModalHeader>
+              <ModalHeader minWidth="full">The original Enterprise</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
-            voluptatibus minus id placeat enim obcaecati repellat quaerat
-            deleniti facilis ea?
+            The USS Enterprise (NCC-1701) was a 23rd century Federation
+            Constitution-class starship operated by Starfleet. It was also the
+            first ship to bear the name Enterprise with this registry. Launched
+            in 2245, the ship was commanded by Captain Robert April until 2250,
+            when command of the ship was turned over to April's First Officer
+            Christopher Pike.
+            <br />
+            Pike's command of the Enterprise ended around 2265 when Pike was
+            promoted to fleet captain and command of the ship was turned over to
+            Captain James T. Kirk.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={enterpriseImage1}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="The original Enterprise, designation 1701"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+            The Enterprise was destroyed over the Genesis Planet in 2285, when
+            Kirk activated the ship's auto-destruct sequence to prevent the
+            Enterprise from falling into the hands of the Klingons. (Star Trek
+            III: The Search for Spock) It was soon replaced by the USS
+            Enterprise-A.
           </ModalBody>
           <Center>
             <ModalFooter>
@@ -1859,18 +1938,17 @@ function SovereignContainer() {
       <Canvas colorManagement camera={cameraProps} zIndex="1">
         <OrbitControls
           // enableZoom={false}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
+          minDistance={30}
+          maxDistance={150}
           enablePan={true}
           enableRotate={true}
         />
         <Lights />
         <Suspense fallback={<Loader />}>
           <A11y
-            role="button"
-            focusCall={() => console.log("focused the crocket")}
-            actionCall={() => console.log("clicked the crocket")}
-            description="A rotating orange rocket with two booster engines, click to open more information"
+            role="content"
+            description="Sovereign class heavy cruiser, the most famous being the Enterprise E."
+            tabIndex={0.79}
             zIndexRange={[2, 1]}
           >
             <Sovereign
@@ -1880,15 +1958,7 @@ function SovereignContainer() {
           </A11y>
           <Environment preset="city" />
 
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 0, 0]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[5, 0, 0]}>
+          <Html zIndexRange={[1, 0]} position={[5, 0, 0]} tabIndex={0.79}>
             <Button
               onClick={sovereignDrawerOnOpen}
               onMouseEnter={() => {
@@ -1914,29 +1984,6 @@ function SovereignContainer() {
               />
             </Button>
           </Html>
-          {/* </A11y> */}
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 30, 5]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[0, 30, 5]}>
-            <Button onClick={sovereignDrawerOnOpen}>
-              <QuestionOutlineIcon
-                w={40}
-                h={40}
-                borderWidth="0px"
-                borderRadius="50px"
-                // borderColor="white"
-                color="white"
-                background="black"
-              />
-            </Button>
-          </Html>
-          {/* </A11y> */}
         </Suspense>
       </Canvas>
       <A11yAnnouncer />
@@ -1952,15 +1999,41 @@ function SovereignContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">sovereign</ModalHeader>
+              <ModalHeader minWidth="full">
+                Sovereign Class Enterprise-E
+              </ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
-            voluptatibus minus id placeat enim obcaecati repellat quaerat
-            deleniti facilis ea?
+            On stardate 49027.5, the Sovereign-class Enterprise-E, seen as the
+            pinnacle of Starfleet ship design, was launched from San Francisco
+            Fleet Yards, with Captain Jean-Luc Picard in command once more. Much
+            of the crew of the Enterprise-D had been reassigned there, including
+            almost the entire senior staff. The sole exception was Lieutenant
+            Commander Worf, who had already transferred to the space station
+            Deep Space 9. (Star Trek: First Contact; DS9: "The Way of the
+            Warrior", "Trials and Tribble-ations")
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={sovereignImage1}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A space rocket with orange booster engines behind some trees"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+            Asked about its construction, Ronald D. Moore replied that his
+            "working assumption was that the E-E had her keel laid sometime
+            during TNG's last season and was probably going to be given another
+            name. When the E-D was destroyed, that Sovereign-class ship was
+            nearing completion and was then christened Enterprise. This same
+            sort of thing happened during WWII. After the carrier Yorktown was
+            sunk at Midway, the US Navy decided to rename a carrier then under
+            construction in honor of the fallen ship." (AOL chat, 1998)
           </ModalBody>
           <Center>
             <ModalFooter>
@@ -1982,11 +2055,17 @@ function SpaceSuitContainer() {
     position: [0, 0, 100],
   };
   const {
-    isOpen: spaceSuitDrawerIsOpen,
-    onOpen: spaceSuitDrawerOnOpen,
-    onClose: spaceSuitDrawerOnClose,
+    isOpen: spaceSuit1DrawerIsOpen,
+    onOpen: spaceSuit1DrawerOnOpen,
+    onClose: spaceSuit1DrawerOnClose,
   } = useDisclosure();
-  const [buttonHover, setButtonHover] = useState(false);
+  const {
+    isOpen: spaceSuit2DrawerIsOpen,
+    onOpen: spaceSuit2DrawerOnOpen,
+    onClose: spaceSuit2DrawerOnClose,
+  } = useDisclosure();
+  const [button1Hover, setButton1Hover] = useState(false);
+  const [button2Hover, setButton2Hover] = useState(false);
   return (
     <>
       <Canvas
@@ -1997,40 +2076,31 @@ function SpaceSuitContainer() {
       >
         <OrbitControls
           // enableZoom={false}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
+          minDistance={30}
+          maxDistance={100}
           enablePan={true}
           enableRotate={true}
         />
         <Lights />
         <Suspense fallback={<Loader />}>
           <A11y
-            role="button"
-            focusCall={() => console.log("focused the crocket")}
-            actionCall={() => console.log("clicked the crocket")}
-            description="A rotating orange rocket with two booster engines, click to open more information"
+            role="content"
+            description="A basic space suit without a backpack."
+            tabIndex={0.99}
             zIndexRange={[2, 1]}
           >
             <SpaceSuit position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} />
           </A11y>
           <Environment preset="city" />
 
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 0, 0]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[5, 0, 0]}>
+          <Html zIndexRange={[1, 0]} position={[5, 0, 0]} tabIndex={0.98}>
             <Button
-              onClick={spaceSuitDrawerOnOpen}
+              onClick={spaceSuit1DrawerOnOpen}
               onMouseEnter={() => {
-                setButtonHover(true);
+                setButton1Hover(true);
               }}
               onMouseLeave={() => {
-                setButtonHover(false);
+                setButton1Hover(false);
               }}
             >
               <QuestionOutlineIcon
@@ -2040,45 +2110,43 @@ function SpaceSuitContainer() {
                 borderRadius="50px"
                 margin="2"
                 padding="1"
-                // borderColor="white"
-                color={buttonHover ? "black" : "white"}
-                fontSize={buttonHover ? 2 : 1}
-                // color="white"
-                background={buttonHover ? "white" : "black"}
-                opacity={buttonHover ? 1 : 0.5}
+                color={button1Hover ? "black" : "white"}
+                fontSize={button1Hover ? 2 : 1}
+                background={button1Hover ? "white" : "black"}
+                opacity={button1Hover ? 1 : 0.5}
               />
             </Button>
           </Html>
-          {/* </A11y> */}
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 30, 5]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[0, 30, 5]}>
-            <Button onClick={spaceSuitDrawerOnOpen}>
+          <Html zIndexRange={[1, 0]} position={[0, 30, 5]} tabIndex={0.97}>
+            <Button
+              onClick={spaceSuit2DrawerOnOpen}
+              onMouseEnter={() => {
+                setButton2Hover(true);
+              }}
+              onMouseLeave={() => {
+                setButton2Hover(false);
+              }}
+            >
               <QuestionOutlineIcon
                 w={40}
                 h={40}
                 borderWidth="0px"
                 borderRadius="50px"
-                // borderColor="white"
-                color="white"
-                background="black"
+                color={button2Hover ? "black" : "white"}
+                fontSize={button2Hover ? 2 : 1}
+                background={button2Hover ? "white" : "black"}
+                opacity={button2Hover ? 1 : 0.5}
               />
             </Button>
           </Html>
-          {/* </A11y> */}
         </Suspense>
       </Canvas>
       <A11yAnnouncer />
 
+      {/* Modal 1 */}
       <Modal
-        isOpen={spaceSuitDrawerIsOpen}
-        onClose={spaceSuitDrawerOnClose}
+        isOpen={spaceSuit1DrawerIsOpen}
+        onClose={spaceSuit1DrawerOnClose}
         size="2xl"
         isCentered
         scrollBehavior="inside"
@@ -2087,19 +2155,104 @@ function SpaceSuitContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">spaceSuit</ModalHeader>
+              <ModalHeader minWidth="full">Space Suits</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
-            voluptatibus minus id placeat enim obcaecati repellat quaerat
-            deleniti facilis ea?
+            A space suit or spacesuit is a garment worn to keep a human alive in
+            the harsh environment of outer space, vacuum and temperature
+            extremes. Space suits are often worn inside spacecraft as a safety
+            precaution in case of loss of cabin pressure, and are necessary for
+            extravehicular activity (EVA), work done outside spacecraft. Space
+            suits have been worn for such work in Earth orbit, on the surface of
+            the Moon, and en route back to Earth from the Moon.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={spaceSuitImage1}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A space rocket with orange booster engines behind some trees"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+            Modern space suits augment the basic pressure garment with a complex
+            system of equipment and environmental systems designed to keep the
+            wearer comfortable, and to minimize the effort required to bend the
+            limbs, resisting a soft pressure garment's natural tendency to
+            stiffen against the vacuum. A self-contained oxygen supply and
+            environmental control system is frequently employed to allow
+            complete freedom of movement, independent of the spacecraft.
           </ModalBody>
           <Center>
             <ModalFooter>
-              <Button onClick={spaceSuitDrawerOnClose}>Close</Button>
+              <Button onClick={spaceSuit1DrawerOnClose}>Close</Button>
+            </ModalFooter>
+          </Center>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal 2 */}
+      <Modal
+        isOpen={spaceSuit2DrawerIsOpen}
+        onClose={spaceSuit2DrawerOnClose}
+        size="2xl"
+        isCentered
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent mx="4">
+          <Center>
+            <Center>
+              <ModalHeader minWidth="full">Space Suits</ModalHeader>
+            </Center>
+            <ModalCloseButton />
+          </Center>
+          <ModalBody>
+            Three types of space suits exist for different purposes: IVA
+            (intravehicular activity), EVA (extravehicular activity), and IEVA
+            (intra/extravehicular activity). IVA suits are meant to be worn
+            inside a pressurized spacecraft, and are therefore lighter and more
+            comfortable. IEVA suits are meant for use inside and outside the
+            spacecraft, such as the Gemini G4C suit. They include more
+            protection from the harsh conditions of space, such as protection
+            from micrometeoroids and extreme temperature change.
+            <br />
+            <br />
+            EVA suits, such as the EMU, are used outside spacecraft, for either
+            planetary exploration or spacewalks. They must protect the wearer
+            against all conditions of space, as well as provide mobility and
+            functionality.
+            <br />
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={spaceSuitImage2}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A space rocket with orange booster engines behind some trees"
+                  objectFit="cover"
+                  borderRadius="xl"
+                ></Image>
+              </Box>
+            </Center>
+            Some of these requirements also apply to pressure suits worn for
+            other specialized tasks, such as high-altitude reconnaissance
+            flight. At altitudes above the Armstrong limit, around 19,000 m
+            (62,000 ft), water boils at body temperature and pressurized suits
+            are needed.
+            <br />
+            <br />
+            The first full-pressure suits for use at extreme altitudes were
+            designed by individual inventors as early as the 1930s. The first
+            space suit worn by a human in space was the Soviet SK-1 suit worn by
+            Yuri Gagarin in 1961.
+          </ModalBody>
+          <Center>
+            <ModalFooter>
+              <Button onClick={spaceSuit2DrawerOnClose}>Close</Button>
             </ModalFooter>
           </Center>
         </ModalContent>
@@ -2131,36 +2284,27 @@ function SpaceHelmetContainer() {
       >
         <OrbitControls
           // enableZoom={false}
-          minZoom={Math.PI / 4}
-          maxZoom={Math.PI / 4}
+          minDistance={30}
+          maxDistance={100}
           enablePan={true}
           enableRotate={true}
         />
         <Lights />
         <Suspense fallback={<Loader />}>
           <A11y
-            role="button"
-            focusCall={() => console.log("focused the crocket")}
-            actionCall={() => console.log("clicked the crocket")}
-            description="A rotating orange rocket with two booster engines, click to open more information"
+            role="content"
+            description="A space suit's helmet with the visor lifted up."
+            tabIndex={0.89}
             zIndexRange={[2, 1]}
           >
-            <SpaceHelmet
+            <AstronautHelmet
               position={[0, -20, 0]}
               rotation={[-Math.PI / 2, 0, 0]}
             />
           </A11y>
           <Environment preset="city" />
 
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 0, 0]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[5, 0, 0]}>
+          <Html zIndexRange={[1, 0]} position={[5, 0, 0]} tabIndex={0.88}>
             <Button
               onClick={spaceHelmetDrawerOnOpen}
               onMouseEnter={() => {
@@ -2186,29 +2330,6 @@ function SpaceHelmetContainer() {
               />
             </Button>
           </Html>
-          {/* </A11y> */}
-          {/* <A11y
-            role="button"
-            onClick={saturnVDrawerOnOpen}
-            actionCall={() => console.log("clicked the boosters")}
-            description="Click to learn more information about the booster engines"
-            zIndexRange={[0, 1]}
-            position={[0, 30, 5]}
-          > */}
-          <Html zIndexRange={[1, 0]} position={[0, 30, 5]}>
-            <Button onClick={spaceHelmetDrawerOnOpen}>
-              <QuestionOutlineIcon
-                w={40}
-                h={40}
-                borderWidth="0px"
-                borderRadius="50px"
-                // borderColor="white"
-                color="white"
-                background="black"
-              />
-            </Button>
-          </Html>
-          {/* </A11y> */}
         </Suspense>
       </Canvas>
 
@@ -2225,15 +2346,42 @@ function SpaceHelmetContainer() {
         <ModalContent mx="4">
           <Center>
             <Center>
-              <ModalHeader minWidth="full">spaceHelmet</ModalHeader>
+              <ModalHeader minWidth="full">Space Helmet</ModalHeader>
             </Center>
             <ModalCloseButton />
           </Center>
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
-            non unde soluta earum suscipit nobis debitis, aspernatur sit totam
-            voluptatibus minus id placeat enim obcaecati repellat quaerat
-            deleniti facilis ea?
+            The development of the spheroidal dome helmet was key in balancing
+            the need for field of view, pressure compensation, and low weight.
+            One inconvenience with some space suits is the head being fixed
+            facing forwards and being unable to turn to look sideways.
+            Astronauts call this effect "alligator head".
+            <br />
+            <br />
+            In NASA space suits, communications are provided via a cap worn over
+            the head, which includes earphones and a microphone. Due to the
+            coloration of the version used for Apollo and Skylab, which
+            resembled the coloration of the comic strip character Snoopy, these
+            caps became known as "Snoopy caps".
+            <Center>
+              <Box boxSize="xl" height="full" py={4}>
+                <Image
+                  src={helmetImage1}
+                  fallbackSrc="https://via.placeholder.com/300"
+                  alt="A space rocket with orange booster engines behind some trees"
+                  objectFit="cover"
+                  borderRadius="xl"
+                  m="auto"
+                ></Image>
+              </Box>
+            </Center>
+            When space suits below a specific operating pressure are used from
+            craft that are pressurized to normal atmospheric pressure (such as
+            the Space Shuttle), this requires astronauts to "pre-breathe"
+            (meaning pre-breathe pure oxygen for a period) before donning their
+            suits and depressurizing in the air lock. This procedure purges the
+            body of dissolved nitrogen, so as to avoid decompression sickness
+            due to rapid depressurization from a nitrogen-containing atmosphere.
           </ModalBody>
           <Center>
             <ModalFooter>

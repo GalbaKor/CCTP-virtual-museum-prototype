@@ -17,6 +17,7 @@ const MuseumMap = (props) => (
 
     {/* Entrance and Shop - no interaction */}
     <path
+      className="no-svg-click"
       style={{
         fill: "#bbb",
       }}
@@ -43,6 +44,7 @@ const MuseumMap = (props) => (
 
     {/* Main Hall - no interaction */}
     <path
+      className="no-svg-click"
       style={{
         fill: "#bbb",
       }}
@@ -58,7 +60,7 @@ const MuseumMap = (props) => (
       Main Hall
     </text>
 
-    <g role="list">
+    <g role="list" className="interactable-path-list">
       {/* Exhibition 1 - interactable */}
       <Tooltip hasArrow labe="Exhibit 1 - Space Theme">
         <g role="listitem">
@@ -76,13 +78,22 @@ const MuseumMap = (props) => (
               d="M372.99 485.64v315.39h332.23V694.08H495.25V485.64H372.99z"
             />
             <text
-              transform="matrix(1.06 0 0 1 436.78 752.71)"
+              transform="matrix(1.0 0 0 1 425 735)"
               style={{
                 fontFamily: "MyriadPro-Regular,Myriad Pro",
-                fontSize: 36,
+                fontSize: 24,
               }}
             >
-              Exhibition 1
+              Space, the final frontier
+            </text>
+            <text
+              transform="matrix(1.0 0 0 1 425 780)"
+              style={{
+                fontFamily: "MyriadPro-Regular,Myriad Pro",
+                fontSize: 24,
+              }}
+            >
+              (Exhibition 1)
             </text>
 
             <title id="exhibition1-title">Exhibition 1</title>

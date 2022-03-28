@@ -7,8 +7,6 @@ title: Saturn V Rocket
 */
 
 import React, { useRef } from "react";
-import { useState } from "react";
-import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 
 export default function SaturnV({ position, rotation, ...props }) {
@@ -16,26 +14,9 @@ export default function SaturnV({ position, rotation, ...props }) {
   const { nodes, materials } = useGLTF(
     "/space_exhibition_assets/saturn_v_rocket/scene.gltf"
   );
-  // const [hover, setHover] = useState(false);
-
-  // useFrame(() => {
-  //   group.current.rotation.y += 0.003;
-  // });
 
   return (
-    <group
-      position={position}
-      ref={group}
-      {...props}
-      dispose={null}
-      // onPointerOver={() => {
-      //   setHover(true);
-      // }}
-      // onPointerOut={() => {
-      //   setHover(false);
-      // }}
-      // scale={hover ? 1.05 : 1}
-    >
+    <group position={position} ref={group} {...props} dispose={null}>
       <group rotation={rotation}>
         <mesh
           geometry={nodes.saturnv.geometry}

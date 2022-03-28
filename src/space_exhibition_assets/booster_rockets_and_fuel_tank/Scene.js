@@ -7,10 +7,7 @@ title: Booster Rockets and Fuel Tank
 */
 
 import React, { useRef } from "react";
-import { useState, useEffect } from "react";
-import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
-import * as THREE from "three";
 
 export default function BoosterRocket({ position, rotation, ...props }) {
   const group = useRef();
@@ -18,78 +15,15 @@ export default function BoosterRocket({ position, rotation, ...props }) {
     "/space_exhibition_assets/booster_rockets_and_fuel_tank/scene.gltf"
   );
 
-  // const [title, setTitle] = useState(false);
-  const [hover, setHover] = useState(false);
-  // useEffect(() => {
-  //   document.body.style.cursor = hover ? "pointer" : "auto";
-  // }, [hover]);
-
-  // useFrame(() => {
-  //   group.current.rotation.y += 0.001;
-  // });
-  const hoverMaterial = new THREE.MeshPhongMaterial({
-    color: "red",
-    flatShading: true,
-  });
-
   return (
-    <>
-      <group
-        position={position}
-        ref={group}
-        {...props}
-        dispose={null}
-        // scale={hover ? 1.05 : 1}
-        // style={{ cursor: hover ? "pointer" : "default" }}
-        // cursor={hover ? "pointer" : "default"}
-
-        // onPointerOver={(e) => e.object.material.color.set("red")}
-        // setting the color works, setting material doesn't
-        // onPointerOVer={(e) => e.object.material.set(hoverMaterial)}
-        // onPointerOut={(e) => e.object.material.set(materials.Material__198)}
-      >
-        <group rotation={rotation}>
-          <mesh
-            geometry={nodes.booster.geometry}
-            material={materials.Material__198}
-            // onPointerOver={() => setHover(true)}
-            // onPointerOut={() => setHover(false)}
-          >
-            {/* {hover === true && (
-              <meshStandardMaterial
-                attach="material"
-                color="white"
-                roughness={0.3}
-                metalness={0.0}
-                opacity={hover ? 1 : 0}
-              />
-            )} */}
-          </mesh>
-          {/* <Html>
-            <div>
-              <Button
-                onPointerOver={() => {
-                  setTitle(true);
-                }}
-                onPointerOut={() => {
-                  setTitle(false);
-                }}
-                color="white"
-              >
-                <QuestionOutlineIcon w={24} h={24} />
-              </Button>
-              <Container
-                display={title ? "block" : "none"}
-                className="content"
-                color="white"
-              >
-                <p>Booster Engines</p>
-              </Container>
-            </div>
-          </Html> */}
-        </group>
+    <group position={position} ref={group} {...props} dispose={null}>
+      <group rotation={rotation}>
+        <mesh
+          geometry={nodes.booster.geometry}
+          material={materials.Material__198}
+        ></mesh>
       </group>
-    </>
+    </group>
   );
 }
 
