@@ -359,14 +359,6 @@ export const Exhibition1 = ({ setApp }) => {
         isOpen={tutorialDrawerIsOpen}
         placement="left"
         onClose={tutorialDrawerOnClose}
-        // onClose={() => {
-        //   if (localStorage.getItem("tutorialOnboardingVariable") === 1) {
-        //     localStorage.setItem("tutorialOnboardingVariable", 0);
-        //     tutorialDrawerOnClose();
-        //   } else {
-        //     tutorialDrawerOnClose();
-        //   }
-        // }}
         finalFocusRef={tutorialRef}
       >
         <DrawerOverlay />
@@ -376,41 +368,25 @@ export const Exhibition1 = ({ setApp }) => {
 
           <DrawerBody>
             <p>
-              Click on each of the models to open more information the artefacts
-              they represent. Then, when you are finished, press escape, click
-              the cross or anywhere outside the information box to return to the
-              model screen.
+              Click on each of the information buttons to learn about the
+              artefacts. Then, when you are finished, press escape, click the
+              cross or anywhere outside the information box to return to the
+              scene.
             </p>
             <br />
             <p>
               If you wish to move to a different scene containing a new set of
-              artefacts, cycle through the carousel below and click on the boxes
-              to change scene.
+              artefacts, click the navigation button and select one of the
+              available options.
             </p>
             <br />
             <p>
-              Occasionally, models may take longer to load due to higher levels
-              of detail. Please wait for the models to load before interacting
-              with the webpage.
+              Occasionally, models and images may take longer to load due to
+              higher levels of detail. Please wait for the models to load before
+              interacting with the webpage.
             </p>
             <br />
             <br />
-            {/* <p>
-              If you'd like the tutorial to open when you next load open an
-              exhibition, click here to reset the tutorial.
-            </p>
-            <Button
-              onClick={() => {
-                if (localStorage.getItem("tutorialOnboardingVariable") === 0) {
-                  localStorage.setItem("tutorialOnboardingVariable", 1);
-                  tutorialDrawerOnClose();
-                } else {
-                  tutorialDrawerOnClose();
-                }
-              }}
-            >
-              Reset Tutorial
-            </Button> */}
           </DrawerBody>
 
           <DrawerFooter>
