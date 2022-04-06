@@ -1,10 +1,15 @@
-export const Lights = () => {
+export const Lights = ({
+  ambientLight,
+  spotLight1,
+  spotLight2,
+  directionalLight,
+}) => {
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 5]} intensity={1} />
-      <spotLight intensity={1} position={[0, 100, 0]} />
-      <spotLight intensity={0.5} position={[30, 100, 0]} />
+      <ambientLight intensity={ambientLight} />
+      <directionalLight position={[10, 10, 5]} intensity={directionalLight} />
+      <spotLight intensity={spotLight1} position={[0, 100, 0]} />
+      <spotLight intensity={spotLight2} position={[40, 70, 80]} />
     </>
   );
 };

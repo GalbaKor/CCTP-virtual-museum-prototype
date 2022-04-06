@@ -1,5 +1,5 @@
 // Main imports
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useRef } from "react";
 import { OrbitControls, Html, Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { A11yAnnouncer, A11y } from "@react-three/a11y";
@@ -67,8 +67,13 @@ import {
 } from "@chakra-ui/icons";
 import { FaHome, FaScroll, FaMapMarkedAlt } from "react-icons/fa";
 
+// fallback image spinner
+import { MoonLoader } from "react-spinners";
+
+//image imports
 import spaceBackground2 from "../space_exhibition_assets/space_background_2.jpg";
 
+//gropu 1
 import boosterImage1 from "../space_exhibition_assets/booster_rockets_and_fuel_tank/picture-1.jpg";
 import boosterImage2 from "../space_exhibition_assets/booster_rockets_and_fuel_tank/picture-2.jpg";
 
@@ -78,6 +83,7 @@ import saturnVImage2 from "../space_exhibition_assets/saturn_v_rocket/picture-2.
 import spaceShuttleImage1 from "../space_exhibition_assets/space_shuttle/picture-1.jpg";
 import spaceShuttleImage2 from "../space_exhibition_assets/space_shuttle/picture-2.jpg";
 
+//group 2
 import venatorImage1 from "../space_exhibition_assets/venator-class_star_destroyer/picture-1.jpg";
 import venatorImage2 from "../space_exhibition_assets/venator-class_star_destroyer/picture-2.jpg";
 
@@ -86,12 +92,14 @@ import victoryImage2 from "../space_exhibition_assets/victory-class_star_destroy
 
 import resurgentImage1 from "../space_exhibition_assets/resurgent-class_star_destroyer/picture-1.jpg";
 
+//group 3
 import dderidexImage1 from "../space_exhibition_assets/star_trek-dderidex/picture-2.jpg";
 
 import enterpriseImage1 from "../space_exhibition_assets/star_trek-enterprise/picture-1.jpg";
 
 import sovereignImage1 from "../space_exhibition_assets/star_trek-sovereign/picture-1.jpg";
 
+//group 4
 import spaceSuitImage1 from "../space_exhibition_assets/space_suit/picture-1.jpg";
 import spaceSuitImage2 from "../space_exhibition_assets/space_suit/picture-2.jpg";
 
@@ -590,6 +598,11 @@ function BoosterRocketContainer() {
   const [button1Hover, setButton1Hover] = useState(false);
   const [button2Hover, setButton2Hover] = useState(false);
 
+  // const [canvasHovered, setCanvasHovered] = useState(false);
+  // useEffect(() => {
+  //   console.log("Canvas hovered");
+  // }, [canvasHovered]);
+
   return (
     <>
       <Canvas colorManagement camera={cameraProps}>
@@ -600,7 +613,16 @@ function BoosterRocketContainer() {
           enablePan={true}
           enableRotate={true}
         />
-        <Lights />
+        <Lights
+          // ambientLight={canvasHovered ? 1 : 0}
+          // spotLight1={canvasHovered ? 1 : 0}
+          // spotLight2={canvasHovered ? 1 : 0}
+          // directionalLight={canvasHovered ? 1 : 0}
+          ambientLight={0.5}
+          spotLight1={1}
+          spotLight2={1}
+          directionalLight={1}
+        />
         <Suspense fallback={<Loader />}>
           <A11y
             role="content"
@@ -610,6 +632,8 @@ function BoosterRocketContainer() {
             <BoosterRocket
               position={[0, -20, 0]}
               rotation={[-Math.PI / 2, 0, 0]}
+              // onPointerOver={() => setCanvasHovered(true)}
+              // onPointerOut={() => setCanvasHovered(false)}
             />
           </A11y>
 
@@ -686,13 +710,15 @@ function BoosterRocketContainer() {
             <br />
             <Center>
               <Box boxSize="2xl" height="full" py={4}>
-                <Image
-                  src={boosterImage1}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A space rocket with orange booster engines behind some trees"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={boosterImage1}
+                    fallback={<MoonLoader color={"red"} />}
+                    alt="A space rocket with orange booster engines behind some trees"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
             Boosters are traditionally necessary to launch spacecraft into low
@@ -736,13 +762,15 @@ function BoosterRocketContainer() {
             options in human spaceflight.
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={boosterImage2}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A white space rocket beginning its launch"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={boosterImage2}
+                    fallback={<MoonLoader color={"red"} />}
+                    alt="A white space rocket beginning its launch"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
           </ModalBody>
@@ -788,7 +816,12 @@ function ShuttleContainer() {
           enablePan={true}
           enableRotate={true}
         />
-        <Lights />
+        <Lights
+          ambientLight={0.5}
+          spotLight1={1}
+          spotLight2={1}
+          directionalLight={1}
+        />
         <Suspense fallback={<Loader />}>
           <A11y
             role="content"
@@ -875,13 +908,15 @@ function ShuttleContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={spaceShuttleImage1}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A space rocket with orange booster engines behind some trees"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={spaceShuttleImage1}
+                    fallback={<MoonLoader />}
+                    alt="A space rocket with orange booster engines behind some trees"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
             Five complete Space Shuttle orbiter vehicles were built and flown on
@@ -927,15 +962,17 @@ function ShuttleContainer() {
             total of 14 astronauts killed. A fifth operational (and sixth in
             total) orbiter, Endeavour, was built in 1991 to replace Challenger.
             <Center>
-              <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={spaceShuttleImage2}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A white space rocket beginning its launch"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
-              </Box>
+              <Center>
+                <Box boxSize="xl" height="full" py={4}>
+                  <Image
+                    src={spaceShuttleImage2}
+                    fallback={<MoonLoader />}
+                    alt="A white space rocket beginning its launch"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Box>
+              </Center>
             </Center>
             After it arrived at Edwards AFB, Enterprise underwent flight testing
             with the Shuttle Carrier Aircraft, a Boeing 747 that had been
@@ -985,7 +1022,12 @@ function SaturnVContainer() {
           enablePan={true}
           enableRotate={true}
         />
-        <Lights />
+        <Lights
+          ambientLight={0.3}
+          spotLight1={1}
+          spotLight2={1}
+          directionalLight={0.6}
+        />
         <Suspense fallback={<Loader />}>
           <A11y role="content" description="A Saturn V rocket." tabIndex={0.79}>
             <SaturnV position={[0, -20, 0]} rotation={[-Math.PI / 2, 0, 0]} />
@@ -1066,13 +1108,15 @@ function SaturnVContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={saturnVImage1}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A space rocket with orange booster engines behind some trees"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={saturnVImage1}
+                    fallback={<MoonLoader />}
+                    alt="A space rocket with orange booster engines behind some trees"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
             As of 2022, the Saturn V remains the only launch vehicle to carry
@@ -1118,13 +1162,15 @@ function SaturnVContainer() {
             December 1972.
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={saturnVImage2}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A white space rocket beginning its launch"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={saturnVImage2}
+                    fallback={<MoonLoader />}
+                    alt="A white space rocket beginning its launch"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
           </ModalBody>
@@ -1170,7 +1216,12 @@ function VenatorContainer() {
           enablePan={true}
           enableRotate={true}
         />
-        <Lights />
+        <Lights
+          ambientLight={0.5}
+          spotLight1={1}
+          spotLight2={1}
+          directionalLight={1}
+        />
         <Suspense fallback={<Loader />}>
           <A11y
             role="content"
@@ -1264,13 +1315,15 @@ function VenatorContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={venatorImage1}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="Venator fleet battle"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={venatorImage1}
+                    fallback={<MoonLoader />}
+                    alt="Venator fleet battle"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
           </ModalBody>
@@ -1312,13 +1365,15 @@ function VenatorContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={venatorImage2}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="Venator fleet battle"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={venatorImage2}
+                    fallback={<MoonLoader />}
+                    alt="Venator fleet battle"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
           </ModalBody>
@@ -1454,13 +1509,15 @@ function VictoryContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={victoryImage1}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A space rocket with orange booster engines behind some trees"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={victoryImage1}
+                    fallback={<MoonLoader />}
+                    alt="A space rocket with orange booster engines behind some trees"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
             The Victory I-class Star Destroyer's biggest disadvantage was its
@@ -1505,13 +1562,15 @@ function VictoryContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={victoryImage2}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A space rocket with orange booster engines behind some trees"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={victoryImage2}
+                    fallback={<MoonLoader />}
+                    alt="A space rocket with orange booster engines behind some trees"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
           </ModalBody>
@@ -1549,7 +1608,12 @@ function ResurgentContainer() {
           enablePan={true}
           enableRotate={true}
         />
-        <Lights />
+        <Lights
+          ambientLight={2}
+          spotLight1={1}
+          spotLight2={1}
+          directionalLight={1}
+        />
         <Suspense fallback={<Loader />}>
           <A11y
             role="content"
@@ -1622,13 +1686,15 @@ function ResurgentContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={resurgentImage1}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A space rocket with orange booster engines behind some trees"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={resurgentImage1}
+                    fallback={<MoonLoader />}
+                    alt="A space rocket with orange booster engines behind some trees"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
           </ModalBody>
@@ -1739,13 +1805,15 @@ function DderidexContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={dderidexImage1}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A space rocket with orange booster engines behind some trees"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={dderidexImage1}
+                    fallback={<MoonLoader />}
+                    alt="A space rocket with orange booster engines behind some trees"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
             Although not mentioned on screen, the original Andrew Probert design
@@ -1870,13 +1938,15 @@ function EnterpriseContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={enterpriseImage1}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="The original Enterprise, designation 1701"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={enterpriseImage1}
+                    fallback={<MoonLoader />}
+                    alt="The original Enterprise, designation 1701"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
             The Enterprise was destroyed over the Genesis Planet in 2285, when
@@ -1993,13 +2063,15 @@ function SovereignContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={sovereignImage1}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A space rocket with orange booster engines behind some trees"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={sovereignImage1}
+                    fallback={<MoonLoader />}
+                    alt="A space rocket with orange booster engines behind some trees"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
             Asked about its construction, Ronald D. Moore replied that his
@@ -2146,13 +2218,15 @@ function SpaceSuitContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={spaceSuitImage1}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A space rocket with orange booster engines behind some trees"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={spaceSuitImage1}
+                    fallback={<MoonLoader />}
+                    alt="A space rocket with orange booster engines behind some trees"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
             Modern space suits augment the basic pressure garment with a complex
@@ -2205,13 +2279,15 @@ function SpaceSuitContainer() {
             <br />
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={spaceSuitImage2}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A space rocket with orange booster engines behind some trees"
-                  objectFit="cover"
-                  borderRadius="xl"
-                ></Image>
+                <Center>
+                  <Image
+                    src={spaceSuitImage2}
+                    fallback={<MoonLoader />}
+                    alt="A space rocket with orange booster engines behind some trees"
+                    objectFit="cover"
+                    borderRadius="xl"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
             Some of these requirements also apply to pressure suits worn for
@@ -2341,14 +2417,16 @@ function SpaceHelmetContainer() {
             caps became known as "Snoopy caps".
             <Center>
               <Box boxSize="xl" height="full" py={4}>
-                <Image
-                  src={helmetImage1}
-                  fallbackSrc="https://via.placeholder.com/300"
-                  alt="A space rocket with orange booster engines behind some trees"
-                  objectFit="cover"
-                  borderRadius="xl"
-                  m="auto"
-                ></Image>
+                <Center>
+                  <Image
+                    src={helmetImage1}
+                    fallback={<MoonLoader />}
+                    alt="A space rocket with orange booster engines behind some trees"
+                    objectFit="cover"
+                    borderRadius="xl"
+                    m="auto"
+                  ></Image>
+                </Center>
               </Box>
             </Center>
             When space suits below a specific operating pressure are used from
