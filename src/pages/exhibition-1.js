@@ -964,13 +964,15 @@ function ShuttleContainer() {
             <Center>
               <Center>
                 <Box boxSize="xl" height="full" py={4}>
-                  <Image
-                    src={spaceShuttleImage2}
-                    fallback={<MoonLoader />}
-                    alt="A white space rocket beginning its launch"
-                    objectFit="cover"
-                    borderRadius="xl"
-                  ></Image>
+                  <Center>
+                    <Image
+                      src={spaceShuttleImage2}
+                      fallback={<MoonLoader />}
+                      alt="A white space rocket beginning its launch"
+                      objectFit="cover"
+                      borderRadius="xl"
+                    ></Image>
+                  </Center>
                 </Box>
               </Center>
             </Center>
