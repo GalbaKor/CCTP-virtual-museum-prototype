@@ -1,3 +1,7 @@
+// defines 4 lights for the canvas
+// an ambient, two spotlights and a directional to produce shadows
+// improves visual contrast between certain textures
+
 export const Lights = ({
   ambientLight,
   spotLight1,

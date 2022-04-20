@@ -1,3 +1,9 @@
+// Theoretical database style data storage
+// unique key for each exhibit, title, subtitle, description,
+// link to an image placeholder and model position
+
+// the gemoetryPath and materialPath didn't function as desired, so another solution was used.
+
 export const exhibitions = [
   {
     key: "exhibit-1",

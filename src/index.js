@@ -1,24 +1,28 @@
+// import react and react dom elements
 import React from "react";
 import ReactDOM from "react-dom";
-// import { App } from "./App";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// import the two main pages for the project
 import Homepage from "./pages/homepage";
 import { Exhibition1 } from "./pages/exhibition-1";
+
+// import css styling and chakra UI framework
 import "./App.css";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+// contain route elements within "routes", then "router" and finally the chakra UI provider.
+// all pages that use chakra must be inside the chakra provider
+// default route path is set to the homepage
+// pages can be found in the "pages" folder - homepage takes the place of app.js
 ReactDOM.render(
   <ChakraProvider>
     <Router>
       <Routes>
-        {/* <Route path="/" element={<App />}></Route> */}
         <Route path="/" element={<Homepage />}></Route>
         <Route path="/Exhibition-1" element={<Exhibition1 />}></Route>
-        {/* further routing within each exhibition to be done in their own files */}
       </Routes>
     </Router>
   </ChakraProvider>,
-
   document.getElementById("root")
 );

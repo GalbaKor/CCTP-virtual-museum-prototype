@@ -5,7 +5,9 @@ license: CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
 source: https://sketchfab.com/3d-models/astronaut-helmet-315605194a474c7b95cd2a9083985d22
 title: Astronaut Helmet
 */
-
+// Code uses the GLTFJSX command line tool to automatically generate most of the code.
+// required props such as rotation and position are then added
+// scene.gltf and the preload relative paths are also changed to correct values when moved from the public folder to src
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 

@@ -1,19 +1,57 @@
-import React from "react";
-import { exhibitions } from "../exhibition_data";
-import { Box, Container, Grid, Image, Text, Center } from "@chakra-ui/react";
-import MuseumMap from "../components/museumMap";
+// the homepage for the project. Mainly uses inline css styling alongside Chakra UI components.
+// A custom made, interactable SVG map is imported for navigation between exhibitions
 
-export default function Homepage({ setApp }) {
+import React from "react";
+// import { exhibitions } from "../exhibition_data";
+// import { Box, Grid, Image } from "@chakra-ui/react";
+import { Container, Text, Center } from "@chakra-ui/react";
+import MuseumMap from "../components/museumMap";
+import museumBackground from "../components/museum-background.jpg";
+
+// export Homepage component
+export default function Homepage() {
   return (
-    <Container minWidth="full" minHeight="100vh" backgroundColor="black">
-      <Container maxWidth="container.xl">
-        <Center py="12">
+    // Main container, width and heigh set to the whole screen
+    // generic museum image used as a background
+    <Container
+      minWidth="full"
+      minHeight="100vh"
+      backgroundColor="black"
+      padding={0}
+      style={{
+        backgroundImage: `url(${museumBackground})`,
+        backgroundSize: "cover",
+      }}
+    >
+      {/* Inner container for the title banner, text is centered */}
+      <Container py="12" minWidth="full" backgroundColor="maroon">
+        <Center>
           <Text fontSize={["xl", "2xl", "4xl"]} textColor="white">
-            Virtual Museum Webapp Prototype
+            Systeseum
           </Text>
         </Center>
+        <Center>
+          <Text fontSize={["md", "lg", "xl"]} textColor="white">
+            A digital museum webapp prototype
+          </Text>
+        </Center>
+      </Container>
 
-        <Text fontSize={["md", "md", "lg"]} pt={6} textColor="white">
+      {/* Secondary inner container for the remaining content */}
+      <Container maxWidth="container.xl" py={6} backgroundColor="black">
+        <Container maxWidth="container.xl">
+          <Center>
+            <Text fontSize={["lg", "xl", "2xl"]} textColor="white">
+              Interactive Exhibition Site Map:
+            </Text>
+          </Center>
+          <Container maxWidth="container.md" py={6}>
+            {/* MuseumMap imported from the component folder */}
+            <MuseumMap />
+          </Container>
+        </Container>
+
+        <Text fontSize={["md", "md", "lg"]} p={6} textColor="white">
           This React based prototype project primarily utilises
           React-Three-Fiber, Three JS and React Three Fiber to display a series
           of 3D, interactible objects.
@@ -44,35 +82,11 @@ export default function Homepage({ setApp }) {
           royalty free Sketchfab models, it serves as a proof of concept and a
           stepping stone for potential future React based museum webapps.
         </Text>
-
-        <Text fontSize={["lg", "xl", "xl"]} textColor="white" pt="8">
-          Instructions:
-        </Text>
-
-        <Text fontSize={["md", "md", "lg"]} textColor="white">
-          Click on Exhibition 1 to view the current up-to-date version of an
-          example exhibit. <br />
-          Once inside, try interacting with the artefacts to see them up close
-          and click the information points to learn more about what they
-          represent.
-          <br />
-        </Text>
       </Container>
 
-      <Container maxWidth="container.xl">
-        <Center>
-          <Text fontSize={["lg", "xl", "2xl"]} py={16} textColor="white">
-            Interactive Exhibition Site Map:
-          </Text>
-        </Center>
+      {/* Grid based container previously used to navigate between content */}
 
-        {/* <MuseumMapTest /> */}
-        <Container maxWidth="container.md" py={6}>
-          <MuseumMap />
-        </Container>
-      </Container>
-
-      <Container maxWidth="container.xl" py="10">
+      {/* <Container maxWidth="container.xl" py="10">
         <Center>
           <Text fontSize={["lg", "xl", "2xl"]} py={16} textColor="white">
             Exhibition list (only first one works):
@@ -100,20 +114,22 @@ export default function Homepage({ setApp }) {
                   src={exhibition.image}
                   alt="museum image"
                 ></Image>
-                <Text
-                  fontSize="2xl"
-                  position="absolute"
-                  top="50%"
-                  left="50%"
-                  transform="translate(-50%, -50%)"
-                >
-                  <Center h="2rem">{exhibition.title}</Center>
-                </Text>
+                <Center h="2rem">
+                  <Text
+                    fontSize="2xl"
+                    position="absolute"
+                    top="50%"
+                    left="50%"
+                    transform="translate(-50%, -50%)"
+                  >
+                    {exhibition.title}
+                  </Text>
+                </Center>
               </Box>
             </a>
           ))}
         </Grid>
-      </Container>
+      </Container> */}
     </Container>
   );
 }
