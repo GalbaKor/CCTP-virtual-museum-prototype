@@ -166,12 +166,7 @@ export const Exhibition1 = () => {
                 ]}
               >
                 {/* Canvas model containers take up the full height and width of the parent element, so the immediate parent must be given a width and height */}
-                <Center
-                  minWidth="full"
-                  minHeight="100vh"
-                  borderWidth="2px"
-                  borderColor="white"
-                >
+                <Center minWidth="full" minHeight="100vh">
                   <BoosterRocketContainer />
                 </Center>
                 <Center minWidth="full" minHeight="100vh">
@@ -427,7 +422,7 @@ export const Exhibition1 = () => {
                     </Center>
                   </GridItem>
                   <GridItem colSpan={4} textAlign="left">
-                    <p width="full">Museum Map</p>
+                    <p width="full">Example Button</p>
                   </GridItem>
                 </Grid>
               </Button>
@@ -445,7 +440,7 @@ export const Exhibition1 = () => {
                     </Center>
                   </GridItem>
                   <GridItem colSpan={4} textAlign="left">
-                    <p width="full">Exhibitions</p>
+                    <p width="full">Example Button</p>
                   </GridItem>
                 </Grid>
               </Button>

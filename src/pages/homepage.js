@@ -4,9 +4,18 @@
 import React from "react";
 // import { exhibitions } from "../exhibition_data";
 // import { Box, Grid, Image } from "@chakra-ui/react";
-import { Container, Text, Center } from "@chakra-ui/react";
+import {
+  Container,
+  Text,
+  Center,
+  Grid,
+  Icon,
+  Link,
+  Divider,
+} from "@chakra-ui/react";
+import { AiOutlineCopyrightCircle } from "react-icons/ai";
 import MuseumMap from "../components/museumMap";
-import museumBackground from "../components/museum-background.jpg";
+import svgBackground from "../space_exhibition_assets/endless-constellation.svg";
 
 // export Homepage component
 export default function Homepage() {
@@ -19,27 +28,29 @@ export default function Homepage() {
       backgroundColor="black"
       padding={0}
       style={{
-        backgroundImage: `url(${museumBackground})`,
-        backgroundSize: "cover",
+        backgroundImage: `url(${svgBackground})`,
       }}
     >
-      {/* Inner container for the title banner, text is centered */}
-      <Container py="12" minWidth="full" backgroundColor="maroon">
-        <Center>
-          <Text fontSize={["xl", "2xl", "4xl"]} textColor="white">
-            Systeseum
-          </Text>
-        </Center>
-        <Center>
-          <Text fontSize={["md", "lg", "xl"]} textColor="white">
-            A digital museum webapp prototype
-          </Text>
-        </Center>
-      </Container>
-
       {/* Secondary inner container for the remaining content */}
-      <Container maxWidth="container.xl" py={6} backgroundColor="black">
-        <Container maxWidth="container.xl">
+      <Container maxWidth="container.xl" py={6}>
+        <Divider />
+        {/* Inner container for the title banner, text is centered */}
+        <Container py="12" minWidth="full">
+          <Center>
+            <Text fontSize={["xl", "2xl", "4xl"]} textColor="white">
+              Systeseum
+            </Text>
+          </Center>
+          <Center>
+            <Text fontSize={["md", "lg", "xl"]} textColor="white">
+              A digital museum webapp prototype
+            </Text>
+          </Center>
+        </Container>
+
+        <Divider />
+
+        <Container maxWidth="container.xl" pt={6}>
           <Center>
             <Text fontSize={["lg", "xl", "2xl"]} textColor="white">
               Interactive Exhibition Site Map:
@@ -51,37 +62,71 @@ export default function Homepage() {
           </Container>
         </Container>
 
-        <Text fontSize={["md", "md", "lg"]} p={6} textColor="white">
-          This React based prototype project primarily utilises
-          React-Three-Fiber, Three JS and React Three Fiber to display a series
-          of 3D, interactible objects.
-          <br />
-          <br />
-          It is an exploration of how digital spaces could be used to satisfy
-          museum-goers who might not otherwise be able to travel to and
-          experience a physical museum. Moreover, traditional museums are less
-          likely to contain artefacts that were created digitally such as assets
-          from science fiction media. A digital museum has the potential to
-          remove such stigma and entertain a wider diversity of people.
-          <br />
-          <br />
-          Initial user and literature research suggested that competing webapps
-          often make excessive use of nauseating and unnecessary animations
-          while simaltaneously remaining too confined to a physical location. On
-          the other hand, some users enjoyed using digital museums to trial
-          exhibits and plan out routes through the museum's floor map before
-          attending the physical site. This inspired research and implementation
-          of a SVG based interactive floor map which could be used to better
-          connect a physical and digital museum from the same stakeholder.
-          <br />
-          <br />
-          The project differentiates itself from competing museum webapps by
-          emphasising the models themselves rather than the museum's structure -
-          as is the case with many alternatives. While the project is heavily
-          limited by a lack of photorealistic images due to a reliance on
-          royalty free Sketchfab models, it serves as a proof of concept and a
-          stepping stone for potential future React based museum webapps.
-        </Text>
+        <Container maxWidth="container.lg">
+          <Text fontSize={["md", "md", "lg"]} p={6} textColor="white">
+            This React based prototype project primarily utilises
+            React-Three-Fiber, Three JS and React Three Fiber to display a
+            series of 3D, interactible objects.
+            <br />
+            <br />
+            It is an exploration of how digital spaces could be used to satisfy
+            museum-goers who might not otherwise be able to travel to and
+            experience a physical museum. Moreover, traditional museums are less
+            likely to contain artefacts that were created digitally such as
+            assets from science fiction media. A digital museum has the
+            potential to remove such stigma and entertain a wider diversity of
+            people.
+            <br />
+            <br />
+            Initial user and literature research suggested that competing
+            webapps often make excessive use of nauseating and unnecessary
+            animations while simaltaneously remaining too confined to a physical
+            location. On the other hand, some users enjoyed using digital
+            museums to trial exhibits and plan out routes through the museum's
+            floor map before attending the physical site. This inspired research
+            and implementation of a SVG based interactive floor map which could
+            be used to better connect a physical and digital museum from the
+            same stakeholder.
+            <br />
+            <br />
+            The project differentiates itself from competing museum webapps by
+            emphasising the models themselves rather than the museum's structure
+            - as is the case with many alternatives. While the project is
+            heavily limited by a lack of photorealistic images due to a reliance
+            on royalty free Sketchfab models, it serves as a proof of concept
+            and a stepping stone for potential future React based museum
+            webapps.
+          </Text>
+        </Container>
+
+        <Container
+          pt={12}
+          textColor="white"
+          maxWidth="container.lg"
+          minWidth="full"
+        >
+          <Center>
+            <Grid templateColumns={"repeat(3, 1fr)"}>
+              <Center>
+                <Link href="https://camtebsmall.com/" target="_blank">
+                  My Online Portfolio
+                </Link>
+              </Center>
+              <Center>
+                <Icon as={AiOutlineCopyrightCircle} />
+                &nbsp;Cameron Tebbenham-Small 2022
+              </Center>
+              <Center>
+                <Link
+                  href="https://github.com/GalbaKor/CCTP-virtual-museum-prototype"
+                  target="_blank"
+                >
+                  Github Source
+                </Link>
+              </Center>
+            </Grid>
+          </Center>
+        </Container>
       </Container>
 
       {/* Grid based container previously used to navigate between content */}

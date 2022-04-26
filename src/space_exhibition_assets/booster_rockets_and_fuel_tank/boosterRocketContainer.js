@@ -168,7 +168,7 @@ export default function BoosterRocketContainer() {
                 <Center>
                   <Image
                     src={boosterImage1}
-                    fallback={<MoonLoader color={"red"} />}
+                    fallback={<MoonLoader />}
                     alt="A space rocket with orange booster engines behind some trees"
                     objectFit="cover"
                     borderRadius="xl"
@@ -220,7 +220,7 @@ export default function BoosterRocketContainer() {
                 <Center>
                   <Image
                     src={boosterImage2}
-                    fallback={<MoonLoader color={"red"} />}
+                    fallback={<MoonLoader />}
                     alt="A white space rocket beginning its launch"
                     objectFit="cover"
                     borderRadius="xl"
